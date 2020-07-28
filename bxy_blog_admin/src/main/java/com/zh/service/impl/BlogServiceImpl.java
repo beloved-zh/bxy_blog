@@ -36,9 +36,9 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
         if (!StringUtils.isEmpty(sortId)){
             wrapper.eq("b.sort_id",sortId);
         }
-//        if (!StringUtils.isEmpty(tagId)){
-//            wrapper.eq("t.id",tagId);
-//        }
+        if (!StringUtils.isEmpty(tagId)){
+            wrapper.eq("t.id",tagId);
+        }
         if (!StringUtils.isEmpty(level)){
             wrapper.eq("blog_level",level);
         }

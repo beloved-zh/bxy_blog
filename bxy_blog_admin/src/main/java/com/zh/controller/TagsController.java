@@ -111,7 +111,7 @@ public class TagsController {
             return ResultVO.failure(400,"添加失败");
         }
 
-        return ResultVO.ok("添加成功");
+        return ResultVO.ok(tag);
     }
 
     @GetMapping("/getTags")
