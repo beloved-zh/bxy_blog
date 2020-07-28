@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zh.mapper.UserMapper">
+
+    <resultMap id="userAndRole" type="user">
+        <result property="id" column="id"></result>
+        <result property="userName" column="user_name"></result>
+        <result property="password" column="password"></result>
+        <result property="email" column="email"></result>
+        <result property="mobile" column="mobile"></result>
+        <result property="source" column="source"></result>
+        <result property="avatar" column="avatar"></result>
+        <result property="loginCount" column="login_count"></result>
+        <result property="isLock" column="is_lock"></result>
+        <result property="commentStatus" column="comment_status"></result>
+        <result property="createTime" column="create_time"></result>
+        <result property="updateTime" column="update_time"></result>
+        <result property="lastLoginTime" column="last_login_time"></result>
+        <result property="lastLoginIp" column="last_login_ip"></result>
+        <collection property="roles" ofType="Role">
+            <result property="id" column="rid"></result>
+            <result property="roleName" column="role_name"></result>
+            <result property="summary" column="summary"></result>
+            <result property="createTime" column="r_create_time"></result>
+            <result property="updateTime" column="r_update_time"></result>
+        </collection>
+    </resultMap>
+
+    <select id="getUser" resultMap="userAndRole">
+        select u.*,r.id rid, r.role_name, r.summary, r.create_time r_create_time, r.update_time r_update_time
+        from bxy_blog.user u,bxy_blog.role r,bxy_blog.user_role ur
+        ${ew.customSqlSegment}
+        and u.id = ur.user_id and ur.role_id = r.id
+    </select>
+
+</mapper>

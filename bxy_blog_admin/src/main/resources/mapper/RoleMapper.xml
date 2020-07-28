@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zh.mapper.RoleMapper">
+
+    <select id="getRolesByUserName" parameterType="string" resultType="role">
+        select r.*
+        from bxy_blog.user u,bxy_blog.role r,bxy_blog.user_role ur
+        where u.id = ur.user_id and r.id = ur.role_id and u.user_name = #{userName}
+    </select>
+
+    <select id="getRolesByMenuId" parameterType="string" resultType="role">
+        select r.*
+        from bxy_blog.role r,bxy_blog.menu m,bxy_blog.menu_role mr
+        where r.id = mr.role_id and mr.menu_id = m.id
+        and m.id = #{id}
+    </select>
+
+    <select id="getRolesByApiId"  parameterType="string" resultType="role">
+        select r.*
+        from bxy_blog.role r,bxy_blog.request_api ra,bxy_blog.request_api_role rar
+        where r.id = rar.role_id and rar.r_api_id = ra.id
+        and ra.id = #{id}
+    </select>
+</mapper>

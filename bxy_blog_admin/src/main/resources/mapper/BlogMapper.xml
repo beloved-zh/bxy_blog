@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zh.mapper.BlogMapper">
+    
+    <resultMap id="blogAndUser" type="blog">
+        <result property="id" column="id"></result>
+        <result property="title" column="title"></result>
+        <result property="summary" column="summary"></result>
+        <result property="image" column="image"></result>
+        <result property="contentMd" column="content_md"></result>
+        <result property="contentHtml" column="content_html"></result>
+        <result property="sortId" column="sort_id"></result>
+        <result property="clickCount" column="click_count"></result>
+        <result property="userId" column="user_id"></result>
+        <result property="isOriginal" column="is_original"></result>
+        <result property="articlesPart" column="articles_part"></result>
+        <result property="blogLevel" column="blog_level"></result>
+        <result property="blogStatus" column="blog_status"></result>
+        <result property="startComment" column="start_comment"></result>
+        <result property="createTime" column="create_time"></result>
+        <result property="updateTime" column="update_time"></result>
+        <collection property="user" ofType="User">
+            <result property="userName" column="user_name" />
+            <result property="email" column="email" />
+            <result property="source" column="source" />
+            <result property="avatar" column="avatar" />
+            <result property="isLock" column="is_lock" />
+        </collection>
+        <collection property="sort" ofType="Sort">
+            <result property="id" column="sid" />
+            <result property="sortTitle" column="sort_title" />
+        </collection>
+    </resultMap>
+
+    <select id="getBlog" resultMap="blogAndUser">
+        select b.*,u.user_name,u.email,u.source,u.avatar,u.is_lock,s.id sid,s.sort_title
+        from bxy_blog.blog b,bxy_blog.user u,bxy_blog.sort s
+        ${ew.customSqlSegment}
+        and b.user_id = u.id and b.sort_id = s.id
+    </select>
+
+</mapper>
