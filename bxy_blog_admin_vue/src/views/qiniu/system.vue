@@ -176,6 +176,7 @@
     <el-dialog
       title="上传文件"
       :visible.sync="dialogVisible"
+      @paste.native="obtainClipbrd"
     >
       <el-row>
         <el-col :span="12">
@@ -184,21 +185,20 @@
             drag
             action="https://jsonplaceholder.typicode.com/posts/"
             multiple
-            @paste="obtainClipbrd"
           >
             <i class="el-icon-upload" />
             <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
           </el-upload>
         </el-col>
         <el-col :span="12">
-          <el-button type="primary" round @click="obtainClipbrd">剪切板图片上传</el-button>
-          <el-button-group>
+          <!-- <el-button type="primary" round @click="obtainClipbrd">剪切板图片上传</el-button> -->
+          <!-- <el-button-group>
             <el-button type="primary">Markdown</el-button>
             <el-button type="primary">HTML</el-button>
             <el-button type="primary">URL</el-button>
             <el-button type="primary">UBB</el-button>
           </el-button-group>
-          <div @paste="obtainClipbrd">粘贴</div>
+          <div @paste="obtainClipbrd">粘贴</div> -->
         </el-col>
       </el-row>
     </el-dialog>
@@ -230,29 +230,26 @@ export default {
   },
   methods: {
     obtainClipbrd(event) {
-      console.log(window.event)
-      console.log(event)
-      console.log(ClipboardEvent.clipboardData)
-      // const items = (event.clipboardData || window.clipboardData).items
-      // console.log(items)
-      // let file = null
+      const items = event.clipboardData.items
+      console.log(items)
+      let file = null
 
-      // if (!items || items.length === 0) {
-      //   this.$message.error('当前浏览器不支持')
-      //   return
-      // }
-      // // 搜索剪切板items
-      // for (let i = 0; i < items.length; i++) {
-      //   if (items[i].type.indexOf('image') !== -1) {
-      //     file = items[i].getAsFile()
-      //     break
-      //   }
-      // }
-      // console.log(file)
-      // if (!file) {
-      //   this.$message.error('粘贴内容非图片')
-      //   return
-      // }
+      if (!items || items.length === 0) {
+        this.$message.error('当前浏览器不支持')
+        return
+      }
+      // 搜索剪切板items
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].type.indexOf('image') !== -1) {
+          file = items[i].getAsFile()
+          break
+        }
+      }
+      console.log(file)
+      if (!file) {
+        this.$message.error('粘贴内容非图片')
+        return
+      }
       // // 此时file就是我们的剪切板中的图片对象
       // // 如果需要预览，可以执行下面代码
       // const reader = new FileReader()

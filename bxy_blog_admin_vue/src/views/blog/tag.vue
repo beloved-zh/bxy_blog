@@ -213,11 +213,10 @@ export default {
           var params = new URLSearchParams(this.tag)
           if (this.title === '添加标签') {
             addTag(params).then(response => {
-              const { data } = response
               this.initTag()
               this.dialogVisible = false
               this.$message({
-                message: data,
+                message: '添加成功',
                 type: 'success'
               })
               this.getTagList()

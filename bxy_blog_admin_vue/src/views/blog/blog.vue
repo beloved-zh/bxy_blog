@@ -315,7 +315,7 @@
 
 <script>
 import { findAllSort } from '@/api/sort'
-import { findAllTag } from '@/api/tag'
+import { findAllTag, addTag } from '@/api/tag'
 import { uploaderImage } from '@/api/qiniu'
 import { getBlog, addBlog, deleteBlog, updateBlog } from '@/api/blog'
 import VMdEditor from '@/components/MyEditor/VMdEditor'
@@ -397,6 +397,38 @@ export default {
         ]
       },
       dialogPreview: false
+    }
+  },
+  computed: {
+    tagIdS() {
+      return this.tagList.map(x => { return x.id })
+    },
+    sortMax() {
+      const tagSortS = this.tagList.map(x => { return x.sort })
+      return Math.max.apply(null, tagSortS)
+    }
+  },
+  watch: {
+    'form.tags'() {
+      for (var item of this.form.tags) {
+        const index = this.tagIdS.indexOf(item)
+        if (index < 0) {
+          var params = new URLSearchParams()
+          params.append('tagTitle', item)
+          params.append('sort', this.sortMax + 1)
+          addTag(params).then(response => {
+            const { id } = response.data
+            alert(id)
+            this.$message({
+              message: '标签添加成功',
+              type: 'success'
+            })
+            this.findAllTag()
+            const index = this.form.tags.indexOf(item)
+            this.form.tags.splice(index, 1, id)
+          })
+        }
+      }
     }
   },
   created() {
