@@ -174,6 +174,8 @@
     </el-table>
 
     <el-dialog
+      v-loading="loadingUpload"
+      element-loading-text="文件上传中"
       title="上传文件"
       :visible.sync="dialogVisible"
       @paste.native="obtainClipbrd"
@@ -247,6 +249,7 @@ export default {
       baseUrl: '',
       tableData: [],
       loading: false,
+      loadingUpload: false,
       dialogVisible: false,
       fileUrl: ''
     }
@@ -256,6 +259,7 @@ export default {
   },
   methods: {
     upload(param) {
+      this.loadingUpload = true
       const formData = new FormData()
       formData.append('bucket', this.bucket)
       formData.append('file', param.file)
@@ -266,8 +270,10 @@ export default {
           type: 'success'
         })
         this.getBuckets()
+        this.loadingUpload = false
       }).catch(response => {
         this.$message.error(response.data)
+        this.loadingUpload = false
       })
     },
     obtainClipbrd(event) {
