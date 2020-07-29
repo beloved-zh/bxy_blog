@@ -46,3 +46,11 @@ export function deleteFile(data) {
     data
   })
 }
+
+export function deleteList(data) {
+  return request({
+    url: `/qiniu/deleteList`,
+    method: 'delete',
+    data
+  })
+}

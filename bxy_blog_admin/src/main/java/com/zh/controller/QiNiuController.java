@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author Beloved
@@ -20,6 +22,26 @@ import java.util.HashMap;
 @RestController
 @RequestMapping("/qiniu")
 public class QiNiuController {
+
+    @DeleteMapping("/deleteList")
+    public String deleteList(String bucket,String keys,String urls){
+
+        String[] keyList = keys.split(",");
+        String[] urlList = urls.split(",");
+
+        boolean delete = QiNiuUtil.deleteList(bucket, keyList);
+
+        if (!delete){
+            return ResultVO.failure(400,"删除失败");
+        }
+
+        CdnResult.RefreshResult refresh = QiNiuUtil.refresh(urlList);
+        if (refresh.code != 200){
+            return ResultVO.ok("删除成功,CDN缓存刷新失败",refresh);
+        }
+
+        return ResultVO.ok("删除成功",refresh);
+    }
 
     @DeleteMapping("/delete")
     public String delete(String bucket,String fileName,String url){

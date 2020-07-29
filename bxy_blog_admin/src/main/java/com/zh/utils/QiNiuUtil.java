@@ -8,10 +8,7 @@ import com.qiniu.http.Response;
 import com.qiniu.storage.BucketManager;
 import com.qiniu.storage.Configuration;
 import com.qiniu.storage.UploadManager;
-import com.qiniu.storage.model.BucketInfo;
-import com.qiniu.storage.model.DefaultPutRet;
-import com.qiniu.storage.model.FileInfo;
-import com.qiniu.storage.model.FileListing;
+import com.qiniu.storage.model.*;
 import com.qiniu.util.Auth;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -121,6 +118,19 @@ public class QiNiuUtil {
             bucketManager().delete(bucketNm, key);
             return true;
         }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean deleteList(String bucketNm ,String[] keys){
+        BucketManager.BatchOperations batchOperations = new BucketManager.BatchOperations();
+        batchOperations.addDeleteOp(bucketNm, keys);
+        try {
+            Response response = bucketManager().batch(batchOperations);
+            BatchStatus[] batchStatusList = response.jsonToObject(BatchStatus[].class);
+            return true;
+        } catch (QiniuException e) {
             e.printStackTrace();
         }
         return false;

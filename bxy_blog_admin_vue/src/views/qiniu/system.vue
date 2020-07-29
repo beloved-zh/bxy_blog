@@ -26,6 +26,9 @@
         <el-col :span="3">
           <el-button type="primary" @click="dialogVisible = true">上传图片</el-button>
         </el-col>
+        <el-col :span="3">
+          <el-button v-if="isButton" type="danger" style="margin-bottom:30px;" icon="el-icon-delete" @click="deleteList()">删除所选数据</el-button>
+        </el-col>
       </el-row>
     </div>
     <el-table
@@ -34,6 +37,7 @@
       :data="tableData"
       row-key="key"
       style="width: 100%"
+      @selection-change="monitorCheckbox"
     >
       <el-table-column
         align="center"
@@ -233,7 +237,7 @@
 </template>
 
 <script>
-import { getBuckets, getList, getBaseURL, deleteFile, uploade } from '@/api/qiniu'
+import { getBuckets, getList, getBaseURL, deleteFile, uploade, deleteList } from '@/api/qiniu'
 import { formatDate } from '@/utils/webUtils'
 // 复制指令
 import clipboard from '@/directive/clipboard/index.js'
@@ -251,6 +255,9 @@ export default {
       loading: false,
       loadingUpload: false,
       dialogVisible: false,
+      isButton: false,
+      urls: [],
+      keys: [],
       fileUrl: ''
     }
   },
@@ -258,6 +265,48 @@ export default {
     this.getBuckets()
   },
   methods: {
+    deleteList() {
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '警告', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        center: true
+      }).then(() => {
+        var params = new URLSearchParams()
+        params.append('bucket', this.bucket)
+        params.append('keys', this.keys)
+        params.append('urls', this.urls)
+        deleteList(params).then(response => {
+          this.$message({
+            type: 'success',
+            message: response.message + '\n今日剩余刷新url限额' + response.data.urlSurplusDay
+          })
+          this.getList()
+          this.keys = []
+          this.urls = []
+          this.keyword = ''
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
+    },
+    // 监控多选 如果有选择显示批量删除按钮
+    monitorCheckbox(val) {
+      this.urls = []
+      this.keys = []
+      if (val.length > 0) {
+        this.isButton = true
+      } else {
+        this.isButton = false
+      }
+      for (const item of val) {
+        this.keys.push(item.key)
+        this.urls.push(this.baseUrl + '/' + item.key)
+      }
+    },
     upload(param) {
       this.loadingUpload = true
       const formData = new FormData()
@@ -269,7 +318,7 @@ export default {
           message: '文件上传成功',
           type: 'success'
         })
-        this.getBuckets()
+        this.getList()
         this.loadingUpload = false
       }).catch(response => {
         this.$message.error(response.data)
