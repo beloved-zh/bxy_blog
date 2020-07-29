@@ -1,8 +1,16 @@
 import request from '@/utils/request'
 
-export function uploaderImage(data) {
+export function uploade(data) {
   return request({
-    url: '/qiniu/uploaderImage', // 假地址 自行替换
+    url: '/qiniu/uploade',
+    method: 'post',
+    data
+  })
+}
+
+export function uploadImage(data) {
+  return request({
+    url: '/qiniu/uploadImage',
     method: 'post',
     data
   })

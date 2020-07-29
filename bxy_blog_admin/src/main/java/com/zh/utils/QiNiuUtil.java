@@ -64,7 +64,7 @@ public class QiNiuUtil {
      * @param in        输入流
      * @return
      */
-    public static boolean upload(String bucketNm, InputStream in, String key) {
+    public static String upload(String bucketNm, InputStream in, String key) {
         try {
 
             //获取token
@@ -75,14 +75,12 @@ public class QiNiuUtil {
 
             //解析上传成功的结果
             DefaultPutRet putRet = FastJsonUtil.json2Bean(response.bodyString(), DefaultPutRet.class);
-            System.out.println(putRet.key);
-            System.out.println(putRet.hash);
 
-            return true;
+            return putRet.key;
         }catch (Exception e) {
             e.printStackTrace();
         }
-        return false;
+        return null;
     }
 
     /**

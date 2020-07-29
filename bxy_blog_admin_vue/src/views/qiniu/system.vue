@@ -178,27 +178,52 @@
       :visible.sync="dialogVisible"
       @paste.native="obtainClipbrd"
     >
-      <el-row>
+      <!-- style="text-align: center" -->
+      <el-row type="flex" justify="center">
         <el-col :span="12">
           <el-upload
             class="upload-demo"
             drag
-            action="https://jsonplaceholder.typicode.com/posts/"
+            action=""
             multiple
+            :http-request="upload"
           >
             <i class="el-icon-upload" />
             <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
           </el-upload>
         </el-col>
-        <el-col :span="12">
-          <!-- <el-button type="primary" round @click="obtainClipbrd">剪切板图片上传</el-button> -->
-          <!-- <el-button-group>
-            <el-button type="primary">Markdown</el-button>
-            <el-button type="primary">HTML</el-button>
-            <el-button type="primary">URL</el-button>
-            <el-button type="primary">UBB</el-button>
+        <el-col :span="12" style="text-align: center">
+          <el-button type="primary" round @click="obtainClipbrd">剪切板图片上传</el-button>
+          <el-button-group v-if="fileUrl !== ''" style="margin-top: 100px">
+            <el-button
+              v-clipboard:copy=" '![](' + fileUrl + ')'"
+              v-clipboard:success="clipboardSuccess"
+              type="primary"
+            >
+              Markdown
+            </el-button>
+            <el-button
+              v-clipboard:copy="'<img src=\'' + fileUrl + '\'/>'"
+              v-clipboard:success="clipboardSuccess"
+              type="primary"
+            >
+              HTML
+            </el-button>
+            <el-button
+              v-clipboard:copy="fileUrl"
+              v-clipboard:success="clipboardSuccess"
+              type="primary"
+            >
+              URL
+            </el-button>
+            <el-button
+              v-clipboard:copy="'[IMG]'+ fileUrl + '[/IMG]'"
+              v-clipboard:success="clipboardSuccess"
+              type="primary"
+            >
+              UBB
+            </el-button>
           </el-button-group>
-          <div @paste="obtainClipbrd">粘贴</div> -->
         </el-col>
       </el-row>
     </el-dialog>
@@ -206,7 +231,7 @@
 </template>
 
 <script>
-import { getBuckets, getList, getBaseURL, deleteFile } from '@/api/qiniu'
+import { getBuckets, getList, getBaseURL, deleteFile, uploade } from '@/api/qiniu'
 import { formatDate } from '@/utils/webUtils'
 // 复制指令
 import clipboard from '@/directive/clipboard/index.js'
@@ -222,13 +247,29 @@ export default {
       baseUrl: '',
       tableData: [],
       loading: false,
-      dialogVisible: false
+      dialogVisible: false,
+      fileUrl: ''
     }
   },
   created() {
     this.getBuckets()
   },
   methods: {
+    upload(param) {
+      const formData = new FormData()
+      formData.append('bucket', this.bucket)
+      formData.append('file', param.file)
+      uploade(formData).then(response => {
+        this.fileUrl = this.baseUrl + '/' + response.data.fileKey
+        this.$message({
+          message: '文件上传成功',
+          type: 'success'
+        })
+        this.getBuckets()
+      }).catch(response => {
+        this.$message.error(response.data)
+      })
+    },
     obtainClipbrd(event) {
       const items = event.clipboardData.items
       console.log(items)

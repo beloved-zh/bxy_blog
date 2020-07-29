@@ -316,7 +316,7 @@
 <script>
 import { findAllSort } from '@/api/sort'
 import { findAllTag, addTag } from '@/api/tag'
-import { uploaderImage } from '@/api/qiniu'
+import { uploadImage } from '@/api/qiniu'
 import { getBlog, addBlog, deleteBlog, updateBlog } from '@/api/blog'
 import VMdEditor from '@/components/MyEditor/VMdEditor'
 import VMdPreview from '@/components/MyEditor/VMdPreview'
@@ -410,23 +410,10 @@ export default {
   },
   watch: {
     'form.tags'() {
-      for (var item of this.form.tags) {
+      for (const item of this.form.tags) {
         const index = this.tagIdS.indexOf(item)
         if (index < 0) {
-          var params = new URLSearchParams()
-          params.append('tagTitle', item)
-          params.append('sort', this.sortMax + 1)
-          addTag(params).then(response => {
-            const { id } = response.data
-            alert(id)
-            this.$message({
-              message: '标签添加成功',
-              type: 'success'
-            })
-            this.findAllTag()
-            const index = this.form.tags.indexOf(item)
-            this.form.tags.splice(index, 1, id)
-          })
+          this.addTag(item)
         }
       }
     }
@@ -437,6 +424,20 @@ export default {
     this.getBlogList()
   },
   methods: {
+    addTag(item) {
+      var params = new URLSearchParams()
+      params.append('tagTitle', item)
+      params.append('sort', this.sortMax + 1)
+      addTag(params).then(response => {
+        this.findAllTag()
+        const { id } = response.data
+        this.$message({
+          message: '标签添加成功',
+          type: 'success'
+        })
+        this.form.tags.splice(this.form.tags.indexOf(item), 1, id)
+      })
+    },
     preview(row) {
       this.form = {
         id: row.id,
@@ -596,7 +597,7 @@ export default {
       this.loading = true
       const formData = new FormData()
       formData.append('file', param.file)
-      uploaderImage(formData).then(response => {
+      uploadImage(formData).then(response => {
         this.form.image = response.data.fileUrl
         this.$message({
           message: '图片上传成功',

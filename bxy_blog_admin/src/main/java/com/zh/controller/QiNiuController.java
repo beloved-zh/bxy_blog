@@ -72,8 +72,8 @@ public class QiNiuController {
         return ResultVO.ok(buckets);
     }
 
-    @PostMapping("/uploaderImage")
-    public String uploaderImage(MultipartFile file){
+    @PostMapping("/uploadImage")
+    public String uploadImage(MultipartFile file){
 
         try {
             String fileName = UUIDUtil.getUUID();
@@ -94,6 +94,24 @@ public class QiNiuController {
 
     }
 
-
+    @PostMapping("/uploade")
+    public String uploade(String bucket,MultipartFile file){
+        try {
+            String fileName = UUIDUtil.getUUID();
+            String suffix = file.getOriginalFilename();
+            suffix = suffix.substring(suffix.lastIndexOf("."));
+            String key = QiNiuUtil.upload(bucket, file.getInputStream(), fileName + suffix);
+            if (StringUtils.isEmpty(key)){
+                return ResultVO.failure(400,"文件上传失败");
+            }
+            HashMap<String, String> map = new HashMap<>();
+            map.put("fileName",fileName);
+            map.put("fileKey",key);
+            return ResultVO.ok(map);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResultVO.failure(400,"文件上传失败");
+        }
+    }
 
 }
