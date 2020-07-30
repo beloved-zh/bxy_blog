@@ -56,7 +56,7 @@ export default {
         },
         series: [
           {
-            name: 'WEEKLY WRITE ARTICLES',
+            name: '文章所占条目数',
             type: 'pie',
             roseType: 'radius',
             radius: [15, 95],
