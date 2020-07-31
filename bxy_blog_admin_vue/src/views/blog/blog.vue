@@ -419,6 +419,20 @@ export default {
     }
   },
   created() {
+    // 获取从主页过来的路由参数
+    var blogSort = this.$route.query.blogSort
+    if (blogSort !== undefined) {
+      this.sortId = blogSort.id
+    }
+    var blogTag = this.$route.query.blogTag
+    if (blogTag !== undefined) {
+      this.tagId = blogTag.id
+    }
+    var blogLevel = this.$route.query.blogLevel
+    if (blogLevel !== undefined) {
+      this.level = blogLevel.id
+    }
+
     this.findAllSort()
     this.findAllTag()
     this.getBlogList()

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -27,5 +28,10 @@ public class TagsServiceImpl extends ServiceImpl<TagsMapper, Tags> implements Ta
     @Override
     public List<Tags> findByBlogId(String blogId) {
         return tagsMapper.findByBlogId(blogId);
+    }
+
+    @Override
+    public List<Map<String, Object>> getBlogCountByTag() {
+        return tagsMapper.getBlogCountByTag();
     }
 }

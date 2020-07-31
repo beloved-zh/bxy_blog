@@ -21,6 +21,22 @@ export default {
     height: {
       type: String,
       default: '300px'
+    },
+    name: {
+      type: String,
+      default: '所占条目数'
+    },
+    title: {
+      type: Array,
+      default: function() {
+        return []
+      }
+    },
+    value: {
+      type: Array,
+      default: function() {
+        return []
+      }
     }
   },
   data() {
@@ -44,30 +60,28 @@ export default {
     initChart() {
       this.chart = echarts.init(this.$el, 'macarons')
 
+      this.chart.on('click', param => {
+        this.$emit('clickPie', param.dataIndex)
+      })
+
       this.chart.setOption({
-        tooltip: {
-          trigger: 'item',
-          formatter: '{a} <br/>{b} : {c} ({d}%)'
+        tooltip: { // 提示框组件。
+          trigger: 'item', // 触发类型。https://echarts.apache.org/zh/option.html#tooltip.trigger
+          formatter: '{a} <br/>{b} : {c} ({d}%)' // 提示内容模板 https://echarts.apache.org/zh/option.html#tooltip.formatter
         },
-        legend: {
+        legend: { // 图例组件
           left: 'center',
           bottom: '10',
-          data: ['Industries', 'Technology', 'Forex', 'Gold', 'Forecasts']
+          data: this.title
         },
-        series: [
+        series: [ // https://echarts.apache.org/zh/option.html#series-pie
           {
-            name: '文章所占条目数',
-            type: 'pie',
-            roseType: 'radius',
-            radius: [15, 95],
-            center: ['50%', '38%'],
-            data: [
-              { value: 320, name: 'Industries' },
-              { value: 240, name: 'Technology' },
-              { value: 149, name: 'Forex' },
-              { value: 100, name: 'Gold' },
-              { value: 59, name: 'Forecasts' }
-            ],
+            name: this.name, // 系列名称，用于tooltip的显示
+            type: 'pie', // 饼图类型
+            roseType: 'radius', // 是否展示成南丁格尔图，通过半径区分数据大小。 https://echarts.apache.org/zh/option.html#series-pie.roseType
+            radius: [15, 95], // 饼图的半径。// https://echarts.apache.org/zh/option.html#series-pie.radius
+            center: ['50%', '38%'], // 饼图的中心（圆心）坐标，数组的第一项是横坐标，第二项是纵坐标。 https://echarts.apache.org/zh/option.html#series-pie.center
+            data: this.value,
             animationEasing: 'cubicInOut',
             animationDuration: 2600
           }

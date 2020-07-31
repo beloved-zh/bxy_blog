@@ -8,4 +8,11 @@
         where t.id = bt.tag_id and bt.blog_id = #{blogId}
     </select>
 
+    <select id="getBlogCountByTag" resultType="map">
+        select t.id 'id',t.tag_title 'name',count(bt.tag_id) 'value'
+        from bxy_blog.blog_tag bt,bxy_blog.tags t
+        where t.id = bt.tag_id
+        group by bt.tag_id
+    </select>
+
 </mapper>

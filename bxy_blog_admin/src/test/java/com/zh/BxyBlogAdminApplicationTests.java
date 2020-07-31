@@ -1,5 +1,6 @@
 package com.zh;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.qiniu.cdn.CdnManager;
 import com.qiniu.cdn.CdnResult;
@@ -24,9 +25,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.io.File;
-import java.util.Date;
-import java.util.Scanner;
-import java.util.UUID;
+import java.util.*;
 
 @SuppressWarnings("ALL")
 @SpringBootTest
@@ -253,4 +252,18 @@ class BxyBlogAdminApplicationTests {
         System.out.println(refresh.dirQuotaDay);
         System.out.println(refresh.dirSurplusDay);
     }
+
+    @Autowired
+    private BlogService blogService;
+
+    @Test
+    void sort(){
+        QueryWrapper<Blog> wrapper = new QueryWrapper<>();
+        wrapper.select("blog_level");
+        wrapper.groupBy("blog_level");
+        List<Blog> list = blogService.list(wrapper);
+        System.out.println(list);
+    }
+
+
 }

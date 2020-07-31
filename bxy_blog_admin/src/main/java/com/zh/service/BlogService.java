@@ -4,6 +4,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zh.pojo.Blog;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * <p>
  * 博客表 服务类
@@ -23,4 +26,5 @@ public interface BlogService extends IService<Blog> {
                         Integer currentPage,
                         Integer pageSize);
 
+    List<Map<String, Object>> getBlogCountByLevel();
 }

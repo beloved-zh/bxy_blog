@@ -4,6 +4,7 @@ import com.zh.pojo.Tags;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -17,4 +18,5 @@ public interface TagsService extends IService<Tags> {
 
     List<Tags> findByBlogId(String blogId);
 
+    List<Map<String, Object>> getBlogCountByTag();
 }

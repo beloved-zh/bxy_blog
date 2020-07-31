@@ -2,4 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zh.mapper.SortMapper">
 
+    <select id="getBlogCountByBlogSort" resultType="map">
+        select s.id 'id',s.sort_title 'name',count(b.sort_id) 'value'
+        from bxy_blog.blog b , bxy_blog.sort s
+        where b.sort_id = s.id
+        group by b.sort_id
+    </select>
+
 </mapper>

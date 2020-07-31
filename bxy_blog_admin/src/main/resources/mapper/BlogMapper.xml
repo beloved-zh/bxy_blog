@@ -41,4 +41,9 @@
         and b.user_id = u.id and b.sort_id = s.id
     </select>
 
+    <select id="getBlogCountByLevel" resultType="map">
+        select blog_level 'id',count(blog_level) 'value'
+        from blog
+        group by blog_level
+    </select>
 </mapper>

@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * <p>
  * 博客表 服务实现类
@@ -52,5 +55,30 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
         IPage<Blog> iPage = blogMapper.getBlog(page, wrapper);
 
         return iPage;
+    }
+
+    @Override
+    public List<Map<String, Object>> getBlogCountByLevel() {
+
+        List<Map<String, Object>> list = blogMapper.getBlogCountByLevel();
+
+        for (Map<String, Object> map : list) {
+            Integer id = (Integer) map.get("id");
+            switch (id){
+                case 1 :
+                    map.put("name", "一级推荐");
+                    break;
+                case 2 :
+                    map.put("name", "二级推荐");
+                    break;
+                case 3 :
+                    map.put("name", "三级推荐");
+                    break;
+                default :
+                    map.put("name", "正常");
+            }
+        }
+
+        return list;
     }
 }

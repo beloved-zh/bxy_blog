@@ -8,6 +8,9 @@ import com.zh.pojo.Blog;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * <p>
  * 博客表 Mapper 接口
@@ -19,4 +22,6 @@ import org.apache.ibatis.annotations.Param;
 public interface BlogMapper extends BaseMapper<Blog> {
     // 自定义条件构造器和分页插件 需要mybatisplus在3.0.7以上
     IPage<Blog> getBlog(Page<Blog> page, @Param(Constants.WRAPPER) Wrapper wrapper);
+
+    List<Map<String, Object>> getBlogCountByLevel();
 }
