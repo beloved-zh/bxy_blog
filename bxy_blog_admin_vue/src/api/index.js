@@ -27,3 +27,10 @@ export function getBlogCountByLevel() {
     method: 'get'
   })
 }
+
+export function getBlogContributeCount() {
+  return request({
+    url: `/index/getBlogContributeCount`,
+    method: 'get'
+  })
+}

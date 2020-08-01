@@ -50,7 +50,7 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
 
         redisUtil.hset(userDetails.getUsername(),"token",token,expiration);
         redisUtil.hset(userDetails.getUsername(),"username",userDetails.getUsername(),expiration);
-        redisUtil.hset(userDetails.getUsername(),"createTime", DateUtil.getTime(),expiration);
+        redisUtil.hset(userDetails.getUsername(),"createTime", DateUtil.getNowTime(),expiration);
         redisUtil.hset(userDetails.getUsername(),"expirationTime", DateUtil.getAddDaySecond(expiration),expiration);
         redisUtil.hset(userDetails.getUsername(),"ip",ip,expiration);
 

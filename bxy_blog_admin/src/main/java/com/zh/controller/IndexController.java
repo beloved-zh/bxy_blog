@@ -5,11 +5,13 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zh.VO.ResultVO;
 import com.zh.pojo.Blog;
 import com.zh.service.*;
+import com.zh.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -81,6 +83,13 @@ public class IndexController {
         List<Map<String, Object>> list = blogService.getBlogCountByLevel();
 
         return ResultVO.ok(list);
+    }
+
+    @GetMapping("/getBlogContributeCount")
+    public String getBlogContributeCount(){
+
+        Map<String, Object> map = blogService.getBlogContributeCount();
+        return ResultVO.ok(map);
     }
 }
 

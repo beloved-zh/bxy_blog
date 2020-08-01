@@ -5,7 +5,7 @@
     <panel-group :panel-data="panelData" @btnClick="btnClick" />
 
     <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
-      <CalendarChart />
+      <CalendarChart v-if="showCalendar" :range="contributeDate" :data="blogContributeCount" />
       <el-row>
         <el-col :span="24" style="text-align: center;margin-bottom: 10px;">
           少
@@ -69,7 +69,7 @@ import LineChart from './components/LineChart'
 import PieChart from './components/PieChart'
 import CalendarChart from './components/CalendarChart'
 
-import { init, getBlogCountByBlogSort, getBlogCountByTag, getBlogCountByLevel } from '@/api/index'
+import { init, getBlogCountByBlogSort, getBlogCountByTag, getBlogCountByLevel, getBlogContributeCount } from '@/api/index'
 
 export default {
   name: 'DashboardAdmin',
@@ -96,7 +96,10 @@ export default {
       showPieBlogTagChart: false,
       blogCountByLevel: [],
       blogLevelNameList: [],
-      showPieBlogLevelChart: false
+      showPieBlogLevelChart: false,
+      contributeDate: [],
+      blogContributeCount: [],
+      showCalendar: false
     }
   },
   created() {
@@ -104,8 +107,20 @@ export default {
     this.getBlogCountByBlogSort()
     this.getBlogCountByTag()
     this.getBlogCountByLevel()
+    this.getBlogContributeCount()
   },
   methods: {
+    getBlogContributeCount() {
+      getBlogContributeCount().then(response => {
+        const { contributeDate, blogContributeCount } = response.data
+
+        this.contributeDate = contributeDate
+
+        this.blogContributeCount = blogContributeCount
+
+        this.showCalendar = true
+      })
+    },
     clickBlogLevelPie(index) {
       var blogLevel = this.blogCountByLevel[index]
       this.$router.push({

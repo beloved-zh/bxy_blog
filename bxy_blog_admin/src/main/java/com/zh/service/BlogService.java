@@ -27,4 +27,6 @@ public interface BlogService extends IService<Blog> {
                         Integer pageSize);
 
     List<Map<String, Object>> getBlogCountByLevel();
+
+    Map<String,Object> getBlogContributeCount();
 }

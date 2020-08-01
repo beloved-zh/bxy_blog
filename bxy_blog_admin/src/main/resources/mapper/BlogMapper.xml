@@ -46,4 +46,17 @@
         from blog
         group by blog_level
     </select>
+
+    <!--
+        原符号	  <	   <=	   >	   >=	    &	     '	      "
+        替换符号	&lt;	&lt;=	&gt;	&gt;=	&amp;	&apos;	&quot;
+    -->
+    <select id="getBlogContributeCount" resultType="map">
+        select date_format(create_time, '%Y-%m-%d') 'date' ,count(id) 'count'
+        from bxy_blog.blog
+        where blog_status = 1
+        and create_time &gt;= #{startTime}
+        and create_time &lt;= #{endTime}
+        group by date_format(create_time, '%Y-%m-%d')
+    </select>
 </mapper>

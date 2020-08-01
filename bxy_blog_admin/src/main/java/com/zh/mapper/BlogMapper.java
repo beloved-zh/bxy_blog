@@ -24,4 +24,6 @@ public interface BlogMapper extends BaseMapper<Blog> {
     IPage<Blog> getBlog(Page<Blog> page, @Param(Constants.WRAPPER) Wrapper wrapper);
 
     List<Map<String, Object>> getBlogCountByLevel();
+
+    List<Map<String, Object>> getBlogContributeCount(@Param("startTime") String startTime, @Param("endTime") String endTime);
 }

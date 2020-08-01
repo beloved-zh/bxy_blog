@@ -12,13 +12,11 @@ import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.storage.model.FileInfo;
 import com.qiniu.storage.model.FileListing;
 import com.qiniu.util.Auth;
+import com.zh.mapper.BlogMapper;
 import com.zh.mapper.MenuMapper;
 import com.zh.pojo.*;
 import com.zh.service.*;
-import com.zh.utils.BaseUtil;
-import com.zh.utils.FastJsonUtil;
-import com.zh.utils.QiNiuUtil;
-import com.zh.utils.StringUtil;
+import com.zh.utils.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -256,12 +254,12 @@ class BxyBlogAdminApplicationTests {
     @Autowired
     private BlogService blogService;
 
+    @Autowired
+    private BlogMapper blogMapper;
+
     @Test
     void sort(){
-        QueryWrapper<Blog> wrapper = new QueryWrapper<>();
-        wrapper.select("blog_level");
-        wrapper.groupBy("blog_level");
-        List<Blog> list = blogService.list(wrapper);
+        List<Map<String, Object>> list = blogMapper.getBlogContributeCount("2019-8-1", "2020-8-1");
         System.out.println(list);
     }
 
