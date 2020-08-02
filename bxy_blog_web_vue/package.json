@@ -3,11 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "dev": "vue-cli-service serve",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "animejs": "^3.2.0",
+    "axios": "^0.19.2",
     "core-js": "^3.6.5",
     "element-ui": "^2.13.2",
     "vue": "^2.6.11",
@@ -23,6 +26,8 @@
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
+    "less": "^3.0.4",
+    "less-loader": "^5.0.0",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {
