@@ -104,7 +104,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     CorsConfigurationSource corsConfigurationSource(){
 
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:9527","http://localhost:9528"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:9527","http://192.168.137.1:9527","http://3p0046245d.wicp.vip","http://localhost:9528"));
         configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE"));
         configuration.applyPermitDefaultValues();
 

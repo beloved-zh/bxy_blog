@@ -5,7 +5,7 @@
   "author": "Beloved <1425279634@qq.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "vue-cli-service serve",
+    "dev": "vue-cli-service serve --inline --progress --config build/webpack.dev.conf.js --host localhost",
     "build:prod": "vue-cli-service build",
     "build:stage": "vue-cli-service build --mode staging",
     "preview": "node build/index.js --preview",
