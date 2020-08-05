@@ -257,10 +257,15 @@ class BxyBlogAdminApplicationTests {
     @Autowired
     private BlogMapper blogMapper;
 
+    @Autowired
+    WebConfigService webConfigService;
+
     @Test
     void sort(){
-        List<Map<String, Object>> list = blogMapper.getBlogContributeCount("2019-8-1", "2020-8-1");
-        System.out.println(list);
+        WebConfig webConfig = new WebConfig();
+        webConfig.setWebName("巴学园");
+
+        webConfigService.save(webConfig);
     }
 
 

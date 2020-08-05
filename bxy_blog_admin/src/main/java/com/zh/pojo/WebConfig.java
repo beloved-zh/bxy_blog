@@ -33,14 +33,14 @@ public class WebConfig implements Serializable {
     @TableId(value = "id", type = IdType.UUID)
     private String id;
 
-    @ApiModelProperty(value = "大logo")
-    private String maxLogo;
-
-    @ApiModelProperty(value = "小logo")
-    private String minLogo;
+    @ApiModelProperty(value = "logo")
+    private String logo;
 
     @ApiModelProperty(value = "网站名")
     private String webName;
+
+    @ApiModelProperty(value = "网站地址")
+    private String webUrl;
 
     @ApiModelProperty(value = "介绍")
     private String summary;
@@ -57,6 +57,10 @@ public class WebConfig implements Serializable {
     @ApiModelProperty(value = "gitee地址")
     private String gitee;
 
+    @ApiModelProperty(value = "csdn地址")
+    private String csdn;
+
+
     @ApiModelProperty(value = "微信")
     private String weixin;
 
@@ -65,6 +69,12 @@ public class WebConfig implements Serializable {
 
     @ApiModelProperty(value = "邮箱")
     private String email;
+
+    @ApiModelProperty(value = "支付宝支付")
+    private String aliPay;
+
+    @ApiModelProperty(value = "微信支付")
+    private String weixinPay;
 
     @ApiModelProperty(value = "创建时间")
     @TableField(fill = FieldFill.INSERT)
