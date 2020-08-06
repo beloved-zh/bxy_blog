@@ -51,6 +51,7 @@ public class BlogController {
             String sortId,
             String tags,
             Integer level,
+            Boolean top,
             Boolean status,
             Boolean original,
             Boolean startComment,
@@ -89,6 +90,7 @@ public class BlogController {
         blog.setContentMd(contentMd);
         blog.setSortId(sortId);
         blog.setBlogLevel(level);
+        blog.setIsTop(top);
         blog.setBlogStatus(status);
         blog.setIsOriginal(original);
         blog.setStartComment(startComment);
@@ -126,12 +128,13 @@ public class BlogController {
             String sortId,
             String tagId,
             Integer level,
+            Boolean top,
             Boolean status,
             Boolean original,
             Integer currentPage,
             Integer pageSize){
 
-        IPage<Blog> page = blogService.getBlog(keyword, sortId, tagId, level, status, original, currentPage, pageSize);
+        IPage<Blog> page = blogService.getBlog(keyword, sortId, tagId, level, top, status, original, currentPage, pageSize);
 
         for (Blog blog : page.getRecords()) {
             List<Tags> tags = tagsService.findByBlogId(blog.getId());
@@ -151,6 +154,7 @@ public class BlogController {
             String sortId,
             String tags,
             Integer level,
+            Boolean top,
             Boolean status,
             Boolean original,
             Boolean startComment,
@@ -165,6 +169,7 @@ public class BlogController {
         blog.setContentMd(contentMd);
         blog.setSortId(sortId);
         blog.setBlogLevel(level);
+        blog.setIsTop(top);
         blog.setBlogStatus(status);
         blog.setIsOriginal(original);
         blog.setStartComment(startComment);

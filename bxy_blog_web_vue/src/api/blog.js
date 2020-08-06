@@ -15,3 +15,10 @@ export function getBlogByLevelAndPage(params) {
     params
   })
 }
+
+export function getBlogByTop() {
+  return request({
+    url: `/blog/getBlogByTop`,
+    method: 'get'
+  })
+}

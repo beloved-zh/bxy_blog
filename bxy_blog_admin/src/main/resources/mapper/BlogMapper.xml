@@ -12,6 +12,7 @@
         <result property="sortId" column="sort_id"></result>
         <result property="clickCount" column="click_count"></result>
         <result property="userId" column="user_id"></result>
+        <result property="isTop" column="is_top"></result>
         <result property="isOriginal" column="is_original"></result>
         <result property="articlesPart" column="articles_part"></result>
         <result property="blogLevel" column="blog_level"></result>

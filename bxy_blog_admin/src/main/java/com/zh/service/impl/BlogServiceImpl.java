@@ -30,7 +30,7 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
     private BlogMapper blogMapper;
 
     @Override
-    public IPage<Blog> getBlog(String keyword, String sortId, String tagId, Integer level, Boolean status, Boolean original, Integer currentPage, Integer pageSize) {
+    public IPage<Blog> getBlog(String keyword, String sortId, String tagId, Integer level,Boolean top, Boolean status, Boolean original, Integer currentPage, Integer pageSize) {
 
         Page<Blog> page = new Page<>(currentPage,pageSize);
 
@@ -44,6 +44,9 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
         }
         if (!StringUtils.isEmpty(level)){
             wrapper.eq("blog_level",level);
+        }
+        if (!StringUtils.isEmpty(top)){
+            wrapper.eq("is_top",top ? 1 : 0);
         }
         if (!StringUtils.isEmpty(status)){
             wrapper.eq("blog_status",status ? 1 : 0);

@@ -2,6 +2,9 @@
   <!--文章列表-->
     <main class="site-main">
         <section-title value="文章列表" />
+        <template v-for="item in topList">
+            <post :post="item" :key="item.id"></post>
+        </template>
         <template v-for="item in postList">
             <post :post="item" :key="item.id"></post>
         </template>
@@ -14,7 +17,7 @@
 import SectionTitle from '@/components/SectionTitle'
 import Post from './components/Post'
 import More from '@/components/More'
-import { getBlogByLevelAndPage } from '@/api/blog'
+import { getBlogByLevelAndPage, getBlogByTop } from '@/api/blog'
 import { formatDate } from '@/utils/webUtils'
 export default {
   components: {
@@ -27,13 +30,26 @@ export default {
         currentPage: 1, // 当前页
         pageSize: 2, // 每页大小
         hasNext: false, // 是否存在下一页
-        postList: []
+        postList: [],
+        topList: []
       }
   },
   created(){
+    this.getBlogByTop()
     this.getBlogByLevelAndPage()
   },
   methods: {
+    getBlogByTop(){
+      getBlogByTop().then(response => {
+        const { data } = response
+        this.topList = data.map(x => {
+          x.createTime = this.dateFormat(x.createTime)
+          return x
+        })
+      }).catch(response => {
+        this.$message.error(response.data)
+      })
+    },
     loadMore(){
       this.currentPage += 1
       this.getBlogByLevelAndPage()

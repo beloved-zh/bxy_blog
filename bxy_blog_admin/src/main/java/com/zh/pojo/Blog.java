@@ -59,6 +59,9 @@ public class Blog implements Serializable {
     @ApiModelProperty(value = "作者")
     private String userId;
 
+    @ApiModelProperty(value = "是否置顶 0：否 1：是")
+    private Boolean isTop;
+
     @ApiModelProperty(value = "是否原创 0：否 1：是")
     private Boolean isOriginal;
 

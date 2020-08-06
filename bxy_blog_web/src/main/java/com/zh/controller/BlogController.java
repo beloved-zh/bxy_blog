@@ -45,5 +45,13 @@ public class BlogController {
 
         return ResultVO.ok(page);
     }
+
+    @GetMapping("/getBlogByTop")
+    public String getBlogByTop(){
+
+        List<Blog> list = blogService.getBlogByTop();
+
+        return ResultVO.ok(list);
+    }
 }
 

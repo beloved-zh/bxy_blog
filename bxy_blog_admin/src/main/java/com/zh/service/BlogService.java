@@ -21,6 +21,7 @@ public interface BlogService extends IService<Blog> {
                         String sortId,
                         String tagId,
                         Integer level,
+                        Boolean top,
                         Boolean status,
                         Boolean original,
                         Integer currentPage,

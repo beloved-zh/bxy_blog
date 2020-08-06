@@ -9,27 +9,54 @@
             </div>
             <!-- 文章名 置顶 -->
             <h1 class="entry-title">
-                <router-link :to="`/article/${post.id}`"><span v-if="post.isTop" style="color:#ff6d6d;font-weight:600">[置顶] </span>{{post.title}}</router-link>
+                <router-link :to="`/article/${post.id}`">
+                    <span v-if="post.isTop" style="color:#ff6d6d;font-weight:600">
+                        [置顶] 
+                    </span>
+                    <span v-if="!post.isOriginal" style="color:#ff6d6d;font-weight:600">
+                        [转载] 
+                    </span>
+                    {{post.title}}
+                </router-link>
             </h1>
             <!-- 时间 热度 -->
             <div class="p-time">
-                <i class="iconfont iconmeditor-time"></i>{{ post.createTime }}<i v-if="post.isHot" class="iconfont iconfire" style="margin-left: 5px;color: #ff6d6d;"></i>
+                <i class="iconfont iconmeditor-time"></i>{{ post.createTime }}<i v-if="post.clickCount > 1000" class="iconfont iconfire" style="margin-left: 5px;color: #ff6d6d;"></i>
             </div>
             <!-- 简介 -->
             <p class="summary">{{post.summary}}</p>
             <footer class="entry-footer">
                 <!-- 小鱼图标 -->
                 <div class="post-more">
+                <el-row :gutter="20">
+                    <el-col :span="12" style="text-align: left;">
+                        <router-link :to="`/article/${post.id}`">
+                            <i class="iconfont iconcategory" style="font-size: 25px;"></i>
+                            {{ post.sort.sortTitle }}
+                        </router-link>
+                    </el-col>
+                    <el-col :span="12" style="text-align: right;">
                     <router-link :to="`/article/${post.id}`"><i class="iconfont iconfish-li" style="font-size: 25px;"></i></router-link>
+                    </el-col>
+                </el-row>
                 </div>
                 <div class="info-meta">
+                    <div>
+                        <span>
+                            <i class="iconfont iconcomment"></i>
+                            {{post.user.userName}}
+                        </span>
+                    </div>
                     <!-- 评论数 -->
                     <div class="comnum">
                         <span>
                             <i class="iconfont iconcomment"></i>
-                            {{post.commentsCount}} 条评论
+                            99 条评论
                         </span>
                     </div>
+                    <br>
+                    
+                    
                     <!-- 点击数 -->
                     <div class="views">
                         <span><i class="iconfont iconeyes"></i>{{post.clickCount}} 热度</span>
@@ -63,7 +90,7 @@
     .post-entry {
         .feature {
             position: absolute;
-            margin-top: 10px;
+            margin-top: 30px;
 
             img {
                 width: 100px;
@@ -126,8 +153,8 @@
             list-style: none;
 
             .post-more {
-                margin-top: 10px;
-                text-align: right;
+                margin: 10px 0px 20px;
+                // text-align: right;
                 color: #A0DAD0;
 
                 a:hover {
@@ -136,7 +163,7 @@
             }
 
             .info-meta {
-                margin-top: 10px;
+                margin-top: 30px;
                 font-family: din, 'Hiragino Sans GB', 'Microsoft Yahei', Arial, sans-serif;
                 position: absolute;
                 top: 20px;

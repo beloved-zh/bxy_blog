@@ -22,6 +22,8 @@ public interface BlogMapper extends BaseMapper<Blog> {
 
     List<Blog> getBlogByLevel(@Param("level")Integer level);
 
+    List<Blog> getBlogByTop();
+
     // 自定分页插件 需要mybatisplus在3.0.7以上
     IPage<Blog> getBlogByLevelAndPage(Page<Blog> page,@Param("level")Integer level);
 }

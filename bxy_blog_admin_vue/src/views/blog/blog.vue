@@ -37,6 +37,12 @@
         </el-select>
       </el-col>
       <el-col :span="3">
+        <el-select v-model="top" clearable placeholder="是否置顶">
+          <el-option label="置顶" :value="true" />
+          <el-option label="正常" :value="false" />
+        </el-select>
+      </el-col>
+      <el-col :span="3">
         <el-select v-model="status" clearable placeholder="是否发布">
           <el-option label="发布" :value="true" />
           <el-option label="下架" :value="false" />
@@ -145,6 +151,17 @@
       </el-table-column>
       <el-table-column
         align="center"
+        prop="isTop"
+        label="是否置顶"
+        width="100"
+      >
+        <template slot-scope="scope">
+          <el-tag v-if="scope.row.isTop" type="danger">置顶</el-tag>
+          <el-tag v-else type="success">正常</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column
+        align="center"
         prop="blogStatus"
         label="文章状态"
         width="100"
@@ -212,11 +229,10 @@
           <el-input v-model="form.summary" />
         </el-form-item>
         <el-row>
-          <el-col :span="4">
+          <el-col :span="6">
             <el-form-item label="分类" label-width="120px" prop="sortId">
               <el-select
                 v-model="form.sortId"
-                size="small"
                 placeholder="请选择"
                 style="width:150px"
               >
@@ -229,11 +245,10 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="4">
+          <el-col :span="6">
             <el-form-item label="标签" label-width="120px" prop="tags">
               <el-select
                 v-model="form.tags"
-                size="small"
                 multiple
                 filterable
                 allow-create
@@ -250,7 +265,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="4">
+          <el-col :span="6">
             <el-form-item label="推荐等级" label-width="120px" prop="level">
               <el-select v-model="form.level" clearable placeholder="推荐等级">
                 <el-option label="正常" :value="0" />
@@ -259,7 +274,17 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="4">
+        </el-row>
+        <el-row>
+          <el-col :span="6">
+            <el-form-item label="是否置顶" label-width="120px" prop="top">
+              <el-select v-model="form.top" clearable placeholder="是否置顶">
+                <el-option label="置顶" :value="true" />
+                <el-option label="正常" :value="false" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
             <el-form-item label="是否发布" label-width="120px" prop="status">
               <el-select v-model="form.status" clearable placeholder="是否发布">
                 <el-option label="发布" :value="true" />
@@ -267,7 +292,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="4">
+          <el-col :span="6">
             <el-form-item label="是否原创" label-width="120px" prop="original">
               <el-select v-model="form.original" clearable placeholder="是否原创">
                 <el-option label="原创" :value="true" />
@@ -275,7 +300,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="4">
+          <el-col :span="6">
             <el-form-item label="是否开启评论" label-width="120px" prop="startComment">
               <el-select v-model="form.startComment" clearable placeholder="请选择">
                 <el-option label="开启" :value="true" />
@@ -329,6 +354,7 @@ export default {
       sortId: '',
       tagId: '',
       level: '',
+      top: '',
       status: '',
       original: '',
       sortList: [],
@@ -349,7 +375,8 @@ export default {
         contentHtml: '',
         sortId: '',
         tags: '',
-        level: '',
+        level: 0,
+        top: false,
         status: true,
         original: true,
         startComment: true,
@@ -381,6 +408,9 @@ export default {
           { required: true, message: '请选择', trigger: 'change' }
         ],
         status: [
+          { required: true, message: '请选择', trigger: 'change' }
+        ],
+        top: [
           { required: true, message: '请选择', trigger: 'change' }
         ],
         original: [
@@ -460,6 +490,7 @@ export default {
         sortId: row.sortId,
         tags: [],
         level: row.blogLevel,
+        top: row.isTop,
         status: row.blogStatus,
         original: row.isOriginal,
         startComment: row.startComment,
@@ -503,6 +534,7 @@ export default {
         sortId: row.sortId,
         tags: [],
         level: row.blogLevel,
+        top: row.isTop,
         status: row.blogStatus,
         original: row.isOriginal,
         startComment: row.startComment,
@@ -535,6 +567,7 @@ export default {
       params.sortId = this.sortId
       params.tagId = this.tagId
       params.level = this.level
+      params.top = this.top
       params.status = this.status
       params.original = this.original
       params.currentPage = this.currentPage
@@ -590,7 +623,8 @@ export default {
         contentHtml: '',
         sortId: '',
         tags: '',
-        level: '',
+        level: 0,
+        top: false,
         status: true,
         original: true,
         startComment: true,
