@@ -124,7 +124,6 @@
         <template slot-scope="scope">
           <el-tag v-if="scope.row.blogLevel === 1">一级推荐</el-tag>
           <el-tag v-else-if="scope.row.blogLevel === 2" type="success">二级推荐</el-tag>
-          <el-tag v-else-if="scope.row.blogLevel === 3" type="warning">三级推荐</el-tag>
           <el-tag v-else type="info">正常</el-tag>
         </template>
       </el-table-column>
@@ -258,7 +257,6 @@
                 <el-option label="正常" :value="0" />
                 <el-option label="一级推荐" :value="1" />
                 <el-option label="二级推荐" :value="2" />
-                <el-option label="三级推荐" :value="3" />
               </el-select>
             </el-form-item>
           </el-col>
