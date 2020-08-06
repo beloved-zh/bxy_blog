@@ -1,6 +1,7 @@
 package com.zh;
 
 import com.zh.pojo.User;
+import com.zh.service.BlogService;
 import com.zh.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +15,12 @@ class BxyBlogWebApplicationTests {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private BlogService blogService;
+
     @Test
     void contextLoads() {
-
-        List<User> list = userService.list(null);
-        System.out.println(list);
+//        System.out.println(blogService.getBlogByOneLevel());
     }
 
 }

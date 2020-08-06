@@ -2,7 +2,7 @@
   <div>
     <el-carousel indicator-position="outside" height="450px">
       <el-carousel-item v-for="(item,index) in blogList" :key="index">
-        <el-image :src="item.url" fit="fill"></el-image>
+        <el-image :src="item.image" fit="fill"></el-image>
         <div class="carousel-title">
           <span>{{item.title}}</span>
         </div>
@@ -12,20 +12,26 @@
 </template>
 
 <script>
+import { getBlogByLevel } from '@/api/blog'
 export default {
   name: 'Carousel',
   data() {
     return {
-      blogList: [
-        {
-          url: 'http://qd4zqd4qv.bkt.clouddn.com/0d68c626f8e94a4287d15273b034fde4.jpg',
-          title: 'Docker'
-        },
-        {
-          url: 'http://qd4zqd4qv.bkt.clouddn.com/1b5adba89e8746c5b51aebd4d0504ea8.jpg',
-          title: 'Github'
-        }
-      ]
+      blogList: []
+    }
+  },
+  created() {
+    this.getBlogByLevel()
+  },
+  methods: {
+    getBlogByLevel(){
+      const params = {}
+      params.level = 1
+      getBlogByLevel(params).then(response => {
+        this.blogList = response.data
+      }).catch(response => {
+        this.$message.error(response.data)
+      })
     }
   }
 }

@@ -7,8 +7,7 @@
         <el-col :span="16">
           <!--文章列表-->
           <PostList />
-          <!-- 下一页 -->
-          <More />
+          
         </el-col>
         <el-col :span="8">
           <el-row>
@@ -40,7 +39,6 @@
   import PostList from '@/components/PostList'
   import FeatureList from '@/components/FeatureList'
   import Recommend from '@/components/Recommend'
-  import More from '@/components/More'
   import Friend from '@/components/Friend'
   export default {
     name: 'Home',
@@ -52,7 +50,6 @@
     components: {
       Carousel,
       PostList,
-      More,
       Recommend,
       FeatureList,
       Friend

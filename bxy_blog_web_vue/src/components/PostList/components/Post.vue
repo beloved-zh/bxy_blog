@@ -1,31 +1,38 @@
 <template>
     <article class="post post-list">
         <div class="post-entry">
+            <!-- 图片 -->
             <div class="feature">
                 <router-link :to="`/article/${post.id}`">
-                    <img :src="post.banner"/>
+                    <img :src="post.image"/>
                 </router-link>
             </div>
+            <!-- 文章名 置顶 -->
             <h1 class="entry-title">
                 <router-link :to="`/article/${post.id}`"><span v-if="post.isTop" style="color:#ff6d6d;font-weight:600">[置顶] </span>{{post.title}}</router-link>
             </h1>
+            <!-- 时间 热度 -->
             <div class="p-time">
-                <i class="iconfont iconmeditor-time"></i> {{post.pubTime}}<i v-if="post.isHot" class="iconfont iconfire" style="margin-left: 5px;color: #ff6d6d;"></i>
+                <i class="iconfont iconmeditor-time"></i>{{ post.createTime }}<i v-if="post.isHot" class="iconfont iconfire" style="margin-left: 5px;color: #ff6d6d;"></i>
             </div>
+            <!-- 简介 -->
             <p class="summary">{{post.summary}}</p>
             <footer class="entry-footer">
+                <!-- 小鱼图标 -->
                 <div class="post-more">
                     <router-link :to="`/article/${post.id}`"><i class="iconfont iconfish-li" style="font-size: 25px;"></i></router-link>
                 </div>
                 <div class="info-meta">
+                    <!-- 评论数 -->
                     <div class="comnum">
                         <span>
                             <i class="iconfont iconcomment"></i>
-                            <a href="https://zhebk.cn/Web/Akina.html">{{post.commentsCount}} 条评论</a>
+                            {{post.commentsCount}} 条评论
                         </span>
                     </div>
+                    <!-- 点击数 -->
                     <div class="views">
-                        <span><i class="iconfont iconeyes"></i>{{post.viewsCount}} 热度</span>
+                        <span><i class="iconfont iconeyes"></i>{{post.clickCount}} 热度</span>
                     </div>
                 </div>
             </footer>
@@ -35,13 +42,14 @@
 </template>
 
 <script>
-
     export default {
         name: "post",
         props: {
             post: {
                 type: Object
             }
+        },
+        methods: {
         }
     }
 </script>

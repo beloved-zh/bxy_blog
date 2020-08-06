@@ -2,7 +2,7 @@ import axios from 'axios'
 
 // 创建axios实例
 const service = axios.create({
-    baseURL: process.env.VUE_APP_BASE_API,
+    baseURL: 'http://localhost:8080',
     timeout: 5000 // request timeout
 })
 
@@ -23,7 +23,7 @@ service.interceptors.request.use(
 service.interceptors.response.use(
     response => {
         const res = response.data
-        if (res.code !== 20000) {
+        if (res.code !== 200) {
             return Promise.reject(new Error(res.message || 'Error'))
         } else {
             return res

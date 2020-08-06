@@ -1,12 +1,18 @@
 <template>
   <div class="more">
-    <div class="more-btn">More</div>
+    <div class="more-btn" @click="loadMore" >More</div>
   </div>
 </template>
 
 <script>
 export default {
-
+  props: {
+  },
+  methods: {
+    loadMore(){
+      this.$emit('loadMore')
+    }
+  }
 }
 </script>
 

@@ -1,7 +1,7 @@
 <template>
-  <div class="top-feature">
+  <div class="top-feature" v-if="blogList.length !== 0">
     <section-title value="特别推荐" />
-    <div v-for="item in features" :key="item.title">
+    <div v-for="item in blogList" :key="item.id">
         <Feature :data="item"></Feature>
     </div>
   </div>
@@ -10,6 +10,7 @@
 <script>
 import SectionTitle from '@/components/SectionTitle'
 import Feature from './components/Feature'
+import { getBlogByLevel } from '@/api/blog'
 export default {
     components: {
       Feature,
@@ -17,23 +18,27 @@ export default {
     },
     data() {
         return{
-            features: [
-            {
-                id:1,
-                img:"https://s1.ax1x.com/2020/05/14/YDfRnU.jpg",
-                title:"Akina"
-            },
-            {
-                id:2,
-                img:"https://s1.ax1x.com/2020/05/14/YDf4AJ.jpg",
-                title:"使用说明"
-            },
-            {
-                id:3,
-                img:"https://s1.ax1x.com/2020/05/14/YDfT91.jpg",
-                title:"文章归档",
-            }
+            blogList: [
+                {
+                    id:1,
+                    img:"https://s1.ax1x.com/2020/05/14/YDfRnU.jpg",
+                    title:"Akina"
+                }
             ]
+        }
+    },
+    created() {
+        this.getBlogByLevel()
+    },
+    methods: {
+        getBlogByLevel(){
+        const params = {}
+        params.level = 2
+        getBlogByLevel(params).then(response => {
+            this.blogList = response.data
+        }).catch(response => {
+            this.$message.error(response.data)
+        })
         }
     }
 }

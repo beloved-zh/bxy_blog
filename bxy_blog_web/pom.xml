@@ -43,7 +43,7 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.0.2</version>
+            <version>3.0.7</version>
         </dependency>
 
         <!-- mybatis-plus代码生成器模板引擎 -->
@@ -95,10 +95,10 @@
         </dependency>
 
         <!--SpringSecurity-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-security</artifactId>-->
+<!--        </dependency>-->
 
         <!--web-->
         <dependency>

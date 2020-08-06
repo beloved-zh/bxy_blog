@@ -1,7 +1,10 @@
 package com.zh.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zh.pojo.Blog;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface BlogService extends IService<Blog> {
 
+    List<Blog> getBlogByLevel(Integer level);
+
+    IPage<Blog> getBlogByLevelAndPage(
+                        Integer level,
+                        Integer currentPage,
+                        Integer pageSize);
 }

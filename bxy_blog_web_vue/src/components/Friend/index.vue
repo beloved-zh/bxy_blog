@@ -3,7 +3,7 @@
     <section-title value="友情链接" />
     <div class="top-social">
       <div v-for="(item,index) in linkData" :key="index">
-        <a target="_blank" class="out-link" :href="item.url">{{item.title}}</a>
+        <a target="_blank" class="out-link" :href="item.linkUrl">{{item.linkName}}</a>
       </div>
     </div>
   </div>
@@ -11,6 +11,7 @@
 
 <script>
   import SectionTitle from '@/components/SectionTitle'
+  import { getLinks } from '@/api/link'
   export default {
   name: 'Friend',
   components: {
@@ -18,24 +19,19 @@
   },
   data(){
     return{
-      linkData: [
-        {
-          title: 'GitEE',
-          url: 'https://gitee.com/'
-        },
-        {
-          title: 'GitHub',
-          url: 'https://github.com/'
-        },
-        {
-          title: '巴学园',
-          url: 'https://blog.beloved.ink/'
-        },
-        {
-          title: '巴学园在线答题系统',
-          url: 'https://beloved.ink/'
-        }
-      ]
+      linkData: []
+    }
+  },
+  created(){
+    this.getLinks()
+  },
+  methods: {
+    getLinks(){
+      getLinks().then(response => {
+        this.linkData = response.data
+      }).catch(response => {
+        this.$message.error(response.data)
+      })
     }
   }
 }

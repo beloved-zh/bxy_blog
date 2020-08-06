@@ -5,59 +5,71 @@
         <template v-for="item in postList">
             <post :post="item" :key="item.id"></post>
         </template>
+        <!-- 下一页 -->
+        <More v-if="hasNext" @loadMore="loadMore" />
     </main>
 </template>
 
 <script>
 import SectionTitle from '@/components/SectionTitle'
 import Post from './components/Post'
+import More from '@/components/More'
+import { getBlogByLevelAndPage } from '@/api/blog'
+import { formatDate } from '@/utils/webUtils'
 export default {
-    components: {
-      SectionTitle,
-      Post
+  components: {
+    SectionTitle,
+    Post,
+    More
+  },
+  data() {
+      return{
+        currentPage: 1, // 当前页
+        pageSize: 2, // 每页大小
+        hasNext: false, // 是否存在下一页
+        postList: []
+      }
+  },
+  created(){
+    this.getBlogByLevelAndPage()
+  },
+  methods: {
+    loadMore(){
+      this.currentPage += 1
+      this.getBlogByLevelAndPage()
     },
-    data() {
-        return{
-            postList: [
-          {
-            banner:"https://s1.ax1x.com/2020/05/14/YDhagx.jpg",
-            commentsCount:99,
-            content:"",
-            id:0,
-            isHot:false,
-            isTop:false,
-            pubTime:505057707561,
-            summary:"Lua 是一种轻量小巧的脚本语言，能为应用程序提供灵活的扩展和定制功能。",
-            title:"测试文章",
-            viewsCount:4045
-          },
-          {
-            banner:"https://s1.ax1x.com/2020/05/14/YDhagx.jpg",
-            commentsCount:99,
-            content:"",
-            id:2,
-            isHot:true,
-            isTop:true,
-            pubTime:505057707561,
-            summary:"Lua 是一种轻量小巧的脚本语言，能为应用程序提供灵活的扩展和定制功能。",
-            title:"测试文章",
-            viewsCount:4045
-          },
-          {
-            banner:"https://s1.ax1x.com/2020/05/14/YDhagx.jpg",
-            commentsCount:99,
-            content:"",
-            id:3,
-            isHot:true,
-            isTop:true,
-            pubTime:505057707561,
-            summary:"Lua 是一种轻量小巧的脚本语言，能为应用程序提供灵活的扩展和定制功能。",
-            title:"测试文章",
-            viewsCount:4045
-          }
-        ]
+    getBlogByLevelAndPage(){
+      const params = {}
+      params.level = 0
+      params.currentPage = this.currentPage
+      params.pageSize = this.pageSize
+      getBlogByLevelAndPage(params).then(response => {
+        const { data } = response
+        this.currentPage = data.current
+        this.pageSize = data.size
+        this.postList = [...this.postList,...data.records.map(x => {
+          x.createTime = this.dateFormat(x.createTime)
+          return x
+        })]
+         
+        if(data.total > (data.size * data.current)){
+          return this.hasNext = true
+        }else{
+          return this.hasNext = false
         }
-    }
+      }).catch(response => {
+        this.$message.error(response.data)
+      })
+    },
+    // 格式化日期
+    dateFormat: function(value) {
+      var date = new Date(value)
+      if (date === undefined) {
+          return ''
+      }
+      return formatDate(date, 'YYYY-MM-DD hh:mm:ss')
+    } 
+  }
 }
 </script>
 

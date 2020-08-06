@@ -524,6 +524,8 @@ export default {
     },
     // 格式化日期
     dateFormat: function(row, column) {
+      console.log(row)
+      console.log(column)
       var date = new Date(row[column.property])
       if (date === undefined) {
         return ''

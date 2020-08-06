@@ -1,6 +1,15 @@
 <template>
     <div id="layout-footer">
-        <div class="copyright">Copyright © 2020 by <a target="_blank" class="out-link" href="https://www.beloved.ink">beloved.ink</a> . All rights reserved. | <a target="_blank" class="out-link" href="http://www.beian.miit.gov.cn">陕ICP备19025605号-1</a></div>
+        <div class="copyright">
+                Copyright © 2020 by 
+            <a target="_blank" class="out-link" :href="webUrl">
+                {{ webName }}
+            </a>
+                . All rights reserved. | 
+             <a target="_blank" class="out-link" href="http://www.beian.miit.gov.cn">
+                {{ recordNum }}
+             </a>
+        </div>
     </div>
 </template>
 
@@ -9,6 +18,9 @@
         name: "layout-footer",
         data(){
             return{
+                webName: '',
+                webUrl: '',
+                recordNum: ''
             }
         },
         components:{
@@ -16,8 +28,16 @@
         computed:{
         },
         methods:{
+            getConfig(){
+                this.$store.dispatch('getWebConfig').then(data =>{
+                    this.webName = data.webName
+                    this.webUrl = data.webUrl
+                    this.recordNum = data.recordNum
+                })
+            }
         },
         created(){
+            this.getConfig()
         }
     }
 </script>

@@ -2,7 +2,26 @@
   <div class="top-feature">
     <section-title value="联系方式" />
     <div class="top-social">
-      <div v-for="item in socials" :key="item.id" :title="item.title"><a :href="item.href" target="_blank" :style="{'color':item.color}"><i class="iconfont" :class="item.icon"></i></a></div>
+      <div>
+        <a :href="'tencent://message/?uin='+qq+'&Site=400301.com&Menu=yes'" target="_blank" style="color:#1AB6FF">
+          <i class="iconfont iconqq"></i>
+        </a>
+      </div>
+      <div>
+        <a :href="gitee" target="_blank" style="color:#d81e06">
+          <i class="iconfont icongitee"></i>
+        </a>
+      </div>
+      <div>
+        <a :href="github" target="_blank" style="color:#1AB6FF">
+          <i class="iconfont icongithub"></i>
+        </a>
+      </div>
+      <div>
+        <a :href="csdn" target="_blank" style="color:red">
+          <i class="iconfont iconcsdn"></i>
+        </a>
+      </div>
     </div>
   </div>
 </template>
@@ -16,37 +35,23 @@
   },
   data() {
     return{
-      socials: [
-          {
-            color:"#1AB6FF ",
-            href:"http://wpa.qq.com/msgrd?v=3&uin=1224971566&site=qq&menu=yes",
-            icon:"iconqq",
-            id:1,
-            title:"QQ"
-          },
-          {
-            color:"#d81e06",
-            href:"https://gitee.com/fengziy",
-            icon:"icongitee",
-            id:2,
-            title:"Gitee"
-          },
-          {
-            color:"",
-            href:"https://github.com/fengziye",
-            icon:"icongithub",
-            id:3,
-            title:"GitHub"
-          },
-          {
-            color:"red",
-            href:"https://blog.csdn.net/feng_zi_ye",
-            icon:"iconcsdn",
-            id:4,
-            title:"CSDN"
-          }
-        ]
     }
+  },
+  computed: {
+    qq() {
+      return this.$store.state.app.webConfig.qq
+    },
+    github() {
+      return this.$store.state.app.webConfig.github
+    },
+    gitee() {
+      return this.$store.state.app.webConfig.gitee
+    },
+    csdn() {
+      return this.$store.state.app.webConfig.csdn
+    }
+  },
+  methods: {
   }
 }
 </script>
