@@ -21,7 +21,7 @@
             </h1>
             <!-- 时间 热度 -->
             <div class="p-time">
-                <i class="iconfont iconmeditor-time"></i>{{ post.createTime }}<i v-if="post.clickCount > 1000" class="iconfont iconfire" style="margin-left: 5px;color: #ff6d6d;"></i>
+                <i class="iconfont icon-shijian00"></i>{{ post.createTime }}<i v-if="post.clickCount > 1000" class="iconfont icon-huo" style="margin-left: 5px;color: #ff6d6d;"></i>
             </div>
             <!-- 简介 -->
             <p class="summary">{{post.summary}}</p>
@@ -31,26 +31,26 @@
                 <el-row :gutter="20">
                     <el-col :span="12" style="text-align: left;">
                         <router-link :to="`/article/${post.id}`">
-                            <i class="iconfont iconcategory" style="font-size: 25px;"></i>
+                            <i class="iconfont icon-leimupinleifenleileibie" style="font-size: 25px;"></i>
                             {{ post.sort.sortTitle }}
                         </router-link>
                     </el-col>
                     <el-col :span="12" style="text-align: right;">
-                    <router-link :to="`/article/${post.id}`"><i class="iconfont iconfish-li" style="font-size: 25px;"></i></router-link>
+                    <router-link :to="`/article/${post.id}`"><i class="iconfont icon-gengduo1" style="font-size: 25px;"></i></router-link>
                     </el-col>
                 </el-row>
                 </div>
                 <div class="info-meta">
                     <div>
                         <span>
-                            <i class="iconfont iconcomment"></i>
+                            <i class="iconfont icon-xiaobiao-"></i>
                             {{post.user.userName}}
                         </span>
                     </div>
                     <!-- 评论数 -->
                     <div class="comnum">
                         <span>
-                            <i class="iconfont iconcomment"></i>
+                            <i class="iconfont icon-pinglun"></i>
                             {{post.commentCount}} 条评论
                         </span>
                     </div>
@@ -59,7 +59,7 @@
                     
                     <!-- 点击数 -->
                     <div class="views">
-                        <span><i class="iconfont iconeyes"></i>{{post.clickCount}} 热度</span>
+                        <span><i class="iconfont icon-yanjing"></i>{{post.clickCount}} 热度</span>
                     </div>
                 </div>
             </footer>
