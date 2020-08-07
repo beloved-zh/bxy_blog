@@ -28,7 +28,7 @@ public class QiNiuUtil {
     private static String accessKey = "ZM1tafYFWffVVe-VeWKXuU6kAa5hFZNEZzcEsk-Q";
     private static String secretKey = "BHvxK6XAKlZ4M5x10DtWJHMdxprvAiAiQYqjMdkB";
     private static String bucket = "bxyzh";
-    private static String prefix = "http://qd4zqd4qv.bkt.clouddn.com";
+    private static String prefix = "http://bxyimage.beloved.ink";
 
     /**
      * 通过文件来传递数据
