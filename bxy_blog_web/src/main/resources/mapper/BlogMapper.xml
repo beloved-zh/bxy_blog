@@ -20,6 +20,7 @@
         <result property="startComment" column="start_comment"></result>
         <result property="createTime" column="create_time"></result>
         <result property="updateTime" column="update_time"></result>
+        <result property="commentCount" column="commentCount"></result>
         <collection property="user" ofType="User">
             <result property="userName" column="user_name" />
             <result property="id" column="userId" />
@@ -35,26 +36,41 @@
     </resultMap>
 
     <select id="getBlogByLevel" resultMap="blogMap">
-        select b.*,u.user_name,u.id 'userId',s.sort_title,s.id 'sid',t.tag_title,t.id 'tid'
-        from bxy_blog.blog b,bxy_blog.user u,bxy_blog.sort s,bxy_blog.tags t,bxy_blog.blog_tag bt
-        where b.user_id = u.id and b.sort_id = s.id and b.id = bt.blog_id and bt.tag_id = t.id
-        and b.blog_level = #{level} and b.blog_status = 1 and b.is_top = 0
-        ORDER BY create_time DESC
+        select bxy.*,count(d.id) 'commentCount'
+        from
+             (select b.*,u.user_name,u.id 'userId',s.sort_title,s.id 'sid',t.tag_title,t.id 'tid'
+                from bxy_blog.blog b,bxy_blog.user u,bxy_blog.sort s,bxy_blog.tags t,bxy_blog.blog_tag bt
+                where b.user_id = u.id and b.sort_id = s.id and b.id = bt.blog_id and bt.tag_id = t.id
+                and b.blog_level = #{level} and b.blog_status = 1 and b.is_top = 0
+                ORDER BY create_time DESC) bxy
+        left join bxy_blog.discuss d
+        on bxy.id = d.blog_id
+        group by bxy.id
     </select>
 
     <select id="getBlogByLevelAndPage" resultMap="blogMap">
-        select b.*,u.user_name,u.id 'userId',s.sort_title,s.id 'sid',t.tag_title,t.id 'tid'
-        from bxy_blog.blog b,bxy_blog.user u,bxy_blog.sort s,bxy_blog.tags t,bxy_blog.blog_tag bt
-        where b.user_id = u.id and b.sort_id = s.id and b.id = bt.blog_id and bt.tag_id = t.id
-        and b.blog_level = #{level} and b.blog_status = 1 and b.is_top = 0
-        ORDER BY create_time DESC
+        select bxy.*,count(d.id) 'commentCount'
+        from
+             (select b.*,u.user_name,u.id 'userId',s.sort_title,s.id 'sid',t.tag_title,t.id 'tid'
+                from bxy_blog.blog b,bxy_blog.user u,bxy_blog.sort s,bxy_blog.tags t,bxy_blog.blog_tag bt
+                where b.user_id = u.id and b.sort_id = s.id and b.id = bt.blog_id and bt.tag_id = t.id
+                and b.blog_level = #{level} and b.blog_status = 1 and b.is_top = 0
+                ORDER BY create_time DESC) bxy
+        left join bxy_blog.discuss d
+        on bxy.id = d.blog_id
+        group by bxy.id
     </select>
 
     <select id="getBlogByTop" resultMap="blogMap">
-        select b.*,u.user_name,u.id 'userId',s.sort_title,s.id 'sid',t.tag_title,t.id 'tid'
-        from bxy_blog.blog b,bxy_blog.user u,bxy_blog.sort s,bxy_blog.tags t,bxy_blog.blog_tag bt
-        where b.user_id = u.id and b.sort_id = s.id and b.id = bt.blog_id and bt.tag_id = t.id
-        and b.blog_status = 1 and b.is_top = 1
-        ORDER BY create_time DESC
+        select bxy.*,count(d.id) 'commentCount'
+        from
+             (select b.*,u.user_name,u.id 'userId',s.sort_title,s.id 'sid',t.tag_title,t.id 'tid'
+                from bxy_blog.blog b,bxy_blog.user u,bxy_blog.sort s,bxy_blog.tags t,bxy_blog.blog_tag bt
+                where b.user_id = u.id and b.sort_id = s.id and b.id = bt.blog_id and bt.tag_id = t.id
+                and b.blog_status = 1 and b.is_top = 1
+                ORDER BY create_time DESC) bxy
+        left join bxy_blog.discuss d
+        on bxy.id = d.blog_id
+        group by bxy.id
     </select>
 </mapper>

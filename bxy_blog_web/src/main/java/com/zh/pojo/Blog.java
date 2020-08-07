@@ -94,4 +94,8 @@ public class Blog implements Serializable {
 
     @TableField(exist = false)
     private Sort sort;
+
+    // 评论数
+    @TableField(exist = false)
+    private Integer commentCount;
 }

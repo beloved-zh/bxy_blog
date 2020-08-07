@@ -51,7 +51,7 @@
                     <div class="comnum">
                         <span>
                             <i class="iconfont iconcomment"></i>
-                            99 条评论
+                            {{post.commentCount}} 条评论
                         </span>
                     </div>
                     <br>

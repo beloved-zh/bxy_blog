@@ -14,7 +14,7 @@
       </div>
       <div>
         <a :href="github" target="_blank" style="color:#1AB6FF">
-          <i class="iconfont icongithub"></i>
+          <i class="iconfont icongithub1"></i>
         </a>
       </div>
       <div>
