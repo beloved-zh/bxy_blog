@@ -11,7 +11,7 @@
  Target Server Version : 50529
  File Encoding         : 65001
 
- Date: 06/08/2020 18:13:43
+ Date: 07/08/2020 15:47:19
 */
 
 SET NAMES utf8mb4;
@@ -34,7 +34,7 @@ CREATE TABLE `blog`  (
   `is_top` tinyint(1) NULL DEFAULT NULL COMMENT '是否置顶 0：否 1：是',
   `is_original` tinyint(1) NULL DEFAULT 1 COMMENT '是否原创 0：否 1：是',
   `articles_part` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '转载地址',
-  `blog_level` int(11) NULL DEFAULT 0 COMMENT '推荐等级 0默认',
+  `blog_level` int(11) NOT NULL DEFAULT 0 COMMENT '推荐等级 0默认',
   `blog_status` tinyint(1) NULL DEFAULT 0 COMMENT '状态 0：未发布  1：已发布',
   `start_comment` tinyint(1) NULL DEFAULT 1 COMMENT '是否开启评论 0：否 1是',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
@@ -54,7 +54,7 @@ INSERT INTO `blog` VALUES ('c16c7b10ac140e4113d5c9b8b1ad6500', 'POIAndEasyExcel'
 INSERT INTO `blog` VALUES ('c4613f1ab403833dd40fa088a3eb3c84', '测试', '测试', 'http://qd4zqd4qv.bkt.clouddn.com/750b8be4fdf4450cb9cf00f049904011.png', '额度是多少', '<p data-v-md-line=\"1\">额度是多少</p>\n', '0da62079cc0a22f35572b99f52b8239b', 5424, '4020a85e0eaf456495b546760ef67b68', 0, 1, '', 0, 1, 1, '2020-07-31 14:44:28', '2020-08-06 18:06:43');
 INSERT INTO `blog` VALUES ('d847dbe13e2ecf33781a7cf829ca8875', '我是置顶文章', '置顶测试', 'http://qd4zqd4qv.bkt.clouddn.com/f72b5d0ea5c74678bfc51cb53125df31.png', '飒飒飒飒撒', '<p data-v-md-line=\"1\">飒飒飒飒撒</p>\n', '83f06d13ef3169fca436ef18161c4617', 0, '4020a85e0eaf456495b546760ef67b68', 1, 1, '', 0, 1, 1, '2020-08-06 18:04:14', '2020-08-06 18:04:14');
 INSERT INTO `blog` VALUES ('fa23760f5ddc1fe49ff1119efc9f219d', '我是测试文章2', '测试文章', 'http://qd4zqd4qv.bkt.clouddn.com/779d7ceed3e7493290a079e9742b9591.jpg', ':smiley::unamused::monkey_face::heart::grinning:', '<p data-v-md-line=\"1\">😃😒🐵❤️😀</p>\n', '22538ca75f1ae34402a0b76fe73e603b', 100, '4020a85e0eaf456495b546760ef67b68', 0, 1, '', 2, 1, 1, '2020-07-24 13:37:07', '2020-08-06 17:42:57');
-INSERT INTO `blog` VALUES ('fb3910bad4edeb275235d87fe3cf3e3e', '测试数据', '我是测试数据', 'http://qd4zqd4qv.bkt.clouddn.com/bc5998c02f334c16bd1c8a4b9e23856e.jpg', '啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦', '<p data-v-md-line=\"1\">啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦</p>\n', '0da62079cc0a22f35572b99f52b8239b', 572, '4020a85e0eaf456495b546760ef67b68', 0, 1, '', 0, 1, 1, '2020-08-06 15:51:04', '2020-08-06 17:42:57');
+INSERT INTO `blog` VALUES ('fb3910bad4edeb275235d87fe3cf3e3e', '测试数据', '我是测试数据', 'http://qd4zqd4qv.bkt.clouddn.com/bc5998c02f334c16bd1c8a4b9e23856e.jpg', '啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦', '<p data-v-md-line=\"1\">啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦</p>\n', '0da62079cc0a22f35572b99f52b8239b', 572, '4020a85e0eaf456495b546760ef67b68', 0, 1, '', 0, 1, 1, '2020-08-06 15:51:04', '2020-08-07 14:47:20');
 
 -- ----------------------------
 -- Table structure for blog_tag
@@ -76,10 +76,10 @@ CREATE TABLE `blog_tag`  (
 -- ----------------------------
 -- Records of blog_tag
 -- ----------------------------
+INSERT INTO `blog_tag` VALUES ('0d881613f8cb7cc07c0accb727464a7c', 'fb3910bad4edeb275235d87fe3cf3e3e', '64a074d25b8c196ef5f31a690ed6412e', '2020-08-07 14:47:20', '2020-08-07 14:47:20');
 INSERT INTO `blog_tag` VALUES ('19731674f49d078f213bace1a59ebd20', 'd847dbe13e2ecf33781a7cf829ca8875', 'ecc01ccdeb4e635304690278c4b667ba', '2020-08-06 18:04:14', '2020-08-06 18:04:14');
 INSERT INTO `blog_tag` VALUES ('2', 'c16c7b10ac140e4113d5c9b8b1ad6500', '64a074d25b8c196ef5f31a690ed6412e', NULL, '2020-08-06 16:43:41');
 INSERT INTO `blog_tag` VALUES ('4', 'fa23760f5ddc1fe49ff1119efc9f219d', '64a074d25b8c196ef5f31a690ed6412e', NULL, '2020-08-06 16:43:41');
-INSERT INTO `blog_tag` VALUES ('5', 'fb3910bad4edeb275235d87fe3cf3e3e', '64a074d25b8c196ef5f31a690ed6412e', NULL, '2020-08-06 16:43:41');
 INSERT INTO `blog_tag` VALUES ('9aa0fd31c6b3cd2201e7eec49c249503', 'c4613f1ab403833dd40fa088a3eb3c84', '64a074d25b8c196ef5f31a690ed6412e', '2020-08-06 18:06:43', '2020-08-06 18:06:43');
 INSERT INTO `blog_tag` VALUES ('f4b7076965c2e90d9761c6f526f17ce3', '84f9b84ab411e00d7751ac3f893e66a8', '64a074d25b8c196ef5f31a690ed6412e', '2020-08-06 18:06:36', '2020-08-06 18:06:36');
 
@@ -93,11 +93,11 @@ CREATE TABLE `discuss`  (
   `content` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '评论内容',
   `blog_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '博客id',
   `is_first` tinyint(1) NULL DEFAULT 1 COMMENT '是否是一级评论 0：否 1是',
-  `discuss_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '回复某条评论的id',
-  `to_user_uid` varchar(32) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '回复某个用户的id',
+  `discuss_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '回复某条评论的id',
+  `to_user_uid` varchar(32) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '回复某个用户的id',
   `help_count` int(11) NULL DEFAULT 0 COMMENT '点赞数',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `user_id`(`user_id`) USING BTREE,
   INDEX `blog_id`(`blog_id`) USING BTREE,
@@ -161,7 +161,7 @@ INSERT INTO `menu` VALUES ('1c5e077581dfd9866336fce28c7a1a1c', '关于我', 'el-
 INSERT INTO `menu` VALUES ('1caff6f6ebb54ab48fe3343f3dca1d60', '接口管理', 'el-icon-orange', '/restapi', 'Layout', NULL, 5, 0, 0, '2020-07-02 18:05:18', '2020-07-25 14:40:13', '/adminRestApi', 0);
 INSERT INTO `menu` VALUES ('26eabb5c82b78983acf86a91d1aeb6e5', '博客管理', 'el-icon-edit', '/blogManage', 'Layout', NULL, 1, 0, 0, '2020-07-15 12:44:17', '2020-07-15 13:11:03', '/blog', 0);
 INSERT INTO `menu` VALUES ('2bd498c03d394d878d650cce09e864fb', '控制台', 'el-icon-s-home', '/dashboard', 'dashboard/index', '924c29df271646e49729c4f19d4e7650', 0, 1, 0, '2020-06-30 12:35:22', '2020-07-31 14:43:26', '', 1);
-INSERT INTO `menu` VALUES ('3d02caa8bff4e5fb1807ac2d4f2e3fc5', '系统图床', 'el-icon-picture', '/system', 'qiniu/system', 'e3dd24b2c4803bb33e20ffe8879ef011', 0, 0, 0, '2020-07-25 14:47:45', '2020-07-25 14:47:45', '', 0);
+INSERT INTO `menu` VALUES ('3d02caa8bff4e5fb1807ac2d4f2e3fc5', '系统图床', 'el-icon-picture', '/systemImage', 'qiniu/system', 'e3dd24b2c4803bb33e20ffe8879ef011', 0, 0, 0, '2020-07-25 14:47:45', '2020-08-07 13:35:35', '', 0);
 INSERT INTO `menu` VALUES ('42ad708a057d4b7a981563723346f612', '用户管理', 'el-icon-user', '/user', 'authority/user', '5101bf615cfe449da6daa259b59ce24d', 1, 0, 0, '2020-07-01 16:42:17', '2020-07-05 13:19:42', NULL, 0);
 INSERT INTO `menu` VALUES ('5101bf615cfe449da6daa259b59ce24d', '权限管理', 'el-icon-guide', '/authority', 'Layout', NULL, 3, 0, 0, '2020-07-01 16:38:07', '2020-07-25 14:40:24', '/role', 0);
 INSERT INTO `menu` VALUES ('703fbd76c75c487d98f1c7d0f6d9006a', 'Admin接口', 'el-icon-lightning', '/adminRestApi', 'restapi/adminRestApi', '1caff6f6ebb54ab48fe3343f3dca1d60', 0, 0, 0, '2020-07-02 18:07:06', '2020-07-05 13:19:42', NULL, 0);
@@ -211,9 +211,9 @@ INSERT INTO `menu_role` VALUES ('446d9c130f9b57c22097b17e129ac32a', 'f41ebc3fdad
 INSERT INTO `menu_role` VALUES ('44e56eccb3aedc13f0d8d0feca99f5f0', 'e3dd24b2c4803bb33e20ffe8879ef011', '7d849898e5814f1bb2dad6f49961f888', '2020-07-25 14:40:18', '2020-07-25 14:40:18');
 INSERT INTO `menu_role` VALUES ('465fbc58bf446e79920a7c1d1a1eb344', '703fbd76c75c487d98f1c7d0f6d9006a', '7d849898e5814f1bb2dad6f49961f888', '2020-07-04 19:02:15', '2020-07-04 19:02:15');
 INSERT INTO `menu_role` VALUES ('4fe32619b59a79597ae3655e91273b30', '90484ab8fd35d0541c6cba5094506db5', '7d849898e5814f1bb2dad6f49961f888', '2020-07-15 13:01:32', '2020-07-15 13:01:32');
+INSERT INTO `menu_role` VALUES ('5a798e9e6579c8bfe6b4a91849ba567a', '3d02caa8bff4e5fb1807ac2d4f2e3fc5', '7d849898e5814f1bb2dad6f49961f888', '2020-08-07 13:35:35', '2020-08-07 13:35:35');
 INSERT INTO `menu_role` VALUES ('5bec3c5bee7b6ec9f8b6adf81db2e1ca', '1c5e077581dfd9866336fce28c7a1a1c', '7d849898e5814f1bb2dad6f49961f888', '2020-08-05 14:08:17', '2020-08-05 14:08:17');
 INSERT INTO `menu_role` VALUES ('7a5daaf726b3be9adad1ff1a90eff9a0', 'ba6c98467a9c4f30bff21423ac58dea6', '7d849898e5814f1bb2dad6f49961f888', '2020-07-14 15:22:04', '2020-07-14 15:22:04');
-INSERT INTO `menu_role` VALUES ('84ad843ab11c596ae89ed7f405d1388e', '3d02caa8bff4e5fb1807ac2d4f2e3fc5', '7d849898e5814f1bb2dad6f49961f888', '2020-07-25 14:47:46', '2020-07-25 14:47:46');
 INSERT INTO `menu_role` VALUES ('8dd5f8a722dcd47ae62b2573718b4cf4', '1caff6f6ebb54ab48fe3343f3dca1d60', '7d849898e5814f1bb2dad6f49961f888', '2020-07-25 14:40:13', '2020-07-25 14:40:13');
 INSERT INTO `menu_role` VALUES ('907abc96103d45fbc09ae401e85723b7', '924c29df271646e49729c4f19d4e7650', 'aa7261e290294089af6de21ff12e3af3', '2020-07-04 18:36:20', '2020-07-04 18:36:20');
 INSERT INTO `menu_role` VALUES ('a3098852959def62742847c14cebf135', '2bd498c03d394d878d650cce09e864fb', '7d849898e5814f1bb2dad6f49961f888', '2020-07-31 14:43:26', '2020-07-31 14:43:26');
@@ -493,6 +493,7 @@ CREATE TABLE `tags`  (
 -- ----------------------------
 INSERT INTO `tags` VALUES ('64a074d25b8c196ef5f31a690ed6412e', 'JVM', 2, '2020-07-15 15:30:30', '2020-07-15 15:30:30');
 INSERT INTO `tags` VALUES ('67e33b7407eea71bb93c973b633444fe', 'JAVA', 0, '2020-07-15 15:07:03', '2020-07-15 15:07:03');
+INSERT INTO `tags` VALUES ('7404024c9055485a9613a84523a56b5f', 'speir', 4, '2020-08-07 13:52:42', '2020-08-07 13:52:42');
 INSERT INTO `tags` VALUES ('a199d20ed66ea768449eb2376aeae393', 'HTML', 1, '2020-07-15 15:30:00', '2020-07-15 15:30:00');
 INSERT INTO `tags` VALUES ('ecc01ccdeb4e635304690278c4b667ba', 'SpringBoot', 3, '2020-08-01 15:16:55', '2020-08-01 15:16:55');
 
