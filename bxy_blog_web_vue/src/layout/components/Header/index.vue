@@ -9,7 +9,8 @@
         </div>
         <!-- 导航栏 -->
         <div class="site-menus">
-            <!-- 搜索组件 -->
+            <Search />
+            搜索组件
             <div class="menu-item header-search"><header-search/></div>
             <div class="menu-item"><router-link to="/">首页</router-link></div>
             <div class="menu-item"><router-link to="/">关于我</router-link></div>
@@ -22,8 +23,16 @@
             </div>
             <div class="menu-item"><router-link to="/friend">标签</router-link></div>
             <div class="menu-item"><router-link to="/about">聊天室</router-link></div>
+            <div class="menu-item"><router-link to="/about">
+                <i class="iconfont icon-gengduo"></i>
+            </router-link></div>
+            <div class="menu-item"><router-link to="/about">
+                <i class="iconfont icon-sousuo"></i>
+            </router-link></div>
             <div class="menu-item hasChild">
-                <a href="#">登录</a>
+                <a href="#" style="">
+                    <i class="iconfont icon-user"></i>
+                </a>
                 <div class="childMenu">
                     <div class="sub-menu">登录</div>
                     <div class="sub-menu">个人中心</div>
@@ -31,14 +40,16 @@
                 </div>
             </div>
         </div>
+        
     </div>
 </template>
 
 <script>
     import HeaderSearch from './header-search'
+    import Search from './search'
     export default {
         name: "layout-header",
-        components: {HeaderSearch},
+        components: {HeaderSearch,Search},
         data() {
             return {
                 lastScrollTop: 0, // 距离顶部
@@ -73,6 +84,9 @@
 </script>
 
 <style scoped lang="less">
+    .iconfont{
+        font-size: 30px;
+    }
     #layout-header {
         position: fixed;
         top: 0;

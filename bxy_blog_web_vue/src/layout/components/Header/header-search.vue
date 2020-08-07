@@ -1,7 +1,7 @@
 <template>
     <div class="header-search">
         <!-- @click.stop阻止冒泡事件 -->
-        <i class="iconfont iconsearch" @click.stop="click"></i>
+        <i class="iconfont icon-sousuo" @click.stop="click"></i>
         <!-- 键盘事件 回车 -->
         <input ref="searchInput" :class="{'show':show}" v-model="searchValue" type="text" @click.stop="" @keyup.enter="search"/>
     </div>

@@ -83,7 +83,7 @@ export default {
       if (date === undefined) {
           return ''
       }
-      return formatDate(date, 'YYYY-MM-DD hh:mm:ss')
+      return formatDate(date, 'YYYY-MM-DD')
     } 
   }
 }
