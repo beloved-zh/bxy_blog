@@ -2,10 +2,12 @@
   <div>
     <el-carousel indicator-position="outside" height="450px">
       <el-carousel-item v-for="(item,index) in blogList" :key="index">
-        <el-image :src="item.image" fit="fill"></el-image>
-        <div class="carousel-title">
-          <span>{{item.title}}</span>
-        </div>
+        <router-link :to="`/article/${item.id}`">
+          <el-image :src="item.image" fit="fill"></el-image>
+          <div class="carousel-title">
+            <span>{{item.title}}</span>
+          </div>
+        </router-link>
       </el-carousel-item>
     </el-carousel>
   </div>

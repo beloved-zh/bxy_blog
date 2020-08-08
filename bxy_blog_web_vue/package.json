@@ -12,6 +12,7 @@
     "@kangc/v-md-editor": "^1.4.10",
     "animejs": "^3.2.0",
     "axios": "^0.19.2",
+    "comment-message-editor": "^1.0.1",
     "core-js": "^3.6.5",
     "element-ui": "^2.13.2",
     "vue": "^2.6.11",

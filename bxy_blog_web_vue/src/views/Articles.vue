@@ -1,10 +1,10 @@
 <template>
   <div class="articles">
+    <!-- 文章目录 -->
+    <template v-if="menus.length !== 0">
+        <menu-tree :menus="menus" @handleAnchorClick="handleAnchorClick"></menu-tree>
+    </template>
     <div class="site-content animate">
-      <!-- 文章目录 -->
-      <div id="article-menus">
-          <menu-tree :menus="menus" @handleAnchorClick="handleAnchorClick"></menu-tree>
-      </div>
         <!-- 正文 -->
         <main class="site-main">
             <article class="hentry">
@@ -49,7 +49,7 @@
                 </header>
                 <!-- 正文输出 -->
                 <div class="entry-content">
-                    <VMdPreview :value="blog.contentMd" @getMenus="getMenus" />
+                    <VMdPreview :value="blog.contentMd" :lineIndex="lineIndex" @getMenus="getMenus" />
                 </div>
                 <!-- 文章底部 -->
                 <footer class="post-footer">
@@ -100,8 +100,12 @@
         return{
             blogId: '',
             showDonate: false,
-            blog: {},
-            menus: []
+            blog: {
+                // user:{},
+                // sort:{}
+            },
+            menus: [],
+            lineIndex: '0'
         }
       },
       computed: {
@@ -118,27 +122,15 @@
       },
       methods: {
         handleAnchorClick(val){
-            const { editor } = this.$refs;
             const { lineIndex } = val;
 
-            const heading = editor.$el.querySelector(
-                `.v-md-editor-preview [data-v-md-line="${lineIndex}"]`
-            );
-
-            if (heading) {
-                editor.previewScrollToTarget({
-                target: heading,
-                scrollContainer: window,
-                top: 60,
-                });
-            }
+            this.lineIndex = lineIndex
         },
         getMenus(val){
             this.menus = val
         },
         clickZan(){
             this.$refs.zan.style.cssText = 'color: #d82e16;';
-            console.log(this.$refs.zan);
         },
         getBlog(){
           var params = new URLSearchParams()
@@ -206,7 +198,7 @@
             }
         }
 
-        .entry-content {}
+        // .entry-content {}
 
         footer.post-footer {
             width: 100%;

@@ -1,5 +1,9 @@
 # bxy_blog_web_vue
 
+npm install comment-message-editor
+
+消息评论
+
 ## Project setup
 ```
 npm install

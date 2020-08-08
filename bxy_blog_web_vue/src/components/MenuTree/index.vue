@@ -57,14 +57,16 @@
             line-height: 40px;
         }
         aside{
-            position: fixed;
-            top: 140px;
-            left: 50px;
-            bottom: 100px;
+            position: absolute;
+            top: 40px;
+            bottom: 10px;
             width: 100%;
             overflow-y: auto;
             ul{
                 padding: 0px 15px 15px;
+                li{
+                    width: 100%;
+                }
             }
         }
     }

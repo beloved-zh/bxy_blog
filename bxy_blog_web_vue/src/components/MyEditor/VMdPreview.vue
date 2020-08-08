@@ -42,6 +42,10 @@ export default {
     value: { // 初始值
       type: String,
       default: ''
+    },
+    lineIndex: { // 初始值
+      type: String,
+      default: '0'
     }
   },
   data() {
@@ -53,13 +57,38 @@ export default {
   watch: {
     value: function() {
       this.text = this.value
+    },
+    lineIndex: function() {
+      if(this.lineIndex === '0'){
+        return
+      }
+      this.handleAnchorClick()
     }
   },
   mounted(){
+    // 获取目录
     this.createMenus()
+    // 将目录传给父组件
     this.getMenus()
   },
   methods: {
+    handleAnchorClick() {
+      const lineIndex  = this.lineIndex;
+
+      const { editor } = this.$refs;
+
+      const heading = editor.$el.querySelector(
+        `.v-md-editor-preview [data-v-md-line="${lineIndex}"]`
+      );
+
+      if (heading) {
+        editor.scrollToTarget({
+          target: heading,
+          scrollContainer: window,
+          top: 60,
+        });
+      }
+    },
     getMenus(){
       this.$emit('getMenus', this.menus)
     },
@@ -76,7 +105,6 @@ export default {
       }
 
       const hTags = Array.from(new Set(titles.map((title) => title.tagName))).sort();
-
       this.menus = titles.map((el) => ({
         title: el.innerText,
         lineIndex: el.getAttribute('data-v-md-line'),
