@@ -20,6 +20,8 @@ public interface BlogService extends IService<Blog> {
 
     List<Blog> getBlogByTop();
 
+    Blog getBlogById(String id);
+
     IPage<Blog> getBlogByLevelAndPage(
                         Integer level,
                         Integer currentPage,

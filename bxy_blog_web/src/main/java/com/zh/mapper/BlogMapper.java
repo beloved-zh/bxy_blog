@@ -26,4 +26,6 @@ public interface BlogMapper extends BaseMapper<Blog> {
 
     // 自定分页插件 需要mybatisplus在3.0.7以上
     IPage<Blog> getBlogByLevelAndPage(Page<Blog> page,@Param("level")Integer level);
+
+    Blog getBlogById(@Param("id")String id);
 }

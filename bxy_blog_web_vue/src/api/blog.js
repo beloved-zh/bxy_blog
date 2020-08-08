@@ -22,3 +22,11 @@ export function getBlogByTop() {
     method: 'get'
   })
 }
+
+export function getBlogById(params) {
+  return request({
+    url: `/blog/getBlogById`,
+    method: 'get',
+    params
+  })
+}

@@ -9,8 +9,7 @@
         </div>
         <!-- 导航栏 -->
         <div class="site-menus">
-            <Search />
-            搜索组件
+            <!-- 搜索组件 -->
             <div class="menu-item header-search"><header-search/></div>
             <div class="menu-item"><router-link to="/">首页</router-link></div>
             <div class="menu-item"><router-link to="/">关于我</router-link></div>
@@ -46,10 +45,9 @@
 
 <script>
     import HeaderSearch from './header-search'
-    import Search from './search'
     export default {
         name: "layout-header",
-        components: {HeaderSearch,Search},
+        components: {HeaderSearch},
         data() {
             return {
                 lastScrollTop: 0, // 距离顶部

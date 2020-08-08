@@ -30,6 +30,13 @@ public class BlogController {
     @Autowired
     private BlogService blogService;
 
+    @GetMapping("/getBlogById")
+    public String getBlogById(String id){
+        Blog blog = blogService.getBlogById(id);
+
+        return ResultVO.ok(blog);
+    }
+
     @GetMapping("/getBlogByLevel")
     public String getBlogByLevel(Integer level){
 
