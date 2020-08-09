@@ -25,10 +25,10 @@
       <el-form-item class="loginCircleBut">
         <el-row>
           <el-col :span="6">
-            <el-button class="github" type="warning" style="background: #fff;" circle><i class="iconfont icon-github"></i></el-button>
+            <el-button class="github" type="warning" circle><i class="iconfont icon-github"></i></el-button>
           </el-col>
           <el-col :span="6">
-            <el-button class="gitee" type="warning" circle><i class="iconfont icon-gitee"></i></el-button>
+            <el-button class="gitee" @click="goAuth('gitee')" type="warning" circle><i class="iconfont icon-gitee"></i></el-button>
           </el-col>
           <el-col :span="6">
             <el-button class="qq" type="warning" circle><i class="iconfont icon-qq"></i></el-button>
@@ -48,6 +48,7 @@
 </template>
 
 <script>
+import {login} from "@/api/user";
 export default {
   props: {
     dialogVisible: {
@@ -73,6 +74,14 @@ export default {
     }
   },
   methods: {
+    goAuth(source){
+      var params = new URLSearchParams();
+      params.append("source", source);
+      login(params).then(response => {
+        console.log(response.data);
+        window.location.href = response.data.url
+      })
+    }
   }
 }
 </script>

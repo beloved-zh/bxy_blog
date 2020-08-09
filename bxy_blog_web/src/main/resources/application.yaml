@@ -1,3 +1,18 @@
 spring:
   profiles:
     active: dev
+
+# 第三方登录
+justAuth:
+  clientId:
+    gitee: 3b7e01dd6c8cb22d4834afbeb8058bd4b3db49f3994f6185c033e91a44638a81
+    github: xxxxxxxxxxx
+    qq: XXXXXXXXXXXXXXX
+  clientSecret:
+    gitee: a6aa06c7bc8fa1bb3fec3e479267a3947378c4b57cc1d5dcfe9f0015a9862c7f
+    github: xxxxxxxxxxxxxxxxxx
+    qq: XXXXXXXXXXXXXXXXXX
+  redirectUri:
+    gitee: http://localhost:8080/oauth/callback/gitee
+    github: xxxxxxxxxxx
+    qq: xxxxxxxxxxxx
