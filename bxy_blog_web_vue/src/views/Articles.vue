@@ -72,13 +72,9 @@
                     <p>转载：转载请注明原文链接 - <a :href="blogUrl">{{ blog.title }}</a></p>
                 </div>
                 <!--评论-->
-                <!-- <div class="comments">
-                    <comment v-for="item in comments" :key="item.comment.id" :comment="item.comment">
-                        <template v-if="item.reply.length">
-                            <comment v-for="reply in item.reply" :key="reply.id" :comment="reply"></comment>
-                        </template>
-                    </comment>
-                </div> -->
+                <div class="comments">
+                    <comment/>
+                </div>
             </article>
         </main>
     </div>
@@ -89,12 +85,14 @@
   import { getBlogById } from '@/api/blog'
   import VMdPreview from '@/components/MyEditor/VMdPreview'
   import MenuTree from '@/components/MenuTree'
+  import Comment from '@/components/Comment'
   import { formatDate } from '@/utils/webUtils'
   export default {
       name: 'articles',
       components: {
         VMdPreview,
-        MenuTree
+        MenuTree,
+        Comment
       },
       data(){
         return{
@@ -105,7 +103,9 @@
                 // sort:{}
             },
             menus: [],
-            lineIndex: '0'
+            lineIndex: '0',
+            comments: [
+            ]
         }
       },
       computed: {

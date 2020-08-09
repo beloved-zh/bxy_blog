@@ -22,38 +22,42 @@
             </div>
             <div class="menu-item"><router-link to="/friend">标签</router-link></div>
             <div class="menu-item"><router-link to="/about">聊天室</router-link></div>
-            <div class="menu-item"><router-link to="/about">
-                <i class="iconfont icon-gengduo"></i>
-            </router-link></div>
-            <div class="menu-item"><router-link to="/about">
-                <i class="iconfont icon-sousuo"></i>
-            </router-link></div>
             <div class="menu-item hasChild">
-                <a href="#" style="">
-                    <i class="iconfont icon-user"></i>
-                </a>
+                <!-- 用户头像 -->
+                <img :src="userPhoto" style="height: 40px;width: 40px;border-radius: 50%;" />
                 <div class="childMenu">
-                    <div class="sub-menu">登录</div>
-                    <div class="sub-menu">个人中心</div>
-                    <div class="sub-menu">退出登录</div>
+                    <div class="sub-menu" v-if="!isLogin" @click="dialogVisible = true">登录</div>
+                    <div class="sub-menu" v-if="isLogin">个人中心</div>
+                    <div class="sub-menu" v-if="isLogin">退出登录</div>
                 </div>
             </div>
         </div>
-        
+        <!-- 登录 -->
+        <template>
+            <Login :dialogVisible="dialogVisible" @close="close" />
+        </template>
     </div>
 </template>
 
 <script>
+    import Login from '@/components/Login'
     import HeaderSearch from './header-search'
     export default {
         name: "layout-header",
-        components: {HeaderSearch},
+        components: {HeaderSearch,Login},
         data() {
             return {
                 lastScrollTop: 0, // 距离顶部
                 fixed: false, // 是否固定 用户鼠标滚轮向上，显示导航栏
                 hidden: false, // 是否显示
-                category: []
+                category: [],
+                isLogin: this.$store.state.user.isLogin,
+                dialogVisible: false
+            }
+        },
+        computed: {
+            userPhoto() {
+                return this.$store.getters.getUserPhoto
             }
         },
         mounted(){
@@ -63,6 +67,9 @@
             window.removeEventListener("scroll", this.watchScroll)
         },
         methods: {
+            close(val) {
+                this.dialogVisible = val
+            },
             // 导航栏
             watchScroll() {
                 let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
@@ -88,7 +95,7 @@
     #layout-header {
         position: fixed;
         top: 0;
-        z-index: 9;
+        z-index: 10000;
         width: 100%;
         height: 80px;
         padding: 0 80px;

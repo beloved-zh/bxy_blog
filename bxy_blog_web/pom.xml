@@ -19,6 +19,14 @@
     </properties>
 
     <dependencies>
+        <!--第三方登录-->
+        <!--https://justauth.wiki/#/quickstart/how-to-use-->
+        <dependency>
+            <groupId>me.zhyd.oauth</groupId>
+            <artifactId>JustAuth</artifactId>
+            <version>1.15.6</version>
+        </dependency>
+
         <!--七牛云-->
         <dependency>
             <groupId>com.qiniu</groupId>
