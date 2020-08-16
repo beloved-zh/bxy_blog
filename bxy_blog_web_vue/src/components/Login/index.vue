@@ -5,17 +5,17 @@
     width="30%"
     :center="true"
   >
-    <el-form :model="form">
-      <el-form-item label="用户名">
+    <el-form :model="form" :ref="form" :rules="rules" >
+      <el-form-item label="用户名" prop="username">
         <el-input v-model="form.username"></el-input>
       </el-form-item>
-      <el-form-item label="密码">
-        <el-input v-model="form.username"></el-input>
+      <el-form-item label="密码" prop="password">
+        <el-input v-model="form.password"></el-input>
       </el-form-item>
       <el-form-item style="text-align: center;">
         <el-row>
           <el-col :span="12">
-            <el-button class="loginBut" type="primary">登录</el-button>
+            <el-button class="loginBut" type="primary" @click="handleLogin(form)">登录</el-button>
           </el-col>
           <el-col :span="12">
             <el-button class="logonBut">注册</el-button>
@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import {login} from "@/api/user";
+// import {login} from "@/api/user";
 export default {
   props: {
     dialogVisible: {
@@ -60,8 +60,16 @@ export default {
     return{
       isShow : this.dialogVisible,
       form: {
-        username: '',
-
+        username: 'admin',
+        password: '123456'
+      },
+      rules: {
+        username: [
+          { required: true, message: '请输入用户名', trigger: 'blur' }
+        ],
+        password: [
+          { required: true, message: '请输入密码', trigger: 'blur' }
+        ]
       }
     }
   },
@@ -74,13 +82,27 @@ export default {
     }
   },
   methods: {
+    handleLogin(form) {
+      this.$refs[form].validate((valid) => {
+        // 校验规则
+        if (valid) {
+          this.$store.dispatch('login', this.form).then(() =>{
+            this.$store.dispatch('getInfo').then(() =>{
+              this.$emit('close', false)
+            })
+          })
+        } else {
+          return false
+        }
+      })
+    },
     goAuth(source){
       var params = new URLSearchParams();
       params.append("source", source);
-      login(params).then(response => {
-        console.log(response.data);
-        window.location.href = response.data.url
-      })
+      // login(params).then(response => {
+      //   console.log(response.data);
+      //   window.location.href = response.data.url
+      // })
     }
   }
 }

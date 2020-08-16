@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <iframe id="myIframe" src="adminSwaggerUrl" width="100%" height="750px;" />
+    <iframe id="myIframe" :src="adminSwaggerUrl" width="100%" height="750px;" />
   </div>
 </template>
 

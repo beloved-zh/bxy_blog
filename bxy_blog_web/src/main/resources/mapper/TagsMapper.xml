@@ -2,4 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zh.mapper.TagsMapper">
 
+    <select id="findByBlogId" resultType="tags">
+        select t.*
+        from bxy_blog.tags t,bxy_blog.blog_tag bt
+        where t.id = bt.tag_id and bt.blog_id = #{blogId}
+    </select>
+
 </mapper>

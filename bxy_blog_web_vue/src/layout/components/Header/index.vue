@@ -28,7 +28,7 @@
                 <div class="childMenu">
                     <div class="sub-menu" v-if="!isLogin" @click="dialogVisible = true">登录</div>
                     <div class="sub-menu" v-if="isLogin">个人中心</div>
-                    <div class="sub-menu" v-if="isLogin">退出登录</div>
+                    <div class="sub-menu" v-if="isLogin" @click="logout()">退出登录</div>
                 </div>
             </div>
         </div>
@@ -51,13 +51,16 @@
                 fixed: false, // 是否固定 用户鼠标滚轮向上，显示导航栏
                 hidden: false, // 是否显示
                 category: [],
-                isLogin: this.$store.state.user.isLogin,
+                // isLogin: this.$store.getters.isLogin,
                 dialogVisible: false
             }
         },
         computed: {
+            isLogin() {
+                return this.$store.getters.isLogin
+            },
             userPhoto() {
-                return this.$store.getters.getUserPhoto
+                return this.$store.getters.getUserAvatar
             }
         },
         mounted(){
@@ -69,6 +72,9 @@
         methods: {
             close(val) {
                 this.dialogVisible = val
+            },
+            logout(){
+                this.$store.dispatch('logout')
             },
             // 导航栏
             watchScroll() {

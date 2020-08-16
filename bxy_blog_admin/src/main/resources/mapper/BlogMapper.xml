@@ -31,15 +31,20 @@
             <result property="id" column="sid" />
             <result property="sortTitle" column="sort_title" />
         </collection>
+        <collection property="tags" ofType="Tags">
+            <id property="id" column="tid"/>
+            <result property="tagTitle" column="tag_title"/>
+        </collection>
     </resultMap>
 
     <select id="getBlog" resultMap="blogAndUser">
-        select b.*,u.user_name,u.email,u.source,u.avatar,u.is_lock,s.id sid,s.sort_title
+        select b.*,u.user_name,u.email,u.source,u.avatar,u.is_lock,s.id sid,s.sort_title,t.id tid,t.tag_title
         from bxy_blog.blog b,bxy_blog.user u,bxy_blog.sort s,
              bxy_blog.tags t,bxy_blog.blog_tag bt
         ${ew.customSqlSegment}
         and t.id = bt.tag_id and bt.blog_id = b.id
         and b.user_id = u.id and b.sort_id = s.id
+        group by b.id
     </select>
 
     <select id="getBlogCountByLevel" resultType="map">

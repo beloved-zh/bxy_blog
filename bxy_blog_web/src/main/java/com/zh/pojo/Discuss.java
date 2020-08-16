@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
+import java.util.List;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -63,4 +65,12 @@ public class Discuss implements Serializable {
     private Date updateTime;
 
 
+    @TableField(exist = false)
+    private User user;
+
+    @TableField(exist = false)
+    private User toUser;
+
+    @TableField(exist = false)
+    private List<Discuss> children;
 }

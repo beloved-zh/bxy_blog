@@ -20,7 +20,7 @@ public class JwtTokenUtil {
     private static final String SECRET_KEY = "bxy_blog_beloved";
 
     // 过期时间 毫秒,设置默认1周的时间过期
-    public static final int EXPIRATION_TIME = 60 * 60 *24;
+    public static final int EXPIRATION_TIME = 60 * 60 * 24;
 
     // token头部
     public static final String HEAD = "Authorization";

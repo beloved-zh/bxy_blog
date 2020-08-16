@@ -2,4 +2,44 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zh.mapper.DiscussMapper">
 
+    <resultMap id="discussMap" type="discuss">
+        <result property="id" column="id"></result>
+        <result property="userId" column="user_id"></result>
+        <result property="content" column="content"></result>
+        <result property="blogId" column="blog_id"></result>
+        <result property="isFirst" column="is_first"></result>
+        <result property="discussId" column="discuss_id"></result>
+        <result property="toUserUid" column="to_user_uid"></result>
+        <result property="helpCount" column="help_count"></result>
+        <result property="createTime" column="create_time"></result>
+        <result property="updateTime" column="update_time"></result>
+        <collection property="user" ofType="User">
+            <result property="userName" column="user_name" />
+            <result property="id" column="uid" />
+            <result property="avatar" column="avatar" />
+        </collection>
+        <collection property="toUser" ofType="User">
+            <result property="userName" column="to_user_name" />
+            <result property="id" column="to_uid" />
+            <result property="avatar" column="to_avatar" />
+        </collection>
+    </resultMap>
+
+    <select id="getDiscussFather" resultMap="discussMap">
+        select d.*,u.id uid,u.user_name,u.avatar
+        from bxy_blog.discuss d,bxy_blog.user u
+        where d.blog_id = #{blogId} and d.is_first = 1
+        and d.user_id = u.id and d.discuss_id is null
+        and d.to_user_uid is null
+        order by d.create_time desc
+    </select>
+
+    <select id="getDiscussSon" resultMap="discussMap">
+        select d.*,u.id uid,u.user_name,u.avatar,u2.id to_uid,u2.user_name to_user_name,u2.avatar to_avatar
+        from bxy_blog.discuss d,bxy_blog.user u,bxy_blog.user u2
+        where d.discuss_id = #{id} and d.is_first = 0
+        and d.user_id = u.id and to_user_uid = u2.id
+        order by d.create_time desc
+    </select>
+
 </mapper>

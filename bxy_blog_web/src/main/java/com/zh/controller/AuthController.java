@@ -51,6 +51,13 @@ public class AuthController {
     @Value(value = "${justAuth.redirectUri.qq}")
     private String qqRedirectUri;
 
+    /**
+     * 获取认证url
+     * @param source
+     * @param response
+     * @return
+     * @throws IOException
+     */
     @RequestMapping("/render")
     public String renderAuth(String source, HttpServletResponse response) throws IOException {
         AuthRequest authRequest = getAuthRequest(source);
@@ -61,6 +68,14 @@ public class AuthController {
         return ResultVO.ok(map);
     }
 
+    /**
+     * 登录
+     * @param source
+     * @param callback
+     * @param request
+     * @param httpServletResponse
+     * @throws IOException
+     */
     @RequestMapping("/callback/{source}")
     public void login(@PathVariable("source") String source, AuthCallback callback, HttpServletRequest request, HttpServletResponse httpServletResponse) throws IOException {
 

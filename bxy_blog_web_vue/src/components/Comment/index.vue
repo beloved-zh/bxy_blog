@@ -5,9 +5,11 @@
       :placeholder="placeholder"
       :commentWidth="commentWidth"
       :commentList="commentList"
-      :authorId="888888"
-      label="博主"
+      :authorId="authorId"
+      :label="label"
       :commentNum="commentNum"
+      @doSend="doSend"
+      @doChidSend="doChidSend"
     >
     </comment>
     <div class="tips" v-if="commentNum === 0">
@@ -19,6 +21,8 @@
 <script>
 // https://github.com/wanglinyong/hbl-comment
 import comment from 'hbl-comment'
+import { addDiscussFather, getDiscuss, addDiscussSon } from '@/api/discuss'
+import { formatDate } from '@/utils/webUtils'
 export default {
   name: 'MyComment',
   components:{
@@ -37,70 +41,139 @@ export default {
       type: String,
       default: '作者'
     },
+    blogId: {
+      type: String,
+      default: ''
+    },
+    authorId: {
+      type: String,
+      default: ''
+    },
     commentNum: {
       type: Number,
       default: 0
-    },
-    commentList: {
-      type: Array,
-      default: () => {
-        return [
-          // {
-          //   id: 1,
-          //   commentUser: {
-          //     id: 1,
-          //     nickName: 'Beloved',
-          //     avatar: 'http://bxyimage.beloved.ink/6029b17ebc0b410e902ced8d560339a8'
-          //   },
-          //   targetUser: {
-          //   },
-          //   content: '测试评论内容',
-          //   createDate: '2020-02-02',
-          //   childrenList: [
-          //     {
-          //       id: 2,
-          //       commentUser: {
-          //         id: 2,
-          //         nickName: '张三',
-          //         avatar: 'http://bxyimage.beloved.ink/6029b17ebc0b410e902ced8d560339a8'
-          //       },
-          //       targetUser: {
-          //         id: 1,
-          //         nickName: 'Beloved',
-          //         avatar: 'http://bxyimage.beloved.ink/6029b17ebc0b410e902ced8d560339a8'
-          //       },
-          //       content: '张三测试评论内容',
-          //       createDate: '2020-02-02',
-          //       childrenList: [
-          //       ]
-          //     },
-          //     {
-          //       id: 3,
-          //       commentUser: {
-          //         id: 3,
-          //         nickName: '李四',
-          //         avatar: 'http://bxyimage.beloved.ink/6029b17ebc0b410e902ced8d560339a8'
-          //       },
-          //       targetUser: {
-          //         id: 1,
-          //         nickName: 'Beloved',
-          //         avatar: 'http://bxyimage.beloved.ink/6029b17ebc0b410e902ced8d560339a8'
-          //       },
-          //       content: '李四测试评论内容',
-          //       createDate: '2020-02-02',
-          //       childrenList: [
-          //       ]
-          //     }
-          //   ]
-          // }
-        ]
-      }
     }
-    
+  },
+  data() {
+    return{
+      commentList: [
+        {
+          id: 'sasasa1',
+          commentUser: {
+            id: '1samsmmds',
+            nickName: '张三',
+            avatar: 'http://image.beloved.ink/Typora/23bdeddbf64660372b1664d6fda0c93.jpg'
+          },
+          content: '测试数据',
+          createDate: '2020-02-02',
+          childrenList: []
+        }
+      ]
+    }
   },
   computed: {
     userPhoto() {
-        return this.$store.getters.getUserPhoto
+      return this.$store.getters.getUserAvatar
+    },
+    userInfo() {
+      return this.$store.getters.userInfo
+    },
+    isLogin() {
+      return this.$store.getters.isLogin
+    }
+  },
+  created() {
+    this.getDiscuss()
+  },
+  methods: {
+    initCommentList(data) {
+      return data.map(x => {
+        const comment = {
+          id: x.id,
+          commentUser: {
+            id: x.user.id,
+            nickName: x.user.username,
+            avatar: x.user.avatar
+          },
+          targetUser: {},
+          content: x.content,
+          createDate: this.dateFormat(x.createTime),
+          childrenList: []
+        }
+        if (x.toUser) {
+          comment.targetUser = {
+            id: x.toUser.id,
+            nickName: x.toUser.username,
+            avatar: x.toUser.avatar
+          }
+        }
+        if (x.children) {
+          comment.childrenList = this.initCommentList(x.children)
+        } else {
+          delete comment.children
+        }
+        return comment
+      })
+    },
+    getDiscuss(){
+      var params = new URLSearchParams()
+      params.append('blogId', this.blogId)
+      getDiscuss(params).then(response => {
+        const { data } = response
+        this.commentList = this.initCommentList(data)
+      })
+    },
+    doSend(val){
+      if(this.isLogin) {
+        var params = new URLSearchParams()
+        params.append('userId', this.userInfo.id)
+        params.append('content', val)
+        params.append('blogId', this.blogId)
+        params.append('isFirst', true)
+        addDiscussFather(params).then(response => {
+          this.$message({
+            message: response.data,
+            type: 'success'
+          })
+          this.getDiscuss()
+        })
+      }else{
+        this.$notify.error({
+          title: '警告',
+          message: '登录后才可以评论哦~'
+        });
+      }
+    },
+    doChidSend(val,toUserUid,discussId){
+      if(this.isLogin) {
+        var params = new URLSearchParams()
+        params.append('userId', this.userInfo.id)
+        params.append('content', val)
+        params.append('blogId', this.blogId)
+        params.append('isFirst', false)
+        params.append('toUserUid', toUserUid)
+        params.append('discussId', discussId)
+        addDiscussSon(params).then(response => {
+          this.$message({
+            message: response.data,
+            type: 'success'
+          })
+          this.getDiscuss()
+        })
+      }else{
+        this.$notify.error({
+          title: '警告',
+          message: '登录后才可以评论哦~'
+        });
+      }
+    },
+    // 格式化日期
+    dateFormat: function(value) {
+        var date = new Date(value)
+        if (date === undefined) {
+            return ''
+        }
+        return formatDate(date, 'YYYY-MM-DD hh:mm:ss')
     }
   }
 }

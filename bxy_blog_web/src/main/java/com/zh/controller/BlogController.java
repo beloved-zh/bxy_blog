@@ -6,7 +6,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zh.VO.ResultVO;
 import com.zh.pojo.Blog;
 import com.zh.pojo.Links;
+import com.zh.pojo.Tags;
 import com.zh.service.BlogService;
+import com.zh.service.TagsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,9 +32,15 @@ public class BlogController {
     @Autowired
     private BlogService blogService;
 
+    @Autowired
+    private TagsService tagsService;
+
     @GetMapping("/getBlogById")
     public String getBlogById(String id){
         Blog blog = blogService.getBlogById(id);
+
+        List<Tags> tags = tagsService.findByBlogId(blog.getId());
+        blog.setTags(tags);
 
         return ResultVO.ok(blog);
     }

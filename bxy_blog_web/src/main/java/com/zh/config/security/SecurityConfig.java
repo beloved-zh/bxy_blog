@@ -3,10 +3,8 @@ import com.zh.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -84,7 +82,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .authorizeRequests()//定义哪些URL需要被保护、哪些不需要被保护
-                .antMatchers("/swagger-ui.html")
+                .antMatchers("/oauth/**","/blog/**","/links/**","/web/**","/discuss/getDiscuss")
                 .permitAll()
 
                 .anyRequest()//任何请求,登录后可以访问
@@ -109,7 +107,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     CorsConfigurationSource corsConfigurationSource(){
 
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:9527","http://192.168.137.1:9527","http://3p0046245d.wicp.vip","http://localhost:9528"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:9528","http://192.168.137.1:9528","http://3p0046245d.wicp.vip","http://localhost:9528"));
         configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE"));
         configuration.applyPermitDefaultValues();
 

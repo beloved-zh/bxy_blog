@@ -73,7 +73,11 @@
                 </div>
                 <!--评论-->
                 <div class="comments">
-                    <comment/>
+                    <comment
+                    :commentNum="blog.commentCount"
+                    :authorId="blog.user.id"
+                    :blogId="blog.id"
+                    />
                 </div>
             </article>
         </main>
