@@ -93,4 +93,10 @@
         and b.sort_id = #{sortId}
     </select>
 
+    <select id="getBlogByTagId" resultMap="blogMap">
+        select b.*,u.user_name,u.id 'userId',t.tag_title,t.id 'tid'
+        from bxy_blog.blog b,bxy_blog.user u,bxy_blog.tags t,bxy_blog.blog_tag bt
+        where  b.user_id = u.id and b.id = bt.blog_id and bt.tag_id = t.id
+        and t.id = #{tagId}
+    </select>
 </mapper>

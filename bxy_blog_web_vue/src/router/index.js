@@ -4,6 +4,7 @@ import Home from '@/views/Home.vue'
 import Articles from '@/views/Articles.vue'
 import PlaceOnFile from '@/views/PlaceOnFile.vue'
 import Sort from '@/views/Sort.vue'
+import Tag from '@/views/Tag.vue'
 import store from '@/store'
 
 Vue.use(VueRouter)
@@ -63,6 +64,19 @@ import Layout from '@/layout'
         }
       ]
     },
+    {
+      path: '/tag',
+      component: Layout,
+      // redirect: '/',
+      children: [
+        {
+          path: '/',
+          component: Tag,
+          name: 'Tag',
+          meta: { title: '标签'}
+        }
+      ]
+    }
   ]
 
 const router = new VueRouter({

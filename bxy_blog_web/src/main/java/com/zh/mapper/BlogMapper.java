@@ -30,4 +30,6 @@ public interface BlogMapper extends BaseMapper<Blog> {
     Blog getBlogById(@Param("id")String id);
 
     List<Blog> getBlogBySortId(String sortId);
+
+    List<Blog> getBlogByTagId(String tagId);
 }

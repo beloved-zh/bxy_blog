@@ -38,3 +38,11 @@ export function getBlogBySortId(params) {
     params
   })
 }
+
+export function getBlogByTagId(params) {
+  return request({
+    url: `/blog/getBlogByTagId`,
+    method: 'get',
+    params
+  })
+}

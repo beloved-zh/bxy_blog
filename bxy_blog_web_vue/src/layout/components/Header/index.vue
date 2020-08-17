@@ -15,8 +15,8 @@
             <div class="menu-item"><router-link to="/">关于我</router-link></div>
             <div class="menu-item"><router-link to="/placeOnFile">归档</router-link></div>
             <div class="menu-item"><router-link to="/sort">分类</router-link></div>
-            <div class="menu-item"><router-link to="/friend">标签</router-link></div>
-            <div class="menu-item"><router-link to="/about">聊天室</router-link></div>
+            <div class="menu-item"><router-link to="/tag">标签</router-link></div>
+            <div class="menu-item"><router-link to="/">聊天室</router-link></div>
             <div class="menu-item hasChild">
                 <!-- 用户头像 -->
                 <img :src="userPhoto" style="height: 40px;width: 40px;border-radius: 50%;" />

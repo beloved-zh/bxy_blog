@@ -47,6 +47,11 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
     }
 
     @Override
+    public List<Blog> getBlogByTagId(String tagId) {
+        return blogMapper.getBlogByTagId(tagId);
+    }
+
+    @Override
     public IPage<Blog> getBlogByLevelAndPage(Integer level, Integer currentPage, Integer pageSize) {
 
         Page<Blog> page = new Page<>(currentPage,pageSize);

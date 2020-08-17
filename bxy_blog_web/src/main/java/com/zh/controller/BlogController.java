@@ -35,6 +35,14 @@ public class BlogController {
     @Autowired
     private TagsService tagsService;
 
+    @GetMapping("/getBlogByTagId")
+    public String getBlogByTagId(String tagId){
+
+        List<Blog> list = blogService.getBlogByTagId(tagId);
+
+        return ResultVO.ok(list);
+    }
+
     @GetMapping("/getBlogBySortId")
     public String getBlogBySortId(String sortId){
 
