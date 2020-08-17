@@ -99,4 +99,18 @@
         where  b.user_id = u.id and b.id = bt.blog_id and bt.tag_id = t.id
         and t.id = #{tagId}
     </select>
+
+    <select id="getOneBlogCreateTime" resultType="string">
+        select create_time
+        from blog
+        order by create_time asc
+        limit 1
+    </select>
+
+    <select id="getBlogByMonth" resultMap="blogMap">
+        select b.*,u.user_name,u.id 'userId',s.sort_title,s.id 'sid'
+        from bxy_blog.blog b,bxy_blog.user u,bxy_blog.sort s
+        where  b.user_id = u.id and b.sort_id = s.id
+        and date_format(b.create_time, '%Y-%m-01') = #{month}
+    </select>
 </mapper>

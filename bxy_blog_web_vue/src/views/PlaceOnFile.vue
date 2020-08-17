@@ -19,74 +19,40 @@
                 v-for="(activity, index) in activities"
                 :key="index"
                 color="#fff"
-                :timestamp="activity.timestamp">
-                {{activity.content}}
+                hide-timestamp
+                >
+                <span
+                  @click="changeTimestamp(activity.timestamp)"
+                  :class="[activity.timestamp === selectTimestamp ? 'sortBoxSpan sortBoxSpanSelect' : 'sortBoxSpan']"
+                >
+                  {{activity.content}}
+                </span>
               </el-timeline-item>
             </el-timeline>
           </div>
            <div class="article">
-             <el-timeline>
-              <el-timeline-item timestamp="2018/4/12" placement="top">
-                <el-card shadow="hover">
-                  <h4>更新 Github 模板</h4>
-                  <p>王小虎 提交于 2018/4/12 20:46</p>
-                </el-card>
-              </el-timeline-item>
-              <el-timeline-item timestamp="2018/4/3" placement="top">
-                <el-card shadow="hover">
-                  <h4>更新 Github 模板</h4>
-                  <p>王小虎 提交于 2018/4/3 20:46</p>
-                </el-card>
-              </el-timeline-item>
-              <el-timeline-item timestamp="2018/4/3" placement="top">
-                <el-card shadow="hover">
-                  <h4>更新 Github 模板</h4>
-                  <p>王小虎 提交于 2018/4/3 20:46</p>
-                </el-card>
-              </el-timeline-item>
-              <el-timeline-item timestamp="2018/4/3" placement="top">
-                <el-card shadow="hover">
-                  <h4>更新 Github 模板</h4>
-                  <p>王小虎 提交于 2018/4/3 20:46</p>
-                </el-card>
-              </el-timeline-item>
-              <el-timeline-item timestamp="2018/4/3" placement="top">
-                <el-card shadow="hover">
-                  <h4>更新 Github 模板</h4>
-                  <p>王小虎 提交于 2018/4/3 20:46</p>
-                </el-card>
-              </el-timeline-item>
-              <el-timeline-item timestamp="2018/4/3" placement="top">
-                <el-card shadow="hover">
-                  <h4>更新 Github 模板</h4>
-                  <p>王小虎 提交于 2018/4/3 20:46</p>
-                </el-card>
-              </el-timeline-item>
-              <el-timeline-item timestamp="2018/4/3" placement="top">
-                <el-card shadow="hover">
-                  <h4>更新 Github 模板</h4>
-                  <p>王小虎 提交于 2018/4/3 20:46</p>
-                </el-card>
-              </el-timeline-item>
-              <el-timeline-item timestamp="2018/4/3" placement="top">
-                <el-card shadow="hover">
-                  <h4>更新 Github 模板</h4>
-                  <p>王小虎 提交于 2018/4/3 20:46</p>
-                </el-card>
-              </el-timeline-item>
-              <el-timeline-item timestamp="2018/4/3" placement="top">
-                <el-card shadow="hover">
-                  <h4>更新 Github 模板</h4>
-                  <p>王小虎 提交于 2018/4/3 20:46</p>
-                </el-card>
-              </el-timeline-item>
-              <el-timeline-item timestamp="2018/4/2" placement="top">
-                <el-card shadow="hover">
-                  <h4>更新 Github 模板</h4>
-                  <p>王小虎 提交于 2018/4/2 20:46</p>
-                </el-card>
-              </el-timeline-item>
-            </el-timeline>
+             <el-timeline :reverse="reverse">
+                <el-timeline-item
+                  v-for="(item, index) in blogList"
+                  :key="index"
+                  color="#fff" 
+                  :timestamp="item.createTime" 
+                  placement="top"
+                >
+                  <el-card shadow="always">
+                    <router-link slot="header" :to="`/article/${item.id}`">
+                      <h4 class="itemTitle">{{item.title}}</h4>
+                    </router-link>
+                    <el-tag class="elTag" v-if="item.isOriginal" type="danger">原创</el-tag>
+                    <el-tag class="elTag" v-else type="info">转载</el-tag>
+
+                    <el-tag class="elTag">{{item.user.username}}</el-tag>
+
+                    <el-tag class="elTag" type="success">{{item.sort.sortTitle}}</el-tag>
+
+                  </el-card>
+                </el-timeline-item>
+              </el-timeline>
            </div>
         </el-col>
         <el-col :span="7">
@@ -117,6 +83,8 @@
   import FeatureList from '@/components/FeatureList'
   import Recommend from '@/components/Recommend'
   import Friend from '@/components/Friend'
+  import { getFirstBlogGoNowMonth, getBlogByMonth } from '@/api/blog'
+  import { formatDate } from '@/utils/webUtils'
   export default {
     components: {
       Recommend,
@@ -126,68 +94,57 @@
     data() {
       return {
         reverse: true,
-        activities: [{
-          content: '活动按期开始',
-          timestamp: '2018-04-15'
-        }, {
-          content: '通过审核',
-          timestamp: '2018-04-13'
-        }, {
-          content: '创建成功',
-          timestamp: '2018-04-11'
-        }, {
-          content: '创建成功',
-          timestamp: '2018-04-11'
-        }, {
-          content: '创建成功',
-          timestamp: '2018-04-11'
-        }, {
-          content: '创建成功',
-          timestamp: '2018-04-11'
-        }, {
-          content: '创建成功',
-          timestamp: '2018-04-11'
-        }, {
-          content: '创建成功',
-          timestamp: '2018-04-11'
-        }, {
-          content: '创建成功',
-          timestamp: '2018-04-11'
-        }, {
-          content: '创建成功',
-          timestamp: '2018-04-11'
-        }, {
-          content: '创建成功',
-          timestamp: '2018-04-11'
-        }, {
-          content: '创建成功',
-          timestamp: '2018-04-11'
-        }, {
-          content: '创建成功',
-          timestamp: '2018-04-11'
-        }, {
-          content: '创建成功',
-          timestamp: '2018-04-11'
-        }, {
-          content: '创建成功',
-          timestamp: '2018-04-11'
-        }, {
-          content: '创建成功',
-          timestamp: '2018-04-11'
-        }, {
-          content: '创建成功',
-          timestamp: '2018-04-11'
-        }, {
-          content: '创建成功',
-          timestamp: '2018-04-11'
-        }, {
-          content: '创建成功',
-          timestamp: '2018-04-11'
-        }, {
-          content: '创建成功',
-          timestamp: '2018-04-11'
-        }]
-      };
+        activities: [],
+        blogList: [],
+        selectTimestamp: ''
+      }
+    },
+    watch: {
+      'selectTimestamp'() {
+        this.getBlogList()
+      }
+    },
+    created(){
+      this.getFirstBlogGoNowMonth()
+    },
+    methods: {
+      getBlogList(){
+        var params = new URLSearchParams()
+        params.append('month', this.selectTimestamp)
+        getBlogByMonth(params).then(response => {
+          this.blogList = response.data.map(x => {
+            x.createTime = this.dateFormat(x.createTime)
+            x.updateTime = this.dateFormat(x.updateTime)
+            return x
+          })
+        })
+      },
+      changeTimestamp(val){
+        this.selectTimestamp = val
+      },
+      getFirstBlogGoNowMonth(){
+        getFirstBlogGoNowMonth().then(response => {
+          this.activities = response.data.map(x => {
+            var content = x.substring(0,7)
+            content = content.replace('-','年')
+            content = content.concat('月')
+            const item = {
+              content,
+              timestamp: x
+            }
+            return item
+          })
+          this.selectTimestamp = response.data[response.data.length-1]
+        })
+      },
+      // 格式化日期
+      dateFormat: function(value) {
+        var date = new Date(value)
+        if (date === undefined) {
+            return ''
+        }
+        return formatDate(date, 'YYYY-MM-DD hh:mm:ss')
+      }
     }
   }
 </script>
@@ -207,6 +164,7 @@
         overflow: scroll;
         overflow-x: hidden;
         overflow-y: auto;
+        padding-top: 20px;
         .radio{
           margin-bottom:20px;
         }
@@ -222,5 +180,26 @@
         width: 70%;
       }
     }
+  }
+  .sortBoxSpan {
+    cursor: pointer;
+  }
+  .sortBoxSpan:hover {
+    color: #ff6d6d;
+  }
+  .sortBoxSpanSelect {
+    color: #ff6d6d;
+  }
+  .itemTitle {
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .itemTitle:hover {
+    color: #ff6d6d;
+  }
+  .elTag {
+    margin-right: 10px;
+    cursor: pointer;
   }
 </style>

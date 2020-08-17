@@ -55,8 +55,8 @@ public class DateUtil {
         return new Date();
     }
 
-    public static String getNowTimeFormat() {
-        SimpleDateFormat formate = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
+    public static String getNowTimeFormat(String format) {
+        SimpleDateFormat formate = new SimpleDateFormat(format);
         Date date = new Date(System.currentTimeMillis());
         return formate.format(date);
     }
@@ -280,7 +280,7 @@ public class DateUtil {
         Calendar cal = Calendar.getInstance();
         cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONDAY), cal.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
         cal.set(Calendar.DAY_OF_MONTH, cal.getActualMinimum(Calendar.DAY_OF_MONTH));
-        SimpleDateFormat formate = new SimpleDateFormat("yyyy-MM-dd 23:59:59");
+        SimpleDateFormat formate = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
         return formate.format(cal.getTime());
     }
 
@@ -536,6 +536,36 @@ public class DateUtil {
         SimpleDateFormat format = new SimpleDateFormat(formatStr);
         String result = format.format(today);
         return result;
+    }
+
+    /**
+     * 获取某个时间段内所有月份
+     *
+     * @param begin
+     * @param end
+     * @return
+     */
+    public static List<String> getMonthBetweenDates(String begin, String end){
+        try {
+            ArrayList<String> result = new ArrayList<String>();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+            Calendar min = Calendar.getInstance();
+            Calendar max = Calendar.getInstance();
+            min.setTime(sdf.parse(begin));
+            min.set(min.get(Calendar.YEAR), min.get(Calendar.MONTH), 1);
+            max.setTime(sdf.parse(end));
+            max.set(max.get(Calendar.YEAR), max.get(Calendar.MONTH), 2);
+            Calendar curr = min;
+            while (curr.before(max)) {
+                result.add(sdf.format(curr.getTime()));
+                curr.add(Calendar.MONTH, 1);
+            }
+            return result;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**

@@ -32,4 +32,8 @@ public interface BlogMapper extends BaseMapper<Blog> {
     List<Blog> getBlogBySortId(String sortId);
 
     List<Blog> getBlogByTagId(String tagId);
+
+    String getOneBlogCreateTime();
+
+    List<Blog> getBlogByMonth(String month);
 }

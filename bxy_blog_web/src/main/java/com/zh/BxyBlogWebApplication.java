@@ -18,16 +18,4 @@ public class BxyBlogWebApplication {
         SpringApplication.run(BxyBlogWebApplication.class, args);
     }
 
-//    @Bean
-//    CorsConfigurationSource corsConfigurationSource(){
-//
-//        CorsConfiguration configuration = new CorsConfiguration();
-//        configuration.setAllowedOrigins(Arrays.asList("http://localhost:9528","http://localhost:9528"));
-//        configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE"));
-//        configuration.applyPermitDefaultValues();
-//
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**",configuration);
-//        return source;
-//    }
 }

@@ -9,6 +9,7 @@ import com.zh.pojo.Links;
 import com.zh.pojo.Tags;
 import com.zh.service.BlogService;
 import com.zh.service.TagsService;
+import com.zh.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +35,29 @@ public class BlogController {
 
     @Autowired
     private TagsService tagsService;
+
+    /**
+     * 第一篇博客到当前时间的月份
+     * @return
+     */
+    @GetMapping("/getFirstBlogGoNowMonth")
+    public String getFirstBlogGoNowMonth(){
+        String begin = blogService.getOneBlogCreateTime();
+
+        String end = DateUtil.getMonthStartTimeStr();
+
+        List<String> list = DateUtil.getMonthBetweenDates(begin, end);
+
+        return ResultVO.ok(list);
+    }
+
+    @GetMapping("/getBlogByMonth")
+    public String getBlogByMonth(String month){
+
+        List<Blog> list = blogService.getBlogByMonth(month);
+
+        return ResultVO.ok(list);
+    }
 
     @GetMapping("/getBlogByTagId")
     public String getBlogByTagId(String tagId){

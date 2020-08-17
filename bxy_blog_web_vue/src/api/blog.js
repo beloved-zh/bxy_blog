@@ -16,9 +16,24 @@ export function getBlogByLevelAndPage(params) {
   })
 }
 
+export function getBlogByMonth(params) {
+  return request({
+    url: `/blog/getBlogByMonth`,
+    method: 'get',
+    params
+  })
+}
+
 export function getBlogByTop() {
   return request({
     url: `/blog/getBlogByTop`,
+    method: 'get'
+  })
+}
+
+export function getFirstBlogGoNowMonth() {
+  return request({
+    url: `/blog/getFirstBlogGoNowMonth`,
     method: 'get'
   })
 }

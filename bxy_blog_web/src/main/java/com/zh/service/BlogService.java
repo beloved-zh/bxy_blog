@@ -26,6 +26,10 @@ public interface BlogService extends IService<Blog> {
 
     List<Blog> getBlogByTagId(String tagId);
 
+    String getOneBlogCreateTime();
+
+    List<Blog> getBlogByMonth(String month);
+
     IPage<Blog> getBlogByLevelAndPage(
                         Integer level,
                         Integer currentPage,
