@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '@/views/Home.vue'
 import Articles from '@/views/Articles.vue'
+import PlaceOnFile from '@/views/PlaceOnFile.vue'
+import Sort from '@/views/Sort.vue'
 import store from '@/store'
 
 Vue.use(VueRouter)
@@ -34,7 +36,33 @@ import Layout from '@/layout'
           meta: { title: '文章'}
         }
       ]
-    }
+    },
+    {
+      path: '/placeOnFile',
+      component: Layout,
+      // redirect: '/',
+      children: [
+        {
+          path: '/',
+          component: PlaceOnFile,
+          name: 'PlaceOnFile',
+          meta: { title: '归档'}
+        }
+      ]
+    },
+    {
+      path: '/sort',
+      component: Layout,
+      // redirect: '/',
+      children: [
+        {
+          path: '/',
+          component: Sort,
+          name: 'Sort',
+          meta: { title: '分类'}
+        }
+      ]
+    },
   ]
 
 const router = new VueRouter({

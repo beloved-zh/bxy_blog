@@ -22,6 +22,8 @@ public interface BlogService extends IService<Blog> {
 
     Blog getBlogById(String id);
 
+    List<Blog> getBlogBySortId(String sortId);
+
     IPage<Blog> getBlogByLevelAndPage(
                         Integer level,
                         Integer currentPage,

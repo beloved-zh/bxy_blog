@@ -28,4 +28,6 @@ public interface BlogMapper extends BaseMapper<Blog> {
     IPage<Blog> getBlogByLevelAndPage(Page<Blog> page,@Param("level")Integer level);
 
     Blog getBlogById(@Param("id")String id);
+
+    List<Blog> getBlogBySortId(String sortId);
 }

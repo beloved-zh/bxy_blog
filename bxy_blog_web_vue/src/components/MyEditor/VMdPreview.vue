@@ -118,5 +118,6 @@ export default {
 <style>
   .v-md-editor-preview{
     padding: 0px;
+    font-family: miranafont, "Hiragino Sans GB", STXihei, "Microsoft YaHei", SimSun, sans-serif;
   }
 </style>

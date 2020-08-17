@@ -13,13 +13,8 @@
             <div class="menu-item header-search"><header-search/></div>
             <div class="menu-item"><router-link to="/">首页</router-link></div>
             <div class="menu-item"><router-link to="/">关于我</router-link></div>
-            <div class="menu-item"><router-link to="/">归档</router-link></div>
-            <div class="menu-item hasChild">
-                <a href="#">分类</a>
-                <div class="childMenu" v-if="category.length">
-                    <div class="sub-menu" v-for="item in category" :key="item.title"><router-link :to="`/category/${item.title}`">{{item.title}}</router-link></div>
-                </div>
-            </div>
+            <div class="menu-item"><router-link to="/placeOnFile">归档</router-link></div>
+            <div class="menu-item"><router-link to="/sort">分类</router-link></div>
             <div class="menu-item"><router-link to="/friend">标签</router-link></div>
             <div class="menu-item"><router-link to="/about">聊天室</router-link></div>
             <div class="menu-item hasChild">
@@ -50,7 +45,6 @@
                 lastScrollTop: 0, // 距离顶部
                 fixed: false, // 是否固定 用户鼠标滚轮向上，显示导航栏
                 hidden: false, // 是否显示
-                category: [],
                 // isLogin: this.$store.getters.isLogin,
                 dialogVisible: false
             }

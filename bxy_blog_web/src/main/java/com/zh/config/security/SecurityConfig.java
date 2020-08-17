@@ -82,7 +82,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .authorizeRequests()//定义哪些URL需要被保护、哪些不需要被保护
-                .antMatchers("/oauth/**","/blog/**","/links/**","/web/**","/discuss/getDiscuss")
+                .antMatchers("/oauth/**","/blog/**","/links/**","/sort/**","/web/**","/discuss/getDiscuss")
                 .permitAll()
 
                 .anyRequest()//任何请求,登录后可以访问

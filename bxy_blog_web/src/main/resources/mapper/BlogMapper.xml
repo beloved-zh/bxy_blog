@@ -85,4 +85,12 @@
         on bxy.id = d.blog_id
         group by bxy.id
     </select>
+
+    <select id="getBlogBySortId"  resultMap="blogMap">
+        select b.*,u.user_name,u.id 'userId',s.sort_title,s.id 'sid'
+        from bxy_blog.blog b,bxy_blog.user u,bxy_blog.sort s
+        where  b.user_id = u.id and b.sort_id = s.id
+        and b.sort_id = #{sortId}
+    </select>
+
 </mapper>

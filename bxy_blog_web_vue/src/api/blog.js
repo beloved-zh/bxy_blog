@@ -30,3 +30,11 @@ export function getBlogById(params) {
     params
   })
 }
+
+export function getBlogBySortId(params) {
+  return request({
+    url: `/blog/getBlogBySortId`,
+    method: 'get',
+    params
+  })
+}

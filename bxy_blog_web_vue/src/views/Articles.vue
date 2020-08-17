@@ -67,9 +67,13 @@
                     </div>
                 </footer>
                 <!--声明-->
-                <div class="open-message">
+                <div class="open-message" v-if="blog.isOriginal">
                     <p>声明：巴学园博客|版权所有，如未注明|均为原创</p>
                     <p>转载：转载请注明原文链接 - <a :href="blogUrl">{{ blog.title }}</a></p>
+                </div>
+                <div class="open-message" v-else>
+                    <p>转载：本着开源共享、共同学习的精神，本文转载自 - <a :href="blog.articlesPart">{{ blog.articlesPart }}</a></p>
+                    <p>声明：如有侵权之处，请联系博主进行删除，谢谢~</p>
                 </div>
                 <!--评论-->
                 <div class="comments">
