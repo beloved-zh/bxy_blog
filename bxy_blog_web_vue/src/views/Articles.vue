@@ -19,7 +19,7 @@
                     <div class="breadcrumbs">
                         <div>
                           <i class="iconfont icon-xiaobiao-"></i>
-                          {{ blog.user.userName }}
+                          {{ blog.user.username }}
                         </div>
                         <div>
                           <i class="iconfont icon-leimupinleifenleileibie"></i>
@@ -107,9 +107,7 @@
                 // sort:{}
             },
             menus: [],
-            lineIndex: '0',
-            comments: [
-            ]
+            lineIndex: '0'
         }
       },
       computed: {

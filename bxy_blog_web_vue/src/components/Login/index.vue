@@ -49,6 +49,7 @@
 
 <script>
 // import {login} from "@/api/user";
+import { getToken } from '@/utils/auth'
 export default {
   props: {
     dialogVisible: {
@@ -81,7 +82,18 @@ export default {
       this.$emit('close', this.isShow)
     }
   },
+  created(){
+    this.judgeIsLogin()
+  },
   methods: {
+    judgeIsLogin(){
+      // 确定用户是否已登录
+      const hasToken = getToken()
+      
+      if(hasToken) {
+        this.$store.dispatch('getInfo')
+      }
+    },
     handleLogin(form) {
       this.$refs[form].validate((valid) => {
         // 校验规则

@@ -44,7 +44,7 @@
                     <div>
                         <span>
                             <i class="iconfont icon-xiaobiao-"></i>
-                            {{post.user.userName}}
+                            {{post.user.username}}
                         </span>
                     </div>
                     <!-- 评论数 -->
@@ -55,8 +55,6 @@
                         </span>
                     </div>
                     <br>
-                    
-                    
                     <!-- 点击数 -->
                     <div class="views">
                         <span><i class="iconfont icon-yanjing"></i>{{post.clickCount}} 热度</span>
