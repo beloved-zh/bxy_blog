@@ -121,7 +121,7 @@
             <div>{{userInfo.source}}</div>
           </el-collapse-item>
         </el-collapse>
-        <!-- <el-form label-width="80px">
+        <el-form label-width="80px">
           <el-form-item label="旧密码">
             <el-input />
           </el-form-item>
@@ -139,7 +139,7 @@
           <el-form-item>
             <el-button type="primary">提交</el-button>
           </el-form-item>
-        </el-form> -->
+        </el-form>
       </el-tab-pane>
     </el-tabs>
   </el-drawer>
