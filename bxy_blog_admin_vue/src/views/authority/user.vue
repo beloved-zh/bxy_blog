@@ -285,6 +285,7 @@ import { findAll } from '@/api/role'
 import { getUser, addUser, updateUser, deleteUser } from '@/api/user'
 import { formatDate } from '@/utils/webUtils'
 // 图片裁剪组件
+// https://github.com/dai-siki/vue-image-crop-upload
 import myUpload from 'vue-image-crop-upload'
 export default {
   components: {

@@ -66,6 +66,8 @@ public class LoginController {
                 map.put("username", user.getUsername());
                 map.put("avatar", user.getAvatar());
                 map.put("source", user.getSource());
+                map.put("email", user.getEmail());
+                map.put("mobile", user.getMobile());
 
                 return ResultVO.ok(ResultEnum.SUCCESS,map);
             }

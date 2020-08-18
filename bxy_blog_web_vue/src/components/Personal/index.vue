@@ -7,6 +7,65 @@
     <el-tabs v-model="activeName" type="border-card" tab-position="left" stretch style="height: 100%;" @tab-click="handleClick">
       <el-tab-pane name="0">
         <span slot="label"><i class="el-icon-user-solid"></i> 个人中心</span>
+        <el-form 
+          label-width="80px" 
+          :model="userInfo" 
+          hide-required-asterisk
+          status-icon
+        >
+          <el-form-item
+            label="头像"
+            prop="avatar"
+          >
+            <template>
+              <img v-if="userInfo.avatar" :src="userInfo.avatar" class="avatar" @click="show = !show">
+              <div v-else class="avatar-uploader">
+                <i class="el-icon-plus avatar-uploader-icon" @click="show = !show" />
+              </div>
+              <my-upload
+                v-model="show"
+                :width="300"
+                :height="300"
+                img-format="png"
+                @crop-success="cropSuccess"
+              />
+            </template>
+          </el-form-item>
+          <el-form-item
+            label="昵称"
+            prop="username"
+          >
+            <el-input v-model="userInfo.username" />
+          </el-form-item>
+          <el-form-item
+            label="邮箱"
+            prop="email"
+          >
+            <el-input v-model="userInfo.email" />
+          </el-form-item>
+          <el-form-item
+            label="电话"
+            prop="mobile"
+            :rules="telRules"
+          >
+            <el-input v-model="userInfo.mobile" />
+          </el-form-item>
+          <el-form-item
+            label="邮件通知"
+          >
+            <el-radio :value="true" :label="true" border>是</el-radio>
+            <el-radio :value="false" :label="false" border>否</el-radio>
+          </el-form-item>
+          <el-form-item
+            label="来源"
+            prop="source"
+          >
+            <el-input v-model="userInfo.source" disabled />
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="updateInfo()">提交</el-button>
+          </el-form-item>
+        </el-form>
       </el-tab-pane>
       <el-tab-pane name="1">
         <span slot="label"><i class="el-icon-s-comment"></i> 我的评论</span>
@@ -147,7 +206,14 @@
 
 <script>
 import { getLinkByUserAndStatus, addLink } from "@/api/link"
+import { updateInfo } from "@/api/user"
+// 图片裁剪组件
+// https://github.com/dai-siki/vue-image-crop-upload
+import myUpload from 'vue-image-crop-upload'
 export default {
+  components: {
+    'my-upload': myUpload
+  },
   props: {
     isShow: {
       type: Boolean,
@@ -163,6 +229,9 @@ export default {
         linkUrl: '',
         summary: ''
       },
+      telRules: [
+        { max: 11, message: '最大长度11位'},
+      ],
       linkRules: {
         linkName: [
           {required: true, message: '网站名称不能为空', trigger: 'blur'},
@@ -178,7 +247,8 @@ export default {
         ]
       },
       linkApplying: [],
-      linkSuccess: []
+      linkSuccess: [],
+      show: false
     }
   },
   watch: {
@@ -195,6 +265,10 @@ export default {
     }
   },
   methods: {
+    // 裁剪图片回调
+    cropSuccess(imgDataUrl) {
+      this.userInfo.avatar = imgDataUrl
+    },
     handleClick(tab) {
       switch(tab.name) {
         case "0": {
@@ -228,6 +302,16 @@ export default {
         }
         break
       }
+    },
+    updateInfo(){
+      var params = new URLSearchParams(this.userInfo)
+      updateInfo(params).then(response => {
+        this.$message({
+          message: response.data,
+          type: 'success'
+        })
+      })
+      this.$store.dispatch('getInfo')
     },
     ApplyingLink(blogLink){
       this.$refs[blogLink].validate((valid) => {
@@ -278,5 +362,36 @@ export default {
 <style>
   a.out-link:hover{
     color: #ff6d6d;
+  }
+  .authority-user{
+      margin: 10px 15px 0;
+  }
+  .avatar-uploader{
+    background-color: #fbfdff;
+    border: 1px dashed #c0ccda;
+    border-radius: 6px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+    line-height: 100px;
+    vertical-align: top;
+  }
+  .avatar-uploader:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    text-align: center;
+  }
+  .avatar {
+    width: 100px;
+    height: 100px;
+    display: block;
   }
 </style>
