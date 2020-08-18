@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zh.VO.ResultVO;
 import com.zh.pojo.Links;
+import com.zh.pojo.User;
 import com.zh.service.LinksService;
+import com.zh.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +26,9 @@ public class LinksController {
     @Autowired
     private LinksService linksService;
 
+    @Autowired
+    private UserService userService;
+
     @PutMapping("/updateLink")
     public String updateLink(
             String id,
@@ -31,7 +36,8 @@ public class LinksController {
             String linkUrl,
             String summary,
             Boolean linkStatus,
-            Integer sort){
+            Integer sort,
+            String userId){
 
         Links link = new Links();
         link.setId(id);
@@ -40,6 +46,7 @@ public class LinksController {
         link.setSummary(summary);
         link.setLinkStatus(linkStatus);
         link.setSort(sort);
+        link.setUserId(userId);
 
         boolean b = linksService.updateById(link);
 
@@ -66,7 +73,8 @@ public class LinksController {
             String linkUrl,
             String summary,
             Boolean linkStatus,
-            Integer sort){
+            Integer sort,
+            String userId){
 
         Links link = new Links();
         link.setLinkName(linkName);
@@ -74,6 +82,7 @@ public class LinksController {
         link.setSummary(summary);
         link.setLinkStatus(linkStatus);
         link.setSort(sort);
+        link.setUserId(userId);
 
         boolean save = linksService.save(link);
 
@@ -103,6 +112,14 @@ public class LinksController {
         Page<Links> page = new Page<>(currentPage,pageSize);
 
         linksService.page(page, wrapper);
+
+        for (Links link : page.getRecords()) {
+            QueryWrapper<User> wrapperUser = new QueryWrapper<>();
+            wrapperUser.eq("id",link.getUserId());
+            wrapperUser.select("id","user_name","avatar","is_lock");
+            User user = userService.getOne(wrapperUser);
+            link.setUser(user);
+        }
 
         return ResultVO.ok(page);
     }

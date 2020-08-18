@@ -55,6 +55,11 @@
       </el-table-column>
       <el-table-column
         align="center"
+        prop="user.username"
+        label="申请人"
+      />
+      <el-table-column
+        align="center"
         label="状态"
       >
         <template slot-scope="scope">
@@ -146,7 +151,8 @@ export default {
         linkUrl: '',
         summary: '',
         linkStatus: true,
-        sort: 0
+        sort: 0,
+        userId: this.$store.getters.userId
       },
       rules: {
         linkName: [
@@ -212,7 +218,8 @@ export default {
         linkUrl: row.linkUrl,
         summary: row.summary,
         linkStatus: row.linkStatus,
-        sort: row.sort
+        sort: row.sort,
+        userId: this.$store.getters.userId
       }
       this.dialogVisible = true
     },
@@ -250,7 +257,8 @@ export default {
         linkUrl: '',
         summary: '',
         linkStatus: true,
-        sort: this.total
+        sort: this.total,
+        userId: this.$store.getters.userId
       }
     },
     // 关闭模态框

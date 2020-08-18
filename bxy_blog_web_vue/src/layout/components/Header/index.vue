@@ -22,31 +22,40 @@
                 <img :src="userPhoto" style="height: 40px;width: 40px;border-radius: 50%;" />
                 <div class="childMenu">
                     <div class="sub-menu" v-if="!isLogin" @click="dialogVisible = true">登录</div>
-                    <div class="sub-menu" v-if="isLogin">个人中心</div>
+                    <div class="sub-menu" v-if="isLogin"  @click="drawer = true">个人中心</div>
                     <div class="sub-menu" v-if="isLogin" @click="logout()">退出登录</div>
                 </div>
             </div>
         </div>
         <!-- 登录 -->
         <template>
-            <Login :dialogVisible="dialogVisible" @close="close" />
+            <Login :dialogVisible="dialogVisible" @close="closeLogin" />
         </template>
+
+        <!-- 个人中心 -->
+        <template>
+            <Personal :isShow="drawer" @close="closePersonal" />
+        </template>
+
+        
     </div>
 </template>
 
 <script>
     import Login from '@/components/Login'
+    import Personal from '@/components/Personal'
     import HeaderSearch from './header-search'
     export default {
         name: "layout-header",
-        components: {HeaderSearch,Login},
+        components: {HeaderSearch,Login,Personal},
         data() {
             return {
                 lastScrollTop: 0, // 距离顶部
                 fixed: false, // 是否固定 用户鼠标滚轮向上，显示导航栏
                 hidden: false, // 是否显示
                 // isLogin: this.$store.getters.isLogin,
-                dialogVisible: false
+                dialogVisible: false,
+                drawer: false
             }
         },
         computed: {
@@ -64,7 +73,10 @@
             window.removeEventListener("scroll", this.watchScroll)
         },
         methods: {
-            close(val) {
+            closePersonal(val){
+                this.drawer = val
+            },
+            closeLogin(val) {
                 this.dialogVisible = val
             },
             logout(){

@@ -48,6 +48,9 @@ public class Links implements Serializable {
     @ApiModelProperty(value = "排序")
     private Integer sort;
 
+    @ApiModelProperty(value = "申请人")
+    private String userId;
+
     @ApiModelProperty(value = "创建时间")
     @TableField(fill = FieldFill.INSERT)
     private Date createTime;
@@ -56,5 +59,6 @@ public class Links implements Serializable {
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
 
-
+    @TableField(exist = false)
+    private User user;
 }

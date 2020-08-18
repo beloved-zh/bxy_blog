@@ -7,6 +7,14 @@ export function getLinks() {
   })
 }
 
+export function getLinkByUserAndStatus(params) {
+  return request({
+    url: `/links/getLinkByUserAndStatus`,
+    method: 'get',
+    params
+  })
+}
+
 export function addLink(data) {
   return request({
     url: '/links/addLink',
