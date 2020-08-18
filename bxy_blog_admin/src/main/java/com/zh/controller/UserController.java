@@ -9,10 +9,7 @@ import com.zh.pojo.User;
 import com.zh.pojo.UserRole;
 import com.zh.service.UserRoleService;
 import com.zh.service.UserService;
-import com.zh.utils.BaseUtil;
-import com.zh.utils.QiNiuUtil;
-import com.zh.utils.StringUtil;
-import com.zh.utils.UUIDUtil;
+import com.zh.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.StringUtils;
@@ -20,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -43,6 +41,9 @@ public class UserController {
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
 
     @GetMapping("/getUser")
     public String getUser(
@@ -120,10 +121,18 @@ public class UserController {
             String mobile,
             String avatar,
             Boolean isLock,
-            Boolean commentStatus) throws IOException {
+            Boolean commentStatus,
+            HttpServletRequest request) throws IOException {
+
+        // 请求体获取tonke
+        String token = request.getHeader(jwtTokenUtil.HEAD);
+        // 去除前缀
+        token = token.substring(jwtTokenUtil.HEAD_Prefix.length());
+        // 从token中获取用户名
+        String onLineUsername = jwtTokenUtil.getUsernameFromToken(token);
 
         User byUserName = userService.getUserByUserName(userName);
-        if (byUserName != null && !byUserName.getUsername().equals(userName)){
+        if (byUserName != null &&  !onLineUsername.equals(userName)){
             return ResultVO.failure(400,"用户"+userName+"以存在");
         }
 
