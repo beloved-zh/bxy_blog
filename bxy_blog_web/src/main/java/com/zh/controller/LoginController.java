@@ -58,7 +58,7 @@ public class LoginController {
             String username = jwtTokenUtil.getUsernameFromToken(token);
 
             // 验证令牌
-            if (redisUtil.hasKey(username)) {
+            if (redisUtil.hasKey(token)) {
                 User user = userService.getUserByUserName(username);
 
                 HashMap<String, Object> map = new HashMap<>();

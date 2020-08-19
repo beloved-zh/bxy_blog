@@ -37,21 +37,24 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
         // 创建token
-        String token = jwtTokenUtil.HEAD_Prefix + jwtTokenUtil.generateToken(userDetails);
-
-        Map<String,Object> map = new HashMap<>();
-        map.put("token",token);
+        String token = jwtTokenUtil.generateToken(userDetails);
 
         //获取请求的ip地址
         String ip = IpUtils.getRealIp(httpServletRequest);
+        // 过期时间
         Integer expiration = jwtTokenUtil.EXPIRATION_TIME;
 
-        redisUtil.hset(userDetails.getUsername(),"token",token,expiration);
-        redisUtil.hset(userDetails.getUsername(),"username",userDetails.getUsername(),expiration);
-        redisUtil.hset(userDetails.getUsername(),"createTime", DateUtil.getNowTime(),expiration);
-        redisUtil.hset(userDetails.getUsername(),"expirationTime", DateUtil.getAddDaySecond(expiration),expiration);
-        redisUtil.hset(userDetails.getUsername(),"ip",ip,expiration);
-        redisUtil.hset(userDetails.getUsername(),"type","web");
+        redisUtil.hset(token,"userName",userDetails.getUsername(),expiration);
+        redisUtil.hset(token,"ip",ip,expiration);
+        redisUtil.hset(token,"type","web");
+        redisUtil.hset(token,"source","BXY");
+        redisUtil.hset(token,"createTime",DateUtil.getNowTime());
+        redisUtil.hset(token,"expirationTime",DateUtil.getAddDaySecond(expiration));
+
+        token = jwtTokenUtil.HEAD_Prefix + token;
+        Map<String,Object> map = new HashMap<>();
+        map.put("token",token);
+
 
         ResultUtil.out(httpServletResponse, ResultVO.ok(ResultEnum.USER_LOGIN_SUCCESS,token));
     }

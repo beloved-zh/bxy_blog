@@ -36,4 +36,6 @@ public interface BlogMapper extends BaseMapper<Blog> {
     String getOneBlogCreateTime();
 
     List<Blog> getBlogByMonth(String month);
+
+    Boolean updateClickCount(String id);
 }

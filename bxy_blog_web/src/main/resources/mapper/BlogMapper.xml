@@ -113,4 +113,8 @@
         where  b.user_id = u.id and b.sort_id = s.id
         and date_format(b.create_time, '%Y-%m-01') = #{month}
     </select>
+
+    <update id="updateClickCount">
+        update bxy_blog.blog set click_count = click_count + 1 where id = #{id}
+    </update>
 </mapper>

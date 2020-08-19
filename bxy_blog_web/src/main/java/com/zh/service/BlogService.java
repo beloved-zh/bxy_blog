@@ -34,4 +34,6 @@ public interface BlogService extends IService<Blog> {
                         Integer level,
                         Integer currentPage,
                         Integer pageSize);
+
+    Boolean updateClickCount(String id);
 }

@@ -100,6 +100,14 @@
       </el-tab-pane>
       <el-tab-pane name="2">
         <span slot="label"><i class="el-icon-message-solid"></i> 我的消息</span>
+        <el-collapse>
+          <el-collapse-item title="以读消息">
+            
+          </el-collapse-item>
+          <el-collapse-item title="未读消息">
+            
+          </el-collapse-item>
+        </el-collapse>
       </el-tab-pane>
       <el-tab-pane name="3">
         <span slot="label"><i class="el-icon-star-on"></i> 我的点赞</span>

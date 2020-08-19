@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-carousel indicator-position="outside" height="450px">
+    <el-carousel indicator-position="outside" height="450px" :interval="2000">
       <el-carousel-item v-for="(item,index) in blogList" :key="index">
         <router-link :to="`/article/${item.id}`">
           <el-image :src="item.image" fit="fill"></el-image>

@@ -63,7 +63,7 @@ public class MyOncePerRequestFilter extends OncePerRequestFilter {
 
             try {
                 // 验证令牌
-                if (redisUtil.hasKey(username)) {
+                if (redisUtil.hasKey(token)) {
                     UsernamePasswordAuthenticationToken authentication =
                             new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

@@ -113,7 +113,7 @@ export default {
       params.append("source", source);
       oauthLogin(params).then(response => {
         console.log(response.data);
-        // window.location.href = response.data.url
+        window.location.href = response.data.url
       })
     }
   }

@@ -77,6 +77,9 @@ public class BlogController {
 
     @GetMapping("/getBlogById")
     public String getBlogById(String id){
+
+        blogService.updateClickCount(id);
+
         Blog blog = blogService.getBlogById(id);
 
         List<Tags> tags = tagsService.findByBlogId(blog.getId());

@@ -68,4 +68,9 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
 
         return blogMapper.getBlogByLevelAndPage(page,level);
     }
+
+    @Override
+    public Boolean updateClickCount(String id) {
+        return blogMapper.updateClickCount(id);
+    }
 }

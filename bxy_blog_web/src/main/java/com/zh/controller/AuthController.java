@@ -82,6 +82,11 @@ public class AuthController {
         AuthRequest authRequest = getAuthRequest(source);
         AuthResponse response = authRequest.login(callback);
 
+        if (!response.ok()){
+            // 跳转到500错误页面
+            httpServletResponse.sendRedirect("http://localhost:9528/500");
+        }
+
         Object data = response.getData();
 
         System.out.println("用户信息");
