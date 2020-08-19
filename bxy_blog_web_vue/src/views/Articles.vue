@@ -35,7 +35,7 @@
                         </div>
                         <div>
                           <i class="iconfont icon-xin"></i>
-                          {{ blog.clickCount }}
+                          {{ blog.fabulousCount }}
                         </div>
                     </div>
                     <div class="breadcrumbs">
@@ -55,7 +55,7 @@
                 <footer class="post-footer">
                     <!-- 点赞 -->
                     <div class="post-like">
-                        <i class="iconfont icon-xin" id="zan" ref="zan" @click="clickZan"></i>
+                        <i :class="selectZan ? 'iconfont icon-xin selectZan' : 'iconfont icon-xin'" id="zan" ref="zan" @click="clickZan"></i>
                     </div>
                     <!-- 赞助按钮 -->
                     <div class="donate" @click="showDonate=!showDonate">
@@ -91,6 +91,7 @@
 
 <script>
   import { getBlogById } from '@/api/blog'
+  import { addFabulous,judgeClickZan,deleteFabulous } from '@/api/fabulous'
   import VMdPreview from '@/components/MyEditor/VMdPreview'
   import MenuTree from '@/components/MenuTree'
   import Comment from '@/components/Comment'
@@ -111,12 +112,28 @@
                 // sort:{}
             },
             menus: [],
-            lineIndex: '0'
+            lineIndex: '0',
+            selectZan: false
         }
       },
       computed: {
         blogUrl: () => {
           return window.location.href
+        },
+        isLogin() {
+          return this.$store.getters.isLogin
+        },
+        userInfo() {
+          return this.$store.getters.userInfo
+        }
+      },
+      watch: {
+        isLogin: function() {
+            if(this.isLogin){
+                this.judgeClickZan()
+            }else{
+                this.selectZan = false
+            }
         }
       },
       mounted(){
@@ -125,8 +142,22 @@
         this.blogId = this.$route.params.id
 
         this.getBlog()
+
+        this.judgeClickZan()
       },
       methods: {
+        judgeClickZan(){
+            var params = new URLSearchParams()
+            params.append('userId', this.userInfo.id)
+            params.append('blogId', this.blogId)
+            judgeClickZan(params).then(response => {
+                if(response.data){
+                    this.selectZan = true
+                }else{
+                    this.selectZan = false
+                }
+            })
+        },
         handleAnchorClick(val){
             const { lineIndex } = val;
 
@@ -136,7 +167,34 @@
             this.menus = val
         },
         clickZan(){
-            this.$refs.zan.style.cssText = 'color: #d82e16;';
+            if(this.isLogin) {
+                var params = new URLSearchParams()
+                params.append('userId', this.userInfo.id)
+                params.append('blogId', this.blogId)
+                params.append('type', false)
+                if(this.selectZan){
+                    deleteFabulous(params).then(response => {
+                        this.$message({
+                            message: response.data,
+                            type: 'success'
+                        })
+                        this.selectZan = false
+                    })
+                }else{
+                    addFabulous(params).then(response => {
+                        this.$message({
+                            message: response.data,
+                            type: 'success'
+                        })
+                        this.selectZan = true
+                    })
+                }
+            }else{
+                this.$notify.error({
+                    title: '警告',
+                    message: '登录后才可以点赞哦~'
+                });
+            }
         },
         getBlog(){
           var params = new URLSearchParams()
@@ -159,6 +217,11 @@
   }
 </script>
 <style scoped lang="less">
+
+    .selectZan{
+        color: #d82e16;
+    }
+
     .site-content {
         position: relative;
         .site-main {

@@ -2,4 +2,36 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zh.mapper.FabulousMapper">
 
+    <resultMap id="fabulousMap" type="fabulous">
+        <result property="id" column="id"></result>
+        <result property="userId" column="user_id"></result>
+        <result property="blogId" column="blog_id"></result>
+        <result property="discussId" column="discuss_id"></result>
+        <result property="type" column="type"></result>
+        <result property="createTime" column="create_time"></result>
+        <result property="updateTime" column="update_time"></result>
+        <collection property="user" ofType="User">
+            <result property="userName" column="user_name" />
+            <result property="id" column="userId" />
+        </collection>
+        <collection property="blog" ofType="Blog">
+            <result property="id" column="bid" />
+            <result property="title" column="title" />
+        </collection>
+        <collection property="discuss" ofType="Discuss">
+            <id property="id" column="did"/>
+            <result property="content" column="content"/>
+        </collection>
+    </resultMap>
+
+    <select id="getFabulousByUser" resultMap="fabulousMap">
+        select f.*,b.id bid,b.title,d.id did,d.content
+        from bxy_blog.fabulous f
+        left join bxy_blog.blog b
+        on f.blog_id = b.id
+        left join bxy_blog.discuss d
+        on f.discuss_id = d.discuss_id
+        and f.user_id = #{userId}
+    </select>
+
 </mapper>

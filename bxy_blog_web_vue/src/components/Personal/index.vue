@@ -69,7 +69,7 @@
       </el-tab-pane>
       <el-tab-pane name="1">
         <span slot="label"><i class="el-icon-s-comment"></i> 我的评论</span>
-        <el-timeline :reverse="true">
+        <el-timeline :reverse="false">
           <el-timeline-item
             v-for="(item,index) in discussList"
             :key="index"
@@ -111,6 +111,35 @@
       </el-tab-pane>
       <el-tab-pane name="3">
         <span slot="label"><i class="el-icon-star-on"></i> 我的点赞</span>
+        <el-timeline :reverse="false">
+          <el-timeline-item
+            v-for="(item,index) in fabulousList"
+            :key="index"
+            placement="top"
+            :timestamp="item.createTime"
+          >
+            <el-card v-if="item.type">
+              <i class="el-icon-chat-dot-square" style="margin-right: 10px;"></i>
+              <span style="font-size: 16px">
+                <a target="_blank" class="out-link" :href="`/article/${item.blog.id}`">{{item.blog.title}}</a>
+              </span>
+            </el-card>
+            <el-card v-else>
+              <i class="el-icon-tickets" style="margin-right: 10px;"></i>
+              <span style="font-size: 16px">
+                <a target="_blank" class="out-link" :href="`/article/${item.blog.id}`">{{item.blog.title}}</a>
+              </span>
+            </el-card>
+          </el-timeline-item>
+          <el-timeline-item
+            v-if="fabulousList.length == 0" 
+            placement="top"
+          >
+            <el-card>
+              <span style="font-size: 16px">空空如也~</span>
+            </el-card>
+          </el-timeline-item>
+        </el-timeline>
       </el-tab-pane>
       <el-tab-pane name="4">
         <span slot="label"><i class="el-icon-phone"></i> 我的反馈</span>
@@ -242,6 +271,7 @@
 
 <script>
 import { getLinkByUserAndStatus, addLink } from "@/api/link"
+import { getFabulousByUser } from "@/api/fabulous"
 import { getDiscussByUser } from "@/api/discuss"
 import { updateInfo } from "@/api/user"
 // 图片裁剪组件
@@ -287,7 +317,8 @@ export default {
       linkApplying: [],
       linkSuccess: [],
       show: false,
-      discussList: []
+      discussList: [],
+      fabulousList:[]
     }
   },
   watch: {
@@ -325,6 +356,7 @@ export default {
         break
         case "3": {
           console.log("点击我的点赞")
+          this.getFabulousByUser()
         }
         break
         case "4": {
@@ -342,6 +374,18 @@ export default {
         }
         break
       }
+    },
+    getFabulousByUser(){
+      var params = new URLSearchParams(this.blogLink)
+      params.append('userId', this.userInfo.id)
+      getFabulousByUser(params).then(response => {
+        console.log(response.data)
+        this.fabulousList = response.data.map(x => {
+          x.createTime = this.dateFormat(x.createTime)
+          x.updateTime = this.dateFormat(x.updateTime)
+          return x
+        })
+      })
     },
     getDiscussByUser(){
       var params = new URLSearchParams(this.blogLink)

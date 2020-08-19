@@ -98,4 +98,8 @@ public class Blog implements Serializable {
     // 评论数
     @TableField(exist = false)
     private Integer commentCount;
+
+    // 点赞数
+    @TableField(exist = false)
+    private Integer fabulousCount;
 }
