@@ -69,6 +69,34 @@
       </el-tab-pane>
       <el-tab-pane name="1">
         <span slot="label"><i class="el-icon-s-comment"></i> 我的评论</span>
+        <el-timeline :reverse="true">
+          <el-timeline-item
+            v-for="(item,index) in discussList"
+            :key="index"
+            placement="top"
+            :timestamp="item.createTime"
+          >
+            <el-card>
+              <span style="font-size: 16px">
+                <i class="el-icon-tickets" style="margin-right: 10px;"></i>
+                <a target="_blank" class="out-link" :href="`/article/${item.blog.id}`">{{item.blog.title}}</a>
+              </span>
+              <el-divider></el-divider>
+              <div>
+                <i class="el-icon-chat-dot-square" style="margin-right: 10px;"></i>
+                {{item.content}}
+              </div>
+            </el-card>
+          </el-timeline-item>
+          <el-timeline-item
+            v-if="discussList.length == 0" 
+            placement="top"
+          >
+            <el-card>
+              <span style="font-size: 16px">空空如也~</span>
+            </el-card>
+          </el-timeline-item>
+        </el-timeline>
       </el-tab-pane>
       <el-tab-pane name="2">
         <span slot="label"><i class="el-icon-message-solid"></i> 我的消息</span>
@@ -206,10 +234,12 @@
 
 <script>
 import { getLinkByUserAndStatus, addLink } from "@/api/link"
+import { getDiscussByUser } from "@/api/discuss"
 import { updateInfo } from "@/api/user"
 // 图片裁剪组件
 // https://github.com/dai-siki/vue-image-crop-upload
 import myUpload from 'vue-image-crop-upload'
+import { formatDate } from '@/utils/webUtils'
 export default {
   components: {
     'my-upload': myUpload
@@ -248,7 +278,8 @@ export default {
       },
       linkApplying: [],
       linkSuccess: [],
-      show: false
+      show: false,
+      discussList: []
     }
   },
   watch: {
@@ -277,6 +308,7 @@ export default {
         break
         case "1": {
           console.log("点击我的评论")
+          this.getDiscussByUser()
         }
         break
         case "2": {
@@ -302,6 +334,18 @@ export default {
         }
         break
       }
+    },
+    getDiscussByUser(){
+      var params = new URLSearchParams(this.blogLink)
+      params.append('userId', this.userInfo.id)
+      getDiscussByUser(params).then(response => {
+        console.log(response.data);
+        this.discussList = response.data.map(x => {
+          x.createTime = this.dateFormat(x.createTime)
+          x.updateTime = this.dateFormat(x.updateTime)
+          return x
+        })
+      })
     },
     updateInfo(){
       var params = new URLSearchParams(this.userInfo)
@@ -354,7 +398,15 @@ export default {
         linkUrl: '',
         summary: ''
       }
-    }
+    },
+    // 格式化日期
+    dateFormat: function(value) {
+        var date = new Date(value)
+        if (date === undefined) {
+            return ''
+        }
+        return formatDate(date, 'YYYY-MM-DD hh:mm:ss')
+    } 
   }
 }
 </script>

@@ -17,4 +17,5 @@ public interface DiscussService extends IService<Discuss> {
 
     List<Discuss> getDiscuss(String blogId);
 
+    List<Discuss> getDiscussByUser(String userId);
 }

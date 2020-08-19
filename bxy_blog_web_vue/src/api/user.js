@@ -4,7 +4,7 @@ import request from '@/utils/request'
  * 第三方登录
  * @param params
  */
-export function alogin(params) {
+export function oauthLogin(params) {
   return request({
     url: '/oauth/render',
     method: 'post',

@@ -29,6 +29,13 @@ public class DiscussController {
     @Autowired
     private DiscussService discussService;
 
+    @GetMapping("/getDiscussByUser")
+    public String getDiscussByUser(String userId){
+
+        List<Discuss> list = discussService.getDiscussByUser(userId);
+
+        return ResultVO.ok(list);
+    }
 
     @GetMapping("/getDiscuss")
     public String getDiscuss(String blogId){

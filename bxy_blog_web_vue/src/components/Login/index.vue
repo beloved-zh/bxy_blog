@@ -48,7 +48,7 @@
 </template>
 
 <script>
-// import {login} from "@/api/user";
+import { oauthLogin } from "@/api/user";
 import { getToken } from '@/utils/auth'
 export default {
   props: {
@@ -111,10 +111,10 @@ export default {
     goAuth(source){
       var params = new URLSearchParams();
       params.append("source", source);
-      // login(params).then(response => {
-      //   console.log(response.data);
-      //   window.location.href = response.data.url
-      // })
+      oauthLogin(params).then(response => {
+        console.log(response.data);
+        // window.location.href = response.data.url
+      })
     }
   }
 }

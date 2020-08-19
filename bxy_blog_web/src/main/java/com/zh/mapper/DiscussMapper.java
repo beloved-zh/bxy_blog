@@ -19,4 +19,5 @@ public interface DiscussMapper extends BaseMapper<Discuss> {
 
     List<Discuss> getDiscussSon(String id);
 
+    List<Discuss> getDiscussByUser(String userId);
 }

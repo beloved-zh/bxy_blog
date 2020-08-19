@@ -72,5 +72,8 @@ public class Discuss implements Serializable {
     private User toUser;
 
     @TableField(exist = false)
+    private Blog blog;
+
+    @TableField(exist = false)
     private List<Discuss> children;
 }

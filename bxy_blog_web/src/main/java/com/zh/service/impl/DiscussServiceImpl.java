@@ -36,4 +36,9 @@ public class DiscussServiceImpl extends ServiceImpl<DiscussMapper, Discuss> impl
 
         return list;
     }
+
+    @Override
+    public List<Discuss> getDiscussByUser(String userId) {
+        return discussMapper.getDiscussByUser(userId);
+    }
 }

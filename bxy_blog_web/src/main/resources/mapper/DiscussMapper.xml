@@ -23,6 +23,10 @@
             <result property="id" column="to_uid" />
             <result property="avatar" column="to_avatar" />
         </collection>
+        <collection property="blog" ofType="Blog">
+            <result property="id" column="bid" />
+            <result property="title" column="title" />
+        </collection>
     </resultMap>
 
     <select id="getDiscussFather" resultMap="discussMap">
@@ -42,4 +46,9 @@
         order by d.create_time desc
     </select>
 
+    <select id="getDiscussByUser" resultMap="discussMap">
+        select d.*,b.id bid,b.title
+        from bxy_blog.blog b,bxy_blog.discuss d
+        where d.blog_id = b.id and d.user_id = #{userId}
+    </select>
 </mapper>

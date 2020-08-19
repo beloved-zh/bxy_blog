@@ -23,3 +23,11 @@ export function getDiscuss(params) {
     params
   })
 }
+
+export function getDiscussByUser(params) {
+  return request({
+    url: `/discuss/getDiscussByUser`,
+    method: 'get',
+    params
+  })
+}
