@@ -46,10 +46,11 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
 
         redisUtil.hset(token,"userName",userDetails.getUsername(),expiration);
         redisUtil.hset(token,"ip",ip,expiration);
-        redisUtil.hset(token,"type","web");
-        redisUtil.hset(token,"source","BXY");
-        redisUtil.hset(token,"createTime",DateUtil.getNowTime());
-        redisUtil.hset(token,"expirationTime",DateUtil.getAddDaySecond(expiration));
+        redisUtil.hset(token,"type","web",expiration);
+        redisUtil.hset(token,"token",token,expiration);
+        redisUtil.hset(token,"source","BXY",expiration);
+        redisUtil.hset(token,"createTime",DateUtil.getNowTime(),expiration);
+        redisUtil.hset(token,"expirationTime",DateUtil.getAddDaySecond(expiration),expiration);
 
         token = jwtTokenUtil.HEAD_Prefix + token;
         Map<String,Object> map = new HashMap<>();

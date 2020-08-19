@@ -41,11 +41,8 @@ public class MyLogoutSuccessHandler implements LogoutSuccessHandler {
 
             String token = headerToken.substring(jwtTokenUtil.HEAD_Prefix.length());
 
-            String username = jwtTokenUtil.getUsernameFromToken(token);
-            if (!StringUtils.isEmpty(username)){
-                //删除token
-                redisUtil.del(username);
-            }
+            //删除token
+            redisUtil.del(token);
         }
 
         ResultUtil.out(httpServletResponse, ResultVO.ok(ResultEnum.USER_LOGOUT_SUCCESS));

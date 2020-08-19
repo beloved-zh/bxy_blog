@@ -58,7 +58,7 @@ public class LoginController {
             String username = jwtTokenUtil.getUsernameFromToken(token);
 
             // 验证令牌
-            if (redisUtil.hasKey(username)) {
+            if (redisUtil.hasKey(token)) {
                 User user = userService.getUserByUserName(username);
                 List<String> roles = roleService.getRoleNameByUserName(username);
 
@@ -91,7 +91,7 @@ public class LoginController {
             String username = jwtTokenUtil.getUsernameFromToken(token);
 
             // 验证令牌
-            if (redisUtil.hasKey(username)) {
+            if (redisUtil.hasKey(token)) {
 
                 List<Menu> list = menuService.getMenuByUserName(username);
 
