@@ -9,6 +9,8 @@ import com.zh.pojo.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
+
 /**
  * <p>
  * 用户表 Mapper 接口
@@ -21,5 +23,7 @@ public interface UserMapper extends BaseMapper<User> {
 
     // 自定义条件构造器和分页插件 需要mybatisplus在3.0.7以上
     IPage<User> getUser(Page<User> page, @Param(Constants.WRAPPER) Wrapper wrapper);
+
+    Boolean updateLogin(String id, Integer loginCount, String lastLoginTime,String lastLoginIp);
 
 }

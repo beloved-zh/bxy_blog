@@ -169,6 +169,8 @@ public class AuthController {
             }
         }
 
+        userService.updateLogin(user.getId(),user.getLoginCount()+1,DateUtil.getNowTime(),ip);
+
         // 创建token
         String token = jwtTokenUtil.generateToken(user);
 

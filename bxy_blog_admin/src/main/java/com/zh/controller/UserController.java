@@ -70,7 +70,7 @@ public class UserController {
             String mobile,
             String avatar) throws IOException {
 
-        if (userService.getUserByUserName(userName) != null){
+        if (userService.getUserByUserNameAndSource(userName,"BXY") != null){
             return ResultVO.failure(400,"用户"+userName+"以存在");
         }
 
@@ -122,19 +122,14 @@ public class UserController {
             String avatar,
             Boolean isLock,
             Boolean commentStatus,
+            String source,
             HttpServletRequest request) throws IOException {
 
-        // 请求体获取tonke
-        String token = request.getHeader(jwtTokenUtil.HEAD);
-        // 去除前缀
-        token = token.substring(jwtTokenUtil.HEAD_Prefix.length());
-        // 从token中获取用户名
-        String onLineUsername = jwtTokenUtil.getUsernameFromToken(token);
+        User userOld = userService.getUserByUserNameAndSource(userName, "BXY");
 
-        User byUserName = userService.getUserByUserName(userName);
-        if (byUserName != null &&  !onLineUsername.equals(userName)){
-            return ResultVO.failure(400,"用户"+userName+"以存在");
-        }
+//        if (userOld != null && ){
+//            return ResultVO.failure(400,"用户"+userName+"以存在");
+//        }
 
         String avatarUrl = avatar;
 

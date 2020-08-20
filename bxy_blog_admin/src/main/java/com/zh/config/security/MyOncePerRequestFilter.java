@@ -1,5 +1,6 @@
 package com.zh.config.security;
 
+import com.zh.pojo.User;
 import com.zh.service.UserService;
 import com.zh.utils.FastJsonUtil;
 import com.zh.utils.JwtTokenUtil;
@@ -53,23 +54,23 @@ public class MyOncePerRequestFilter extends OncePerRequestFilter {
 
             // 从token中获取用户名
             username = jwtTokenUtil.getUsernameFromToken(token);
-
+            String source = jwtTokenUtil.getTokenByKey(token,"source");
 
             //判断用户不为空，且SecurityContextHolder授权信息还是空的
             if (!StringUtils.isEmpty(username) && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-                // 通过用户信息得到UserDetails
-                UserDetails userDetails = userService.loadUserByUsername(username);
+                // 通过用户信息得到User
+                User user = userService.getUserByUserNameAndSource(username, source);
 
                 try {
                     // 验证令牌是否过期
-                    if (redisUtil.hHasKey("adminToken", username)) {
-                        String object = (String) redisUtil.hget("adminToken", username);
+                    if (redisUtil.hHasKey("adminToken", username+":"+source)) {
+                        String object = (String) redisUtil.hget("adminToken", username+":"+source);
                         HashMap<String, Object> map = FastJsonUtil.json2Map(object);
                         // 判断是否有效
-                        if (jwtTokenUtil.validateToken((String) map.get("token"),userDetails)) {
+                        if ((map.get("token").toString()).equals(token) && jwtTokenUtil.validateToken((String) map.get("token"),user)) {
                             UsernamePasswordAuthenticationToken authentication =
-                                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                                    new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
                             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                             SecurityContextHolder.getContext().setAuthentication(authentication);

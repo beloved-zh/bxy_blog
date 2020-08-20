@@ -16,4 +16,5 @@ public interface UserService extends IService<User>, UserDetailsService {
 
     User getUserByUserNameAndSource(String username,String source);
 
+    Boolean updateLogin(String id, Integer loginCount, String lastLoginTime,String lastLoginIp);
 }

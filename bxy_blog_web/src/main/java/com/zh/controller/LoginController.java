@@ -90,6 +90,8 @@ public class LoginController {
             return  ResultVO.failure(400,"账号或密码错误，错误"+(4-limitCount)+"次后，账户将被锁定30分钟");
         }
 
+        userService.updateLogin(user.getId(),user.getLoginCount()+1,DateUtil.getNowTime(),ip);
+
         // 创建token
         String token = jwtTokenUtil.generateToken(user);
         // 过期时间

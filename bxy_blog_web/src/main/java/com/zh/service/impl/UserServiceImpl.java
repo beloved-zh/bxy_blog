@@ -45,6 +45,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
+    public Boolean updateLogin(String id, Integer loginCount, String lastLoginTime, String lastLoginIp) {
+        return userMapper.updateLogin(id, loginCount, lastLoginTime, lastLoginIp);
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return null;
     }

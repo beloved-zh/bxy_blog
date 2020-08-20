@@ -30,8 +30,8 @@
           <el-select v-model="source" placeholder="账号类型" clearable>
             <el-option label="BXY" value="BXY" />
             <el-option label="QQ" value="QQ" />
-            <el-option label="GitHub" value="GitHub" />
-            <el-option label="GitEE" value="GitEE" />
+            <el-option label="GITHUB" value="GITHUB" />
+            <el-option label="GITEE" value="GITEE" />
           </el-select>
         </el-col>
         <el-col :span="3">
@@ -416,6 +416,7 @@ export default {
         userName: row.username,
         role: row.authorities[0].id,
         email: row.email,
+        source: row.source,
         mobile: row.mobile,
         avatar: row.avatar,
         isLock: !row.isLock,

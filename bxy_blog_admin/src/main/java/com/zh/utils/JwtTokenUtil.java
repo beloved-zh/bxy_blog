@@ -4,7 +4,6 @@ import com.zh.pojo.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -17,9 +16,9 @@ import java.util.Map;
 @Component
 public class JwtTokenUtil {
     //私钥
-    private static final String SECRET_KEY = "bxy_blog_beloved";
+    private static final String SECRET_KEY = "bxy_blog_web";
 
-    // 过期时间 毫秒,设置默认1周的时间过期
+    // 过期时间 秒
     public static final int EXPIRATION_TIME = 60 * 60 * 24;
 
     // token头部
@@ -29,12 +28,13 @@ public class JwtTokenUtil {
     /**
      * 生成令牌
      *
-     * @param userDetails 用户
+     * @param user 用户
      * @return 令牌
      */
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(User user) {
         Map<String, Object> claims = new HashMap<>(2);
-        claims.put(Claims.SUBJECT, userDetails.getUsername());
+        claims.put(Claims.SUBJECT, user.getUsername());
+        claims.put("source", user.getSource());
         claims.put(Claims.ISSUED_AT, new Date());
         return generateToken(claims);
     }
@@ -54,6 +54,23 @@ public class JwtTokenUtil {
             new Throwable(e);
         }
         return username;
+    }
+
+    /**
+     * 从令牌中获取数据
+     * @param token
+     * @param key
+     * @return
+     */
+    public String getTokenByKey(String token,String key) {
+        String val = null;
+        try {
+            Claims claims = getClaimsFromToken(token);
+            val = claims.get(key).toString();
+        } catch (Exception e) {
+            new Throwable(e);
+        }
+        return val;
     }
 
     /**
@@ -95,11 +112,10 @@ public class JwtTokenUtil {
      * 验证令牌
      *
      * @param token       令牌
-     * @param userDetails 用户
+     * @param user 用户
      * @return 是否有效
      */
-    public Boolean validateToken(String token, UserDetails userDetails) throws Exception {
-        User user = (User) userDetails;
+    public Boolean validateToken(String token, User user) throws Exception {
         String username = getUsernameFromToken(token);
         return (username.equals(user.getUsername()) && !isTokenExpired(token));
     }

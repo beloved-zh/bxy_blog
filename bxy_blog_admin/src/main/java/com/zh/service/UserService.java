@@ -6,6 +6,8 @@ import com.zh.pojo.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import java.util.List;
+
 /**
  * <p>
  * 用户表 服务类
@@ -16,12 +18,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
  */
 public interface UserService extends IService<User>, UserDetailsService {
 
-    /**
-     * 通过账号查询用户
-     * @param username
-     * @return
-     */
-    User getUserByUserName(String username);
+
+//    List<User> getUserByUserName(String username);
+
+    Boolean updateLogin(String id, Integer loginCount, String lastLoginTime,String lastLoginIp);
+
+    User getUserByUserNameAndSource(String username,String source);
 
 
     IPage<User> getUser(

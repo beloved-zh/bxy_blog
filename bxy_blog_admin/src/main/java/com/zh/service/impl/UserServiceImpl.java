@@ -41,11 +41,30 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private BCryptPasswordEncoder passwordEncoder;
 
 
+//    @Override
+//    public List<User> getUserByUserName(String username) {
+//
+//        QueryWrapper<User> wrapper = new QueryWrapper<>();
+//
+//        wrapper.eq("user_name",username);
+//
+//        List<User> list = userMapper.selectList(wrapper);
+//
+//
+//        return list;
+//    }
+
     @Override
-    public User getUserByUserName(String username) {
+    public Boolean updateLogin(String id, Integer loginCount, String lastLoginTime, String lastLoginIp) {
+        return userMapper.updateLogin(id, loginCount, lastLoginTime, lastLoginIp);
+    }
+
+    @Override
+    public User getUserByUserNameAndSource(String username,String source) {
         QueryWrapper<User> wrapper = new QueryWrapper<>();
 
         wrapper.eq("user_name",username);
+        wrapper.eq("source",source);
 
         User user = userMapper.selectOne(wrapper);
 
@@ -82,23 +101,24 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("进入查询"+username);
-        User user = getUserByUserName(username);
-
-        if (user == null) {
-
-            throw new UsernameNotFoundException("用户名或密码错误");
-
-        }else {
-            System.out.println("进入查询角色" + username);
-            //查找角色
-            List<Role> roles = roleMapper.getRolesByUserName(username);
-
-            System.out.println(roles);
-
-            user.setRoles(roles);
-
-            return user;
-        }
+//        System.out.println("进入查询"+username);
+//        User user = getUserByUserName(username);
+//
+//        if (user == null) {
+//
+//            throw new UsernameNotFoundException("用户名或密码错误");
+//
+//        }else {
+//            System.out.println("进入查询角色" + username);
+//            //查找角色
+//            List<Role> roles = roleMapper.getRolesByUserName(username);
+//
+//            System.out.println(roles);
+//
+//            user.setRoles(roles);
+//
+//            return user;
+//        }
+        return null;
     }
 }

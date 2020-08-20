@@ -13,4 +13,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface UserMapper extends BaseMapper<User> {
 
+    Boolean updateLogin(String id, Integer loginCount, String lastLoginTime,String lastLoginIp);
+
 }

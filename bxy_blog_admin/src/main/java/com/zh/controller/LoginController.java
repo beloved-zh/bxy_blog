@@ -82,6 +82,7 @@ public class LoginController {
         } else {
             queryWrapper.eq("user_name", username);
         }
+        queryWrapper.eq("source", "BXY");
 
         User user = userService.getOne(queryWrapper);
 
@@ -97,8 +98,11 @@ public class LoginController {
             return  ResultVO.failure(400,"账号或密码错误，错误"+(4-limitCount)+"次后，账户将被锁定30分钟");
         }
 
+        userService.updateLogin(user.getId(),user.getLoginCount()+1,DateUtil.getNowTime(),ip);
+
         // 创建token
         String token = jwtTokenUtil.generateToken(user);
+
         // 过期时间
         Integer expiration = jwtTokenUtil.EXPIRATION_TIME;
         Map<String,Object> tokenMap = new HashMap<>();
@@ -110,7 +114,7 @@ public class LoginController {
         tokenMap.put("source","BXY");
         tokenMap.put("createTime",DateUtil.getNowTime());
         tokenMap.put("expirationTime",DateUtil.getAddDaySecond(expiration));
-        redisUtil.hset("adminToken",user.getUsername(),FastJsonUtil.map2Json(tokenMap),expiration);
+        redisUtil.hset("adminToken",user.getUsername()+":"+user.getSource(),FastJsonUtil.map2Json(tokenMap),expiration);
 
         token = jwtTokenUtil.HEAD_Prefix + token;
         Map<String,Object> map = new HashMap<>();
@@ -128,9 +132,10 @@ public class LoginController {
 
         // 从token中获取用户名
         String username = jwtTokenUtil.getUsernameFromToken(token);
+        String source = jwtTokenUtil.getTokenByKey(token,"source");
 
         // 验证令牌
-        User user = userService.getUserByUserName(username);
+        User user = userService.getUserByUserNameAndSource(username,source);
         List<String> roles = roleService.getRoleNameByUserName(username);
 
         HashMap<String, Object> map = new HashMap<>();
