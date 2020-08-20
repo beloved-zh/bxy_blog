@@ -66,6 +66,7 @@ public class AuthController {
         Map<String, String> map = new HashMap<>();
         map.put("url", authorizeUrl);
         return ResultVO.ok(map);
+
     }
 
     /**

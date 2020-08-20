@@ -12,6 +12,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.header.writers.frameoptions.WhiteListedAllowFromStrategy;
+import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -66,40 +68,54 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     //认证用户的来源（内存或数据库）
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
-    }
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
+//    }
 
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
-        // 去掉 CSRF
+        // 开启iframe引入
+        http.headers().frameOptions().disable();
+        // CRSF禁用，因为不使用session
         http.cors().and().csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 使用 JWT，关闭token
+                // 基于token，所以不需要session
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-
+                // 未登录
                 .httpBasic().authenticationEntryPoint(myAuthenticationEntryPoint)
-
                 .and()
-                .authorizeRequests()//定义哪些URL需要被保护、哪些不需要被保护
-                .antMatchers("/swagger-ui.html")
+                // 过滤请求 对于swagger 允许匿名访问
+                .authorizeRequests()
+                .antMatchers(
+                        "/swagger-ui.html",
+                        "/webjars/**",
+                        "/v2/**",
+                        "/swagger-resources/**")
                 .permitAll()
+                .antMatchers("/auth/login").anonymous()
+                .antMatchers(
+                        "/*.html",
+                        "/**/*.html",
+                        "/**/*.css",
+                        "/**/*.js"
+                ).permitAll()
 
-                .anyRequest()//任何请求,登录后可以访问
+                // 除上面外的所有请求全部需要鉴权认证
+                .anyRequest()
                 .access("@myRbacService.hasPermission(request,authentication)") // RBAC 动态 url 认证
 
                 .and()
-                .logout()//默认注销行为为logout
+                .logout()//默认注销行为logout
                 .logoutUrl("/auth/logout")
                 .logoutSuccessHandler(myLogoutSuccessHandler)
                 .permitAll();
 
 
-        http.formLogin().loginProcessingUrl("/auth/login")
-            .successHandler(myAuthenticationSuccessHandler)
-            .failureHandler(myAuthenticationFailureHandler);
+//        http.formLogin().loginProcessingUrl("/auth/login")
+//            .successHandler(myAuthenticationSuccessHandler)
+//            .failureHandler(myAuthenticationFailureHandler);
         http.exceptionHandling().accessDeniedHandler(myAccessDeniedHandler); // 无权访问 JSON 格式的数据
         http.addFilterBefore(myOncePerRequestFilter, UsernamePasswordAuthenticationFilter.class); // JWT Filter
 

@@ -1,6 +1,7 @@
 package com.zh.config.security;
 
 import com.zh.service.UserService;
+import com.zh.utils.FastJsonUtil;
 import com.zh.utils.JwtTokenUtil;
 import com.zh.utils.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * jwt拦截器
@@ -51,27 +53,31 @@ public class MyOncePerRequestFilter extends OncePerRequestFilter {
 
             // 从token中获取用户名
             username = jwtTokenUtil.getUsernameFromToken(token);
-        } else {
-            logger.debug("JWT令牌不是以Bearer String开头");
-        }
 
-        //判断用户不为空，且SecurityContextHolder授权信息还是空的
-        if (!StringUtils.isEmpty(username) && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            // 通过用户信息得到UserDetails
-            UserDetails userDetails = userService.loadUserByUsername(username);
+            //判断用户不为空，且SecurityContextHolder授权信息还是空的
+            if (!StringUtils.isEmpty(username) && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            try {
-                // 验证令牌
-                if (redisUtil.hasKey(token)) {
-                    UsernamePasswordAuthenticationToken authentication =
-                            new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                // 通过用户信息得到UserDetails
+                UserDetails userDetails = userService.loadUserByUsername(username);
 
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                try {
+                    // 验证令牌是否过期
+                    if (redisUtil.hHasKey("adminToken", username)) {
+                        String object = (String) redisUtil.hget("adminToken", username);
+                        HashMap<String, Object> map = FastJsonUtil.json2Map(object);
+                        // 判断是否有效
+                        if (jwtTokenUtil.validateToken((String) map.get("token"),userDetails)) {
+                            UsernamePasswordAuthenticationToken authentication =
+                                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+                            SecurityContextHolder.getContext().setAuthentication(authentication);
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
         }
         chain.doFilter(request, response);

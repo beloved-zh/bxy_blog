@@ -8,19 +8,17 @@ export function login(data) {
   })
 }
 
-export function getInfo(token) {
+export function getInfo() {
   return request({
     url: '/auth/info',
-    method: 'get',
-    params: { token }
+    method: 'get'
   })
 }
 
-export function getMenus(token) {
+export function getMenus() {
   return request({
     url: '/auth/getMenus',
-    method: 'get',
-    params: { token }
+    method: 'get'
   })
 }
 

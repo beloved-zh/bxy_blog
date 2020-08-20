@@ -19,6 +19,7 @@
     </properties>
 
     <dependencies>
+
         <!--第三方登录-->
         <!--https://justauth.wiki/#/quickstart/how-to-use-->
         <dependency>

@@ -1,5 +1,4 @@
 import { asyncRoutes, constantRoutes, errorRoutes } from '@/router'
-import { getToken } from '@/utils/auth'
 import { getMenus } from '@/api/user'
 import Layout from '@/layout'
 
@@ -47,22 +46,13 @@ const actions = {
   generateRoutes({ commit }, roles) {
     return new Promise(resolve => {
       const loadMenuData = []
-      getMenus(getToken()).then(response => {
-        if (response.code !== 200) {
-          // eslint-disable-next-line no-undef
-          Message({
-            message: '菜单数据加载异常',
-            type: 0,
-            duration: 2 * 1000
-          })
-        } else {
-          const data = response.data
-          Object.assign(loadMenuData, data)
-          generaMenu(asyncRoutes, loadMenuData)
-          const accessedRoutes = asyncRoutes
-          commit('SET_ROUTES', accessedRoutes)
-          resolve(accessedRoutes)
-        }
+      getMenus().then(response => {
+        const data = response.data
+        Object.assign(loadMenuData, data)
+        generaMenu(asyncRoutes, loadMenuData)
+        const accessedRoutes = asyncRoutes
+        commit('SET_ROUTES', accessedRoutes)
+        resolve(accessedRoutes)
       }).catch(error => {
         console.log(error)
       })

@@ -121,8 +121,7 @@ public class User implements Serializable, UserDetails {
     @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
-        // 调用字段
-        return !isLock;
+        return true;
     }
 
     //凭证是否过期
