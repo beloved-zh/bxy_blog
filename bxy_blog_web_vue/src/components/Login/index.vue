@@ -25,7 +25,7 @@
       <el-form-item class="loginCircleBut">
         <el-row>
           <el-col :span="6">
-            <el-button class="github" type="warning" circle><i class="iconfont icon-github"></i></el-button>
+            <el-button class="github" @click="goAuth('github')" type="warning" circle><i class="iconfont icon-github"></i></el-button>
           </el-col>
           <el-col :span="6">
             <el-button class="gitee" @click="goAuth('gitee')" type="warning" circle><i class="iconfont icon-gitee"></i></el-button>

@@ -68,7 +68,6 @@ public class MyOncePerRequestFilter extends OncePerRequestFilter {
                         String object = (String) redisUtil.hget("webToken", username+":"+source);
                         HashMap<String, Object> map = FastJsonUtil.json2Map(object);
                         // 判断是否有效
-                        System.out.println();
                         if ((map.get("token").toString()).equals(token) && jwtTokenUtil.validateToken((String) map.get("token"),user)) {
                             UsernamePasswordAuthenticationToken authentication =
                                     new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());

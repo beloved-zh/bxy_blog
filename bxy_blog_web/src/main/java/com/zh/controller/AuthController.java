@@ -144,6 +144,7 @@ public class AuthController {
                 user.setPassword(passwordEncoder.encode(data.get("source").toString()));
                 user.setSource(data.get("source").toString());
                 user.setAvatar(data.get("avatar").toString());
+                user.setLoginCount(0);
             }
         }
 
@@ -188,6 +189,9 @@ public class AuthController {
         redisUtil.hset("webToken",user.getUsername()+":"+user.getSource(), FastJsonUtil.map2Json(tokenMap),expiration);
 
         token = jwtTokenUtil.HEAD_Prefix + token;
+
+        System.out.println("数据===================");
+        System.out.println(FastJsonUtil.bean2Json(response.getData()));
 
         httpServletResponse.sendRedirect("http://localhost:9528/" + "?token=" + token);
     }
