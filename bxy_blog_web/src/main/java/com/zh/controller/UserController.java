@@ -50,8 +50,9 @@ public class UserController {
         token = token.substring(jwtTokenUtil.HEAD_Prefix.length());
         // 从token中获取用户名
         String onLineUsername = jwtTokenUtil.getUsernameFromToken(token);
+        String source = jwtTokenUtil.getTokenByKey(token,"source");
 
-        User byUserName = userService.getUserByUserName(username);
+        User byUserName = userService.getUserByUserNameAndSource(username,source);
         if (byUserName != null &&  !onLineUsername.equals(username)){
             return ResultVO.failure(400,"用户"+username+"以存在");
         }

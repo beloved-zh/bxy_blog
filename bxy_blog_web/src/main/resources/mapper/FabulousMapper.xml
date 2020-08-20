@@ -25,12 +25,9 @@
     </resultMap>
 
     <select id="getFabulousByUser" resultMap="fabulousMap">
-        select f.*,b.id bid,b.title,d.id did,d.content
-        from bxy_blog.fabulous f
-        left join bxy_blog.blog b
-        on f.blog_id = b.id
-        left join bxy_blog.discuss d
-        on f.discuss_id = d.discuss_id
+        select f.*,b.id bid,b.title
+        from bxy_blog.fabulous f,bxy_blog.blog b
+        where f.blog_id = b.id
         and f.user_id = #{userId}
     </select>
 

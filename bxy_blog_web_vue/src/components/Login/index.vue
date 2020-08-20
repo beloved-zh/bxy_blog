@@ -48,8 +48,9 @@
 </template>
 
 <script>
-import { oauthLogin } from "@/api/user";
+import { oauthLogin } from "@/api/user"
 import { getToken } from '@/utils/auth'
+import { getUrlVars } from '@/utils/webUtils'
 export default {
   props: {
     dialogVisible: {
@@ -83,9 +84,17 @@ export default {
     }
   },
   created(){
+    this.getToken()
     this.judgeIsLogin()
   },
   methods: {
+    getToken(){
+      let token = getUrlVars('token')
+      if(token != false){
+        this.$store.dispatch('setToken',token)
+        this.$store.dispatch('getInfo')
+      }
+    },
     judgeIsLogin(){
       // 确定用户是否已登录
       const hasToken = getToken()

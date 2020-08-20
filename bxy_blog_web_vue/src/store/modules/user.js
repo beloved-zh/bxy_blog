@@ -63,6 +63,12 @@ const user = {
         })
       })
     },
+    // 设置token
+    setToken({ commit }, token){
+      console.log('aaaaa');
+      commit('SET_TOKEN', token)
+      setToken(token)
+    },
     // 获取用户信息
     getInfo({ commit }) {
       return new Promise((resolve, reject) => {

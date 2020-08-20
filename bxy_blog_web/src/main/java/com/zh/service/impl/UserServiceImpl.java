@@ -33,10 +33,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private RoleMapper roleMapper;
 
     @Override
-    public User getUserByUserName(String username) {
+    public User getUserByUserNameAndSource(String username,String source) {
         QueryWrapper<User> wrapper = new QueryWrapper<>();
 
         wrapper.eq("user_name",username);
+        wrapper.eq("source",source);
 
         User user = userMapper.selectOne(wrapper);
 
@@ -45,19 +46,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = getUserByUserName(username);
-
-        if (user == null) {
-
-            throw new UsernameNotFoundException("用户名或密码错误");
-
-        }else {
-            //查找角色
-            List<Role> roles = roleMapper.getRolesByUserName(username);
-
-            user.setRoles(roles);
-
-            return user;
-        }
+        return null;
     }
 }

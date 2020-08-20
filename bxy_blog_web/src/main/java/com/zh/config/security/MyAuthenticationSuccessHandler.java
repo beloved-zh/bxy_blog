@@ -5,6 +5,7 @@ import com.zh.VO.ResultVO;
 import com.zh.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -34,29 +35,29 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
 
         //取得账号信息
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
-        // 创建token
-        String token = jwtTokenUtil.generateToken(userDetails);
-
-        //获取请求的ip地址
-        String ip = IpUtils.getRealIp(httpServletRequest);
-        // 过期时间
-        Integer expiration = jwtTokenUtil.EXPIRATION_TIME;
-
-        redisUtil.hset(token,"userName",userDetails.getUsername(),expiration);
-        redisUtil.hset(token,"ip",ip,expiration);
-        redisUtil.hset(token,"type","web",expiration);
-        redisUtil.hset(token,"token",token,expiration);
-        redisUtil.hset(token,"source","BXY",expiration);
-        redisUtil.hset(token,"createTime",DateUtil.getNowTime(),expiration);
-        redisUtil.hset(token,"expirationTime",DateUtil.getAddDaySecond(expiration),expiration);
-
-        token = jwtTokenUtil.HEAD_Prefix + token;
-        Map<String,Object> map = new HashMap<>();
-        map.put("token",token);
-
-
-        ResultUtil.out(httpServletResponse, ResultVO.ok(ResultEnum.USER_LOGIN_SUCCESS,token));
+//        User user = (User) authentication.getPrincipal();
+//
+//        // 创建token
+//        String token = jwtTokenUtil.generateToken(user);
+//
+//        //获取请求的ip地址
+//        String ip = IpUtils.getRealIp(httpServletRequest);
+//        // 过期时间
+//        Integer expiration = jwtTokenUtil.EXPIRATION_TIME;
+//
+//        redisUtil.hset(token,"userName",user.getUsername(),expiration);
+//        redisUtil.hset(token,"ip",ip,expiration);
+//        redisUtil.hset(token,"type","web",expiration);
+//        redisUtil.hset(token,"token",token,expiration);
+//        redisUtil.hset(token,"source","BXY",expiration);
+//        redisUtil.hset(token,"createTime",DateUtil.getNowTime(),expiration);
+//        redisUtil.hset(token,"expirationTime",DateUtil.getAddDaySecond(expiration),expiration);
+//
+//        token = jwtTokenUtil.HEAD_Prefix + token;
+//        Map<String,Object> map = new HashMap<>();
+//        map.put("token",token);
+//
+//
+//        ResultUtil.out(httpServletResponse, ResultVO.ok(ResultEnum.USER_LOGIN_SUCCESS,token));
     }
 }

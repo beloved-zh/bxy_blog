@@ -40,9 +40,10 @@ public class MyLogoutSuccessHandler implements LogoutSuccessHandler {
             String token = headerToken.substring(jwtTokenUtil.HEAD_Prefix.length());
 
             String username = jwtTokenUtil.getUsernameFromToken(token);
+            String source = jwtTokenUtil.getTokenByKey(token,"source");
 
             //删除token
-            redisUtil.hdel("webToken",username);
+            redisUtil.hdel("webToken",username+":"+source);
         }
 
         ResultUtil.out(httpServletResponse, ResultVO.ok(ResultEnum.USER_LOGOUT_SUCCESS));

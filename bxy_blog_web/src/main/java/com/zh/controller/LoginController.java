@@ -74,6 +74,7 @@ public class LoginController {
         } else {
             queryWrapper.eq("user_name", username);
         }
+        queryWrapper.eq("source", "BXY");
 
         User user = userService.getOne(queryWrapper);
 
@@ -102,7 +103,7 @@ public class LoginController {
         tokenMap.put("source","BXY");
         tokenMap.put("createTime", DateUtil.getNowTime());
         tokenMap.put("expirationTime",DateUtil.getAddDaySecond(expiration));
-        redisUtil.hset("webToken",user.getUsername(), FastJsonUtil.map2Json(tokenMap),expiration);
+        redisUtil.hset("webToken",user.getUsername()+":"+user.getSource(), FastJsonUtil.map2Json(tokenMap),expiration);
 
         token = jwtTokenUtil.HEAD_Prefix + token;
         Map<String,Object> map = new HashMap<>();
@@ -120,10 +121,11 @@ public class LoginController {
         // 去除前缀
         token = token.substring(jwtTokenUtil.HEAD_Prefix.length());
 
-        // 从token中获取用户名
+        // 从token中获取用户名和账号来源
         String username = jwtTokenUtil.getUsernameFromToken(token);
+        String source = jwtTokenUtil.getTokenByKey(token,"source");
 
-        User user = userService.getUserByUserName(username);
+        User user = userService.getUserByUserNameAndSource(username,source);
 
         HashMap<String, Object> map = new HashMap<>();
         map.put("id",user.getId());
