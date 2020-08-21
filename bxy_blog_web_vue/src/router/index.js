@@ -5,6 +5,7 @@ import Articles from '@/views/Articles.vue'
 import PlaceOnFile from '@/views/PlaceOnFile.vue'
 import Sort from '@/views/Sort.vue'
 import Tag from '@/views/Tag.vue'
+import AboutMe from '@/views/AboutMe.vue'
 import store from '@/store'
 
 Vue.use(VueRouter)
@@ -74,6 +75,19 @@ import Layout from '@/layout'
           component: Tag,
           name: 'Tag',
           meta: { title: '标签'}
+        }
+      ]
+    },
+    {
+      path: '/aboutMe',
+      component: Layout,
+      // redirect: '/',
+      children: [
+        {
+          path: '/',
+          component: AboutMe,
+          name: 'AboutMe',
+          meta: { title: '关于我'}
         }
       ]
     }

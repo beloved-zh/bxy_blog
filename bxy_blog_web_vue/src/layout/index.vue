@@ -22,8 +22,8 @@
   }
 </script>
 <style lang="less">
-  #app {
-      font-size: 17px;
-      color: #6f6f6f;
-  }
+  // #app {
+  //   font-size: 17px;
+  //   color: #6f6f6f;
+  // }
 </style>

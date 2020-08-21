@@ -12,7 +12,7 @@
             <!-- 搜索组件 -->
             <div class="menu-item header-search"><header-search/></div>
             <div class="menu-item"><router-link to="/">首页</router-link></div>
-            <div class="menu-item"><router-link to="/">关于我</router-link></div>
+            <div class="menu-item"><router-link to="/aboutMe">关于我</router-link></div>
             <div class="menu-item"><router-link to="/placeOnFile">归档</router-link></div>
             <div class="menu-item"><router-link to="/sort">分类</router-link></div>
             <div class="menu-item"><router-link to="/tag">标签</router-link></div>

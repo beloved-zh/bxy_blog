@@ -96,6 +96,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/links/**",
                         "/sort/**",
                         "/web/**",
+                        "/aboutMe/**",
                         "/discuss/getDiscuss"
                 ).permitAll()
                 .antMatchers("/auth/login").anonymous()
