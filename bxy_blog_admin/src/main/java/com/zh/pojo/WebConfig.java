@@ -76,6 +76,21 @@ public class WebConfig implements Serializable {
     @ApiModelProperty(value = "微信支付")
     private String weixinPay;
 
+    @ApiModelProperty(value = "巴学园登录方式")
+    private Boolean BxyLogin;
+
+    @ApiModelProperty(value = "qq登录方式")
+    private Boolean QqLogin;
+
+    @ApiModelProperty(value = "github登录方式")
+    private Boolean GithubLogin;
+
+    @ApiModelProperty(value = "gitee登录方式")
+    private Boolean GiteeLogin;
+
+    @ApiModelProperty(value = "微信登录方式")
+    private Boolean WeixinLogin;
+
     @ApiModelProperty(value = "创建时间")
     @TableField(fill = FieldFill.INSERT)
     private Date createTime;

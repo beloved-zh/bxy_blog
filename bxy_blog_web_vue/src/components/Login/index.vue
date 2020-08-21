@@ -7,40 +7,47 @@
   >
     <el-form :model="form" :ref="form" :rules="rules" >
       <el-form-item label="用户名" prop="username">
-        <el-input v-model="form.username"></el-input>
+        <el-input :disabled="!bxyLogin" v-model="form.username"></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="password">
-        <el-input v-model="form.password"></el-input>
+        <el-input :disabled="!bxyLogin" v-model="form.password"></el-input>
       </el-form-item>
       <el-form-item style="text-align: center;">
         <el-row>
           <el-col :span="12">
-            <el-button class="loginBut" type="primary" @click="handleLogin(form)">登录</el-button>
+            <el-button :disabled="!bxyLogin" class="loginBut" type="primary" @click="handleLogin(form)">登录</el-button>
           </el-col>
           <el-col :span="12">
-            <el-button class="logonBut">注册</el-button>
+            <el-button :disabled="true" class="logonBut">注册</el-button>
           </el-col>
         </el-row>
       </el-form-item>
       <el-form-item class="loginCircleBut">
         <el-row>
           <el-col :span="6">
-            <el-button class="github" @click="goAuth('github')" type="warning" circle><i class="iconfont icon-github"></i></el-button>
+            <el-button :disabled="!githubLogin" class="github" @click="goAuth('github')" type="warning" circle><i class="iconfont icon-github"></i></el-button>
           </el-col>
           <el-col :span="6">
-            <el-button class="gitee" @click="goAuth('gitee')" type="warning" circle><i class="iconfont icon-gitee"></i></el-button>
+            <el-button :disabled="!giteeLogin" class="gitee" @click="goAuth('gitee')" type="warning" circle><i class="iconfont icon-gitee"></i></el-button>
           </el-col>
           <el-col :span="6">
-            <el-button class="qq" type="warning" circle><i class="iconfont icon-qq"></i></el-button>
+            <el-button :disabled="!qqLogin" class="qq" type="warning" circle><i class="iconfont icon-qq"></i></el-button>
           </el-col>
           <el-col :span="6">
-            <el-button class="weixin" type="warning" circle><i class="iconfont icon-weixin"></i></el-button>
+            <el-button :disabled="!weixinLogin" class="weixin" type="warning" circle><i class="iconfont icon-weixin"></i></el-button>
           </el-col>
         </el-row>
       </el-form-item>
       <el-form-item>
         <div class="loginTip">
           推荐使用第三方登录
+          <br>
+          目前登录方式支持
+          <span v-if="bxyLogin">巴学园</span>
+          <span v-if="githubLogin">GitHub</span>
+          <span v-if="giteeLogin">Gitee</span>
+          <span v-if="qqLogin">QQ</span>
+          <span v-if="weixinLogin">微信</span>
         </div>
       </el-form-item>
     </el-form>
@@ -81,6 +88,23 @@ export default {
     },
     isShow: function() {
       this.$emit('close', this.isShow)
+    }
+  },
+  computed: {
+    bxyLogin() {
+        return this.$store.getters.webConfig.bxyLogin
+    },
+    giteeLogin() {
+        return this.$store.getters.webConfig.giteeLogin
+    },
+    githubLogin() {
+        return this.$store.getters.webConfig.githubLogin
+    },
+    qqLogin() {
+        return this.$store.getters.webConfig.qqLogin
+    },
+    weixinLogin() {
+        return this.$store.getters.webConfig.weixinLogin
     }
   },
   created(){
@@ -134,6 +158,9 @@ export default {
       text-align: center;
       font-size: 14px;
       color: #bababa;
+      span{
+        margin-left: 10px;
+      }
   }
   .loginBut{
     width: 80% !important;

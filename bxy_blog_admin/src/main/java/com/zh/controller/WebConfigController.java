@@ -44,7 +44,12 @@ public class WebConfigController {
             String qq,
             String email,
             String aliPay,
-            String weixinPay){
+            String weixinPay,
+            Boolean bxyLogin,
+            Boolean giteeLogin,
+            Boolean githubLogin,
+            Boolean qqLogin,
+            Boolean weixinLogin){
 
         WebConfig webConfig = new WebConfig();
         webConfig.setId(id);
@@ -62,6 +67,11 @@ public class WebConfigController {
         webConfig.setEmail(email);
         webConfig.setWeixinPay(weixinPay);
         webConfig.setAliPay(aliPay);
+        webConfig.setBxyLogin(bxyLogin);
+        webConfig.setGiteeLogin(giteeLogin);
+        webConfig.setGithubLogin(githubLogin);
+        webConfig.setQqLogin(qqLogin);
+        webConfig.setWeixinLogin(weixinLogin);
 
 
         boolean b = webConfigService.updateById(webConfig);

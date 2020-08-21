@@ -1,82 +1,126 @@
 <template>
   <div class="app-container">
     <el-form :ref="form" hide-required-asterisk :model="form" :rules="rules">
-      <el-form-item label="Logo" label-width="120px" prop="logo">
-        <el-upload
-          class="avatar-uploader"
-          action=""
-          :show-file-list="false"
-          :http-request="uploadImage"
-          :before-upload="beforeAvatarUpload"
-        >
-          <img v-if="form.logo" :src="form.logo" class="avatar">
-          <i v-else class="el-icon-plus avatar-uploader-icon" />
-        </el-upload>
-      </el-form-item>
-      <el-form-item label="网站名称" label-width="120px" prop="webName">
-        <el-input v-model="form.webName" />
-      </el-form-item>
-      <el-form-item label="网站地址" label-width="120px" prop="webUrl">
-        <el-input v-model="form.webUrl" />
-      </el-form-item>
-      <el-form-item label="简介" label-width="120px" prop="summary">
-        <el-input v-model="form.summary" />
-      </el-form-item>
-      <el-form-item label="作者" label-width="120px" prop="author">
-        <el-input v-model="form.author" />
-      </el-form-item>
-      <el-form-item label="备案号" label-width="120px" prop="recordNum">
-        <el-input v-model="form.recordNum" />
-      </el-form-item>
-      <el-form-item label="GitHub" label-width="120px" prop="github">
-        <el-input v-model="form.github" />
-      </el-form-item>
-      <el-form-item label="GitEE" label-width="120px" prop="gitee">
-        <el-input v-model="form.gitee" />
-      </el-form-item>
-      <el-form-item label="CSDN" label-width="120px" prop="csdn">
-        <el-input v-model="form.csdn" />
-      </el-form-item>
-      <el-form-item label="微信" label-width="120px" prop="weixin">
-        <el-input v-model="form.weixin" />
-      </el-form-item>
-      <el-form-item label="QQ" label-width="120px" prop="qq">
-        <el-input v-model="form.qq" />
-      </el-form-item>
-      <el-form-item label="邮箱" label-width="120px" prop="email">
-        <el-input v-model="form.email" />
-      </el-form-item>
-      <el-row :gutter="24">
-        <el-col :span="5">
-          <el-form-item label="阿里支付" label-width="120px" prop="aliPay">
+      <el-tabs type="border-card">
+        <el-tab-pane label="基本配置">
+          <el-form-item label="Logo" label-width="120px" prop="logo">
             <el-upload
               class="avatar-uploader"
               action=""
               :show-file-list="false"
-              :http-request="uploadAliPay"
+              :http-request="uploadImage"
               :before-upload="beforeAvatarUpload"
             >
-              <img v-if="form.aliPay" :src="form.aliPay" class="avatar">
+              <img v-if="form.logo" :src="form.logo" class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon" />
             </el-upload>
           </el-form-item>
-        </el-col>
-        <el-col :span="5">
-          <el-form-item label="微信支付" label-width="120px" prop="weixinPay">
-            <el-upload
-              class="avatar-uploader"
-              action=""
-              :show-file-list="false"
-              :http-request="uploadWeixinPay"
-              :before-upload="beforeAvatarUpload"
-            >
-              <img v-if="form.weixinPay" :src="form.weixinPay" class="avatar">
-              <i v-else class="el-icon-plus avatar-uploader-icon" />
-            </el-upload>
+          <el-form-item label="网站名称" label-width="120px" prop="webName">
+            <el-input v-model="form.webName" />
           </el-form-item>
-        </el-col>
-      </el-row>
-      <el-form-item style="text-align: right">
+          <el-form-item label="网站地址" label-width="120px" prop="webUrl">
+            <el-input v-model="form.webUrl" />
+          </el-form-item>
+          <el-form-item label="简介" label-width="120px" prop="summary">
+            <el-input v-model="form.summary" />
+          </el-form-item>
+          <el-form-item label="作者" label-width="120px" prop="author">
+            <el-input v-model="form.author" />
+          </el-form-item>
+          <el-form-item label="备案号" label-width="120px" prop="recordNum">
+            <el-input v-model="form.recordNum" />
+          </el-form-item>
+          <el-row :gutter="24">
+            <el-col :span="5">
+              <el-form-item label="阿里支付" label-width="120px" prop="aliPay">
+                <el-upload
+                  class="avatar-uploader"
+                  action=""
+                  :show-file-list="false"
+                  :http-request="uploadAliPay"
+                  :before-upload="beforeAvatarUpload"
+                >
+                  <img v-if="form.aliPay" :src="form.aliPay" class="avatar">
+                  <i v-else class="el-icon-plus avatar-uploader-icon" />
+                </el-upload>
+              </el-form-item>
+            </el-col>
+            <el-col :span="5">
+              <el-form-item label="微信支付" label-width="120px" prop="weixinPay">
+                <el-upload
+                  class="avatar-uploader"
+                  action=""
+                  :show-file-list="false"
+                  :http-request="uploadWeixinPay"
+                  :before-upload="beforeAvatarUpload"
+                >
+                  <img v-if="form.weixinPay" :src="form.weixinPay" class="avatar">
+                  <i v-else class="el-icon-plus avatar-uploader-icon" />
+                </el-upload>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-tab-pane>
+        <el-tab-pane label="联系我们">
+          <el-form-item label="GitHub" label-width="120px" prop="github">
+            <el-input v-model="form.github" />
+          </el-form-item>
+          <el-form-item label="GitEE" label-width="120px" prop="gitee">
+            <el-input v-model="form.gitee" />
+          </el-form-item>
+          <el-form-item label="CSDN" label-width="120px" prop="csdn">
+            <el-input v-model="form.csdn" />
+          </el-form-item>
+          <el-form-item label="微信" label-width="120px" prop="weixin">
+            <el-input v-model="form.weixin" />
+          </el-form-item>
+          <el-form-item label="QQ" label-width="120px" prop="qq">
+            <el-input v-model="form.qq" />
+          </el-form-item>
+          <el-form-item label="邮箱" label-width="120px" prop="email">
+            <el-input v-model="form.email" />
+          </el-form-item>
+        </el-tab-pane>
+        <el-tab-pane label="登录方式">
+          <el-form-item label="巴学园" label-width="120px" prop="bxyLogin">
+            <el-switch
+              v-model="form.bxyLogin"
+              active-color="#13ce66"
+              inactive-color="#ff4949"
+            />
+          </el-form-item>
+          <el-form-item label="GITHUB" label-width="120px" prop="githubLogin">
+            <el-switch
+              v-model="form.githubLogin"
+              active-color="#13ce66"
+              inactive-color="#ff4949"
+            />
+          </el-form-item>
+          <el-form-item label="GITEE" label-width="120px" prop="giteeLogin">
+            <el-switch
+              v-model="form.giteeLogin"
+              active-color="#13ce66"
+              inactive-color="#ff4949"
+            />
+          </el-form-item>
+          <el-form-item label="QQ" label-width="120px" prop="qqLogin">
+            <el-switch
+              v-model="form.qqLogin"
+              active-color="#13ce66"
+              inactive-color="#ff4949"
+            />
+          </el-form-item>
+          <el-form-item label="微信" label-width="120px" prop="weixinLogin">
+            <el-switch
+              v-model="form.weixinLogin"
+              active-color="#13ce66"
+              inactive-color="#ff4949"
+            />
+          </el-form-item>
+        </el-tab-pane>
+      </el-tabs>
+      <el-divider />
+      <el-form-item style="text-align: laft">
         <el-button type="primary" @click="submitForm(form)">确 定</el-button>
       </el-form-item>
     </el-form>
@@ -187,7 +231,12 @@ export default {
         qq: data.qq,
         email: data.email,
         aliPay: data.aliPay,
-        weixinPay: data.weixinPay
+        weixinPay: data.weixinPay,
+        bxyLogin: data.bxyLogin,
+        giteeLogin: data.giteeLogin,
+        githubLogin: data.githubLogin,
+        qqLogin: data.qqLogin,
+        weixinLogin: data.weixinLogin
       }
     },
     // 自定义文件上传
