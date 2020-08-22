@@ -41,24 +41,6 @@ import java.util.Map;
 @Api(value = "第三方登录相关接口", tags = {"第三方登录相关接口"})
 public class AuthController {
 
-    @Value(value = "${justAuth.clientId.gitee}")
-    private String giteeClienId;
-    @Value(value = "${justAuth.clientSecret.gitee}")
-    private String giteeClientSecret;
-    @Value(value = "${justAuth.redirectUri.gitee}")
-    private String giteeRedirectUri;
-    @Value(value = "${justAuth.clientId.github}")
-    private String githubClienId;
-    @Value(value = "${justAuth.clientSecret.github}")
-    private String githubClientSecret;
-    @Value(value = "${justAuth.redirectUri.github}")
-    private String githubRedirectUri;
-    @Value(value = "${justAuth.clientId.qq}")
-    private String qqClienId;
-    @Value(value = "${justAuth.clientSecret.qq}")
-    private String qqClientSecret;
-    @Value(value = "${justAuth.redirectUri.qq}")
-    private String qqRedirectUri;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -77,6 +59,8 @@ public class AuthController {
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+
+
 
     /**
      * 获取认证url
@@ -202,27 +186,29 @@ public class AuthController {
      * @return
      */
     private AuthRequest getAuthRequest(String source) {
+
+        HashMap<String, Object> map = FastJsonUtil.json2Map(redisUtil.hget("SystemConfig", "oauth").toString());
         AuthRequest authRequest = null;
         switch (source) {
             case "github":
                 authRequest = new AuthGithubRequest(AuthConfig.builder()
-                        .clientId(githubClienId)
-                        .clientSecret(githubClientSecret)
-                        .redirectUri(githubRedirectUri)
+                        .clientId(map.get("GithubClientId").toString())
+                        .clientSecret(map.get("GithubClientSecret").toString())
+                        .redirectUri(map.get("GithubRedirectUri").toString())
                         .build());
                 break;
             case "gitee":
                 authRequest = new AuthGiteeRequest(AuthConfig.builder()
-                        .clientId(giteeClienId)
-                        .clientSecret(giteeClientSecret)
-                        .redirectUri(giteeRedirectUri)
+                        .clientId(map.get("GiteeClientId").toString())
+                        .clientSecret(map.get("GiteeClientSecret").toString())
+                        .redirectUri(map.get("GiteeRedirectUri").toString())
                         .build());
                 break;
             case "qq":
                 authRequest = new AuthQqRequest(AuthConfig.builder()
-                        .clientId(qqClienId)
-                        .clientSecret(qqClientSecret)
-                        .redirectUri(qqRedirectUri)
+                        .clientId(map.get("QQClientId").toString())
+                        .clientSecret(map.get("QQClientId").toString())
+                        .redirectUri(map.get("QQClientId").toString())
                         .build());
                 break;
             default:

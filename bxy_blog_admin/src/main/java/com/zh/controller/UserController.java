@@ -45,6 +45,9 @@ public class UserController {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
+    @Autowired
+    private QiNiuUtil qiNiuUtil;
+
     @GetMapping("/getUser")
     public String getUser(
             String keyword,
@@ -79,7 +82,7 @@ public class UserController {
         // 生成文件名
         String imageName = UUIDUtil.getUUID() + ".png";
 
-        String avatarUrl = QiNiuUtil.upload(inputStream, imageName);
+        String avatarUrl = qiNiuUtil.upload(inputStream, imageName);
         if (StringUtils.isEmpty(avatarUrl)){
             return ResultVO.failure(400,"头像上传失败");
         }
@@ -139,7 +142,7 @@ public class UserController {
             // 生成文件名
             String imageName = UUIDUtil.getUUID();
 
-            avatarUrl = QiNiuUtil.upload(inputStream, imageName);
+            avatarUrl = qiNiuUtil.upload(inputStream, imageName);
 
             if (StringUtils.isEmpty(avatarUrl)){
                 return ResultVO.failure(400,"头像上传失败");

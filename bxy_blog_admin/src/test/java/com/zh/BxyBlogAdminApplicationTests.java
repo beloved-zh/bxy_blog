@@ -238,17 +238,17 @@ class BxyBlogAdminApplicationTests {
 
     @Test
     void test() throws QiniuException {
-        String [] urls = {"http://qd4zqd4qv.bkt.clouddn.com/1c2b371a55b34051be0e522da3cdfb69"};
-        CdnResult.RefreshResult refresh = QiNiuUtil.refresh(urls);
-        System.out.println(refresh.code);
-        System.out.println(refresh.error);
-        System.out.println(refresh.requestId);
-        System.out.println(refresh.invalidUrls);
-        System.out.println(refresh.invalidDirs);
-        System.out.println(refresh.urlQuotaDay);
-        System.out.println(refresh.urlSurplusDay);
-        System.out.println(refresh.dirQuotaDay);
-        System.out.println(refresh.dirSurplusDay);
+//        String [] urls = {"http://qd4zqd4qv.bkt.clouddn.com/1c2b371a55b34051be0e522da3cdfb69"};
+//        CdnResult.RefreshResult refresh = QiNiuUtil.refresh(urls);
+//        System.out.println(refresh.code);
+//        System.out.println(refresh.error);
+//        System.out.println(refresh.requestId);
+//        System.out.println(refresh.invalidUrls);
+//        System.out.println(refresh.invalidDirs);
+//        System.out.println(refresh.urlQuotaDay);
+//        System.out.println(refresh.urlSurplusDay);
+//        System.out.println(refresh.dirQuotaDay);
+//        System.out.println(refresh.dirSurplusDay);
     }
 
     @Autowired

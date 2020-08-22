@@ -11,24 +11,46 @@ import com.qiniu.storage.UploadManager;
 import com.qiniu.storage.model.*;
 import com.qiniu.util.Auth;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  * @author Beloved
  * @date 2020/7/9 14:52
  * 七牛上传下载工具类
  */
+@Component
 public class QiNiuUtil {
 
-    private static String accessKey = "ZM1tafYFWffVVe-VeWKXuU6kAa5hFZNEZzcEsk-Q";
-    private static String secretKey = "BHvxK6XAKlZ4M5x10DtWJHMdxprvAiAiQYqjMdkB";
-    private static String bucket = "bxyzh";
-    private static String prefix = "http://bxyimage.beloved.ink";
+    @Autowired
+    private RedisUtil redisUtil;
+
+    private HashMap<String, Object> map;
+    private String accessKey;
+    private String secretKey;
+    private String bucket;
+    private String prefix;
+
+//    private HashMap<String, Object> map = FastJsonUtil.json2Map(redisUtil.hget("SystemConfig", "qiniu").toString());
+//
+//    private String accessKey = map.get("accessKey").toString();
+//    private String secretKey = map.get("secretKey").toString();
+//    private String bucket = map.get("bucket").toString();
+//    private String prefix = map.get("prefix").toString();
+
+    public QiNiuUtil() {
+        map = FastJsonUtil.json2Map(redisUtil.hget("SystemConfig", "qiniu").toString());
+        accessKey = map.get("accessKey").toString();
+        secretKey = map.get("secretKey").toString();
+        bucket = map.get("bucket").toString();
+        prefix = map.get("prefix").toString();
+    }
 
     /**
      * 通过文件来传递数据
@@ -36,7 +58,7 @@ public class QiNiuUtil {
      * @param file
      * @return
      */
-    public static boolean upload(String bucketNm, File file, String key) {
+    public boolean upload(String bucketNm, File file, String key) {
         try {
 
             String token = getToken(bucketNm);
@@ -61,7 +83,7 @@ public class QiNiuUtil {
      * @param in        输入流
      * @return
      */
-    public static String upload(String bucketNm, InputStream in, String key) {
+    public String upload(String bucketNm, InputStream in, String key) {
         try {
 
             //获取token
@@ -85,7 +107,7 @@ public class QiNiuUtil {
      * @param in        输入流
      * @return
      */
-    public static String upload(InputStream in, String key) {
+    public String upload(InputStream in, String key) {
         String url = "";
 
         try {
@@ -113,7 +135,7 @@ public class QiNiuUtil {
      * @param key 文件名称
      * @return
      */
-    public static boolean delete(String bucketNm ,String key) {
+    public boolean delete(String bucketNm ,String key) {
         try {
             bucketManager().delete(bucketNm, key);
             return true;
@@ -123,7 +145,7 @@ public class QiNiuUtil {
         return false;
     }
 
-    public static boolean deleteList(String bucketNm ,String[] keys){
+    public boolean deleteList(String bucketNm ,String[] keys){
         BucketManager.BatchOperations batchOperations = new BucketManager.BatchOperations();
         batchOperations.addDeleteOp(bucketNm, keys);
         try {
@@ -139,7 +161,7 @@ public class QiNiuUtil {
     /**
      * 获取所有的bucket
      */
-    public static String[] getBuckets() {
+    public String[] getBuckets() {
         try {
             //获取所有的bucket信息
             String[]  bucketNms = bucketManager().buckets();
@@ -154,7 +176,7 @@ public class QiNiuUtil {
      * 获取bucket里面所有文件的信息
      * @param bucketNm 存储空间名
      */
-    public static FileInfo[] getBucketList(String bucketNm,String prefix) {
+    public FileInfo[] getBucketList(String bucketNm,String prefix) {
         BucketManager.FileListIterator fileListIterator = bucketManager().createFileListIterator(bucketNm, prefix);
 
         if(fileListIterator.hasNext()){
@@ -171,7 +193,7 @@ public class QiNiuUtil {
      * 获取上传管理器
      * @return
      */
-    private static UploadManager uploadManager() {
+    private UploadManager uploadManager() {
         UploadManager uploadManager = new UploadManager(cfg());
         return uploadManager;
     }
@@ -180,7 +202,7 @@ public class QiNiuUtil {
      * 获取Bucket的管理对象
      * @return
      */
-    private static BucketManager bucketManager() {
+    private BucketManager bucketManager() {
         BucketManager bucketManager = new BucketManager(auth(), cfg());
         return bucketManager;
     }
@@ -188,7 +210,7 @@ public class QiNiuUtil {
     /**
      * 构造一个带指定Zone对象的配置类
      */
-    private static Configuration cfg(){
+    private Configuration cfg(){
         //构造一个带指定Zone对象的配置类
         //区域要和自己的bucket对上，不然就上传不成功
         //华东    Zone.zone0()
@@ -204,7 +226,7 @@ public class QiNiuUtil {
      * @param bucketNm
      * @return
      */
-    private static String getToken(String bucketNm) {
+    private String getToken(String bucketNm) {
         String upToken = auth().uploadToken(bucketNm);
         return upToken;
     }
@@ -212,7 +234,7 @@ public class QiNiuUtil {
     /**
      * 创建Auth
      */
-    private static Auth auth(){
+    private Auth auth(){
         Auth auth = Auth.create(accessKey, secretKey);
         return auth;
     }
@@ -221,7 +243,7 @@ public class QiNiuUtil {
      * CDN相关功能的接口实现
      * @return
      */
-    private static CdnManager cdnManager(){
+    private CdnManager cdnManager(){
         CdnManager c = new CdnManager(auth());
         return c;
     }
@@ -233,7 +255,7 @@ public class QiNiuUtil {
      * @param limit  每次迭代的长度限制，最大1000，推荐值 100
      * @return
      */
-    public static FileListing listFiles(String bucket, String marker, int limit) {
+    public FileListing listFiles(String bucket, String marker, int limit) {
 
         FileListing files = null;
         try {
@@ -245,7 +267,7 @@ public class QiNiuUtil {
         return null;
     }
 
-    public static String getBaseURL(String bucket){
+    public String getBaseURL(String bucket){
         String[] list = new String[0];
         try {
             list = bucketManager().domainList(bucket);
@@ -258,7 +280,7 @@ public class QiNiuUtil {
         return null;
     }
 
-    public static CdnResult.RefreshResult refresh(String[] urls){
+    public CdnResult.RefreshResult refresh(String[] urls){
         try {
             CdnResult.RefreshResult result = cdnManager().refreshUrls(urls);
             return result;
