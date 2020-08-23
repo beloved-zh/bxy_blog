@@ -49,6 +49,6 @@ logging:
 qiniu:
   accessKey: ZM1tafYFWffVVe-VeWKXuU6kAa5hFZNEZzcEsk-Q
   secretKey: BHvxK6XAKlZ4M5x10DtWJHMdxprvAiAiQYqjMdkB
-  bucket: belovedzh # bxyzh
+  bucket: bxyzh
   prefix: http://bxyimage.beloved.ink/
   # qd4zqd4qv.bkt.clouddn.com

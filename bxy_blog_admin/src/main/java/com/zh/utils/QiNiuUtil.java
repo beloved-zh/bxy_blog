@@ -12,6 +12,7 @@ import com.qiniu.storage.model.*;
 import com.qiniu.util.Auth;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -28,29 +29,14 @@ import java.util.HashMap;
 @Component
 public class QiNiuUtil {
 
-    @Autowired
-    private RedisUtil redisUtil;
-
-    private HashMap<String, Object> map;
+    @Value(value = "${qiniu.accessKey}")
     private String accessKey;
+    @Value(value = "${qiniu.secretKey}")
     private String secretKey;
+    @Value(value = "${qiniu.bucket}")
     private String bucket;
+    @Value(value = "${qiniu.prefix}")
     private String prefix;
-
-//    private HashMap<String, Object> map = FastJsonUtil.json2Map(redisUtil.hget("SystemConfig", "qiniu").toString());
-//
-//    private String accessKey = map.get("accessKey").toString();
-//    private String secretKey = map.get("secretKey").toString();
-//    private String bucket = map.get("bucket").toString();
-//    private String prefix = map.get("prefix").toString();
-
-    public QiNiuUtil() {
-        map = FastJsonUtil.json2Map(redisUtil.hget("SystemConfig", "qiniu").toString());
-        accessKey = map.get("accessKey").toString();
-        secretKey = map.get("secretKey").toString();
-        bucket = map.get("bucket").toString();
-        prefix = map.get("prefix").toString();
-    }
 
     /**
      * 通过文件来传递数据

@@ -1,6 +1,7 @@
 <template>
   <el-drawer
     :visible.sync="drawer"
+    :with-header="false"
     :show-close="false"
     direction="rtl"
   >
@@ -102,10 +103,26 @@
         <span slot="label"><i class="el-icon-message-solid"></i> 我的消息</span>
         <el-collapse>
           <el-collapse-item title="以读消息">
-            
+            <el-timeline>
+              <el-timeline-item
+                placement="top"
+              >
+                <el-card>
+                  <span style="font-size: 16px">空空如也~</span>
+                </el-card>
+              </el-timeline-item>
+            </el-timeline>
           </el-collapse-item>
           <el-collapse-item title="未读消息">
-            
+            <el-timeline>
+              <el-timeline-item
+                placement="top"
+              >
+                <el-card>
+                  <span style="font-size: 16px">空空如也~</span>
+                </el-card>
+              </el-timeline-item>
+            </el-timeline>
           </el-collapse-item>
         </el-collapse>
       </el-tab-pane>
@@ -148,6 +165,76 @@
             <div>如果您对本站有什么想法，可以在这里进行反馈</div>
             <div>或者联系站长进行交流</div>
           </el-collapse-item>
+          <el-collapse-item title="历史记录">
+            <el-timeline>
+              <el-timeline-item
+                v-for="(item,index) in feedbackList"
+                :key="index"
+                placement="top"
+                :timestamp="item.createTime"
+              >
+                <el-card>
+                  <div  slot="header">
+                    {{item.title}}
+                      <el-tag v-if="item.state === 0" type="warning" style="float: right;">未解决</el-tag>
+                      <el-tag v-if="item.state === 1" type="success" style="float: right;">已解决</el-tag>
+                      <el-tag v-if="item.state === 2" type="danger" style="float: right;">已拒绝</el-tag>
+                  </div >
+                  <div>
+                    <el-collapse accordion>
+                      <el-collapse-item title="反馈内容">
+                        {{item.content}}
+                      </el-collapse-item>
+                       <el-collapse-item title="回复">
+                        {{item.reply}}
+                      </el-collapse-item>
+                    </el-collapse>
+                  </div>
+                </el-card>
+              </el-timeline-item>
+              <el-timeline-item
+                v-if="feedbackList.length == 0" 
+                placement="top"
+              >
+                <el-card>
+                  <span style="font-size: 16px">空空如也~</span>
+                </el-card>
+              </el-timeline-item>
+            </el-timeline>
+          </el-collapse-item>
+          <el-divider></el-divider>
+          <el-form 
+            label-width="80px" 
+            :model="feedback" 
+            ref="feedback" 
+            hide-required-asterisk
+            status-icon
+            :rules="{
+              title: [
+                {required: true, message: '标题不能为空', trigger: 'blur'},
+                {min: 1, max: 20, message: '长度在1到20个字符'}
+              ],
+              content: [
+                {required: true, message: '不能为空', trigger: 'blur'}
+              ]
+            }" 
+          >
+            <el-form-item label="标题" prop="title">
+              <el-input v-model="feedback.title" required/>
+            </el-form-item>
+            <el-form-item label="内容" prop="content">
+              <el-input
+                type="textarea"
+                :autosize="{ minRows: 2, maxRows: 4}"
+                placeholder="请输入内容"
+                v-model="feedback.content"
+                required
+              />
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="addFeedback('feedback')">提交</el-button>
+            </el-form-item>
+          </el-form>
         </el-collapse>
       </el-tab-pane>
       <el-tab-pane name="5">
@@ -217,7 +304,7 @@
           :model="blogLink" 
           hide-required-asterisk
           status-icon
-          :ref="blogLink" 
+          ref="blogLink" 
           :rules="linkRules"
         >
           <el-form-item label="网站名称" prop="linkName">
@@ -230,7 +317,7 @@
             <el-input v-model="blogLink.linkUrl"/>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="ApplyingLink(blogLink)">申请</el-button>
+            <el-button type="primary" @click="ApplyingLink('blogLink')">申请</el-button>
           </el-form-item>
         </el-form>
       </el-tab-pane>
@@ -245,7 +332,8 @@
             <div>{{userInfo.source}}</div>
           </el-collapse-item>
         </el-collapse>
-        <el-form label-width="80px">
+        <el-divider></el-divider>
+        <el-form label-width="80px" :disabled="userInfo.source === 'BXY' ? false : true">
           <el-form-item label="旧密码">
             <el-input />
           </el-form-item>
@@ -271,6 +359,7 @@
 
 <script>
 import { getLinkByUserAndStatus, addLink } from "@/api/link"
+import { addFeedback, getFeedbackByUser } from "@/api/feedback"
 import { getFabulousByUser } from "@/api/fabulous"
 import { getDiscussByUser } from "@/api/discuss"
 import { updateInfo } from "@/api/user"
@@ -318,7 +407,12 @@ export default {
       linkSuccess: [],
       show: false,
       discussList: [],
-      fabulousList:[]
+      fabulousList:[],
+      feedback: {
+        title: '',
+        content: ''
+      },
+      feedbackList: []
     }
   },
   watch: {
@@ -335,6 +429,34 @@ export default {
     }
   },
   methods: {
+    getFeedbackByUser(){
+      var params = new URLSearchParams()
+      params.append('userId', this.userInfo.id)
+      getFeedbackByUser(params).then(response => {
+        this.feedbackList =  response.data.map(x => {
+          x.createTime = this.dateFormat(x.createTime)
+          x.updateTime = this.dateFormat(x.updateTime)
+          return x
+        })
+      })
+    },
+    addFeedback(feedback){
+      this.$refs[feedback].validate((valid) => {
+        if (valid) {
+          var params = new URLSearchParams(this.feedback)
+          params.append('userId', this.userInfo.id)
+          addFeedback(params).then(response => {
+            this.$message({
+              message: response.message,
+              type: 'success'
+            })
+            this.getFeedbackByUser()
+          })
+        } else {
+          return false
+        }
+      })
+    },
     // 裁剪图片回调
     cropSuccess(imgDataUrl) {
       this.userInfo.avatar = imgDataUrl
@@ -361,6 +483,7 @@ export default {
         break
         case "4": {
           console.log("点击我的反馈")
+          this.getFeedbackByUser()
         }
         break
         case "5": {
@@ -379,7 +502,6 @@ export default {
       var params = new URLSearchParams(this.blogLink)
       params.append('userId', this.userInfo.id)
       getFabulousByUser(params).then(response => {
-        console.log(response.data)
         this.fabulousList = response.data.map(x => {
           x.createTime = this.dateFormat(x.createTime)
           x.updateTime = this.dateFormat(x.updateTime)
