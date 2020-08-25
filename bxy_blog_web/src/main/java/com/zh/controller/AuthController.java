@@ -170,10 +170,9 @@ public class AuthController {
         tokenMap.put("expirationTime",DateUtil.getAddDaySecond(expiration));
         redisUtil.hset("webToken",user.getUsername()+":"+user.getSource(), FastJsonUtil.map2Json(tokenMap),expiration);
 
-        token = jwtTokenUtil.HEAD_Prefix + token;
+        redisUtil.sSetAndTime("Online",expiration,user.getId());
 
-        System.out.println("数据===================");
-        System.out.println(FastJsonUtil.bean2Json(response.getData()));
+        token = jwtTokenUtil.HEAD_Prefix + token;
 
         httpServletResponse.sendRedirect("http://localhost:9528/" + "?token=" + token);
     }

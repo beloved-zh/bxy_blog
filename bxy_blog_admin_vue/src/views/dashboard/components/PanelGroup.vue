@@ -1,13 +1,13 @@
 <template>
   <el-row :gutter="40" class="panel-group">
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-      <div class="card-panel" @click="btnClick('/log/webVisit')">
+      <div class="card-panel" @click="btnClick('/Online')">
         <div class="card-panel-icon-wrapper icon-money">
           <svg-icon icon-class="eye-open" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            今日访问量：
+            在线用户：
           </div>
           <count-to :start-val="0" :end-val="panelData.visitCount" :duration="3200" class="card-panel-num" />
         </div>

@@ -107,6 +107,8 @@ public class LoginController {
         tokenMap.put("expirationTime",DateUtil.getAddDaySecond(expiration));
         redisUtil.hset("webToken",user.getUsername()+":"+user.getSource(), FastJsonUtil.map2Json(tokenMap),expiration);
 
+        redisUtil.sSetAndTime("Online",expiration,user.getId());
+
         token = jwtTokenUtil.HEAD_Prefix + token;
         Map<String,Object> map = new HashMap<>();
         map.put("token",token);

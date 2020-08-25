@@ -270,16 +270,12 @@ class BxyBlogAdminApplicationTests {
     @Test
     void sort(){
 
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("content","测试通知");
-        map.put("time","2020-08-24");
-        redisUtil.hmset("mes",map);
+        Set<Object> onlineObject = redisUtil.sGet("Online");
 
-        int time = DateUtil.getSecondByTwoDay(DateUtil.strToDateTime(map.get("time").toString()), DateUtil.getNowDate());
+        IPage<User> userByIds = userService.getUserByIds(onlineObject, 1, 5);
 
-        ArrayList<Map<String,Object>> list = new ArrayList<>();
-        list.add(map);
-        redisUtil.lSet("aaa",FastJsonUtil.list2Json(list),time);
+        System.out.println(userByIds.getRecords());
+
 
     }
 

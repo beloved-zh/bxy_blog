@@ -6,6 +6,7 @@ import com.zh.VO.ResultVO;
 import com.zh.pojo.Blog;
 import com.zh.service.*;
 import com.zh.utils.DateUtil;
+import com.zh.utils.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,17 +44,20 @@ public class IndexController {
     @Autowired
     private TagsService tagsService;
 
+    @Autowired
+    private RedisUtil redisUtil;
+
     @GetMapping("/init")
     public String init(){
 
-        int visitCount = 8888;
+        long online = redisUtil.sGetSetSize("Online");
         int userCount = userService.count();
         int discussCount = discussService.count();
         int blogCount = blogService.count();
 
-        Map<String, Integer> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
 
-        map.put("visitCount", visitCount);
+        map.put("visitCount", online);
         map.put("userCount", userCount);
         map.put("discussCount", discussCount);
         map.put("blogCount", blogCount);

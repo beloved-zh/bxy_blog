@@ -2,6 +2,8 @@ package com.zh.config.security;
 
 import com.zh.Enums.ResultEnum;
 import com.zh.VO.ResultVO;
+import com.zh.pojo.User;
+import com.zh.service.UserService;
 import com.zh.utils.JwtTokenUtil;
 import com.zh.utils.RedisUtil;
 import com.zh.utils.ResultUtil;
@@ -30,6 +32,9 @@ public class MyLogoutSuccessHandler implements LogoutSuccessHandler {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
+    @Autowired
+    private UserService userService;
+
     @Override
     public void onLogoutSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
 
@@ -44,6 +49,10 @@ public class MyLogoutSuccessHandler implements LogoutSuccessHandler {
 
             //删除token
             redisUtil.hdel("webToken",username+":"+source);
+
+            User user = userService.getUserByUserNameAndSource(username, source);
+
+            redisUtil.setRemove("Online",user.getId());
         }
 
         ResultUtil.out(httpServletResponse, ResultVO.ok(ResultEnum.USER_LOGOUT_SUCCESS));

@@ -17,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -98,6 +99,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
         return iPage;
     }
+
+    @Override
+    public IPage<User> getUserByIds(Collection<Object> ids, Integer currentPage, Integer pageSize) {
+        Page<User> page = new Page<>(currentPage,pageSize);
+
+        QueryWrapper<Object> wrapper = new QueryWrapper<>();
+        wrapper.in("u.id",ids);
+
+        IPage<User> iPage = userMapper.getUser(page, wrapper);
+
+        return iPage;
+    }
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

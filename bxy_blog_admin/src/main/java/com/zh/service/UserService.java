@@ -6,7 +6,9 @@ import com.zh.pojo.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -32,6 +34,11 @@ public interface UserService extends IService<User>, UserDetailsService {
             String source,
             Boolean isLock,
             Boolean commentStatus,
+            Integer currentPage,
+            Integer pageSize);
+
+    IPage<User> getUserByIds(
+            Collection<Object> ids,
             Integer currentPage,
             Integer pageSize);
 }
