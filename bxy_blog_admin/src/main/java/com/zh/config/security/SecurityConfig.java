@@ -92,7 +92,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/swagger-ui.html",
                         "/webjars/**",
                         "/v2/**",
-                        "/swagger-resources/**")
+                        "/swagger-resources/**",
+                        "/druid/**")
                 .permitAll()
                 .antMatchers("/auth/login").anonymous()
                 .antMatchers(

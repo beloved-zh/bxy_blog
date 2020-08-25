@@ -20,6 +20,7 @@ import com.zh.utils.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.io.File;
@@ -260,12 +261,26 @@ class BxyBlogAdminApplicationTests {
     @Autowired
     WebConfigService webConfigService;
 
+    @Autowired
+    private RedisUtil redisUtil;
+
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
+
     @Test
     void sort(){
-        WebConfig webConfig = new WebConfig();
-        webConfig.setWebName("巴学园");
 
-        webConfigService.save(webConfig);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("content","测试通知");
+        map.put("time","2020-08-24");
+        redisUtil.hmset("mes",map);
+
+        int time = DateUtil.getSecondByTwoDay(DateUtil.strToDateTime(map.get("time").toString()), DateUtil.getNowDate());
+
+        ArrayList<Map<String,Object>> list = new ArrayList<>();
+        list.add(map);
+        redisUtil.lSet("aaa",FastJsonUtil.list2Json(list),time);
+
     }
 
 

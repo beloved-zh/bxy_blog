@@ -36,7 +36,7 @@
             label="昵称"
             prop="username"
           >
-            <el-input v-model="userInfo.username" />
+            <el-input v-model="userInfo.username" disabled />
           </el-form-item>
           <el-form-item
             label="邮箱"

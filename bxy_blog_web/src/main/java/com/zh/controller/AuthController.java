@@ -22,9 +22,7 @@ import me.zhyd.oauth.utils.AuthStateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -69,7 +67,7 @@ public class AuthController {
      * @return
      * @throws IOException
      */
-    @RequestMapping("/render")
+    @PostMapping("/render")
     public String renderAuth(String source, HttpServletResponse response) throws IOException {
         AuthRequest authRequest = getAuthRequest(source);
         String token = AuthStateUtils.createState();
@@ -88,7 +86,7 @@ public class AuthController {
      * @param httpServletResponse
      * @throws IOException
      */
-    @RequestMapping("/callback/{source}")
+    @GetMapping("/callback/{source}")
     public void login(@PathVariable("source") String source, AuthCallback callback, HttpServletRequest request, HttpServletResponse httpServletResponse) throws IOException {
 
         //获取请求的ip地址

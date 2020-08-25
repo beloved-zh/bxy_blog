@@ -1,6 +1,7 @@
 <template>
   <div class="home">
     <div class="content">
+       
       <!-- 轮播图 -->
       <Carousel />
       <el-row :gutter="200">

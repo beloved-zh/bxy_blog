@@ -97,7 +97,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/sort/**",
                         "/web/**",
                         "/aboutMe/**",
-                        "/discuss/getDiscuss"
+                        "/discuss/getDiscuss",
+                        "/druid/**"
                 ).permitAll()
                 .antMatchers("/auth/login").anonymous()
                 .antMatchers(
