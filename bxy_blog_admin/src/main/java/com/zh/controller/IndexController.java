@@ -57,7 +57,7 @@ public class IndexController {
 
         Map<String, Object> map = new HashMap<>();
 
-        map.put("visitCount", online);
+        map.put("online", online);
         map.put("userCount", userCount);
         map.put("discussCount", discussCount);
         map.put("blogCount", blogCount);

@@ -9,7 +9,7 @@
           <div class="card-panel-text">
             在线用户：
           </div>
-          <count-to :start-val="0" :end-val="panelData.visitCount" :duration="3200" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="panelData.online" :duration="3200" class="card-panel-num" />
         </div>
       </div>
     </el-col>
@@ -68,7 +68,7 @@ export default {
       type: Object,
       default: function() {
         return {
-          'visitCount': 0,
+          'online': 0,
           'userCount': 0,
           'discussCount': 0,
           'blogCount': 0
